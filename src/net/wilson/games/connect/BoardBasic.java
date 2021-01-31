@@ -3,15 +3,21 @@ package net.wilson.games.connect;
 import java.awt.geom.Dimension2D;
 
 public class BoardBasic implements Board {
-    int state[][] = new int[7][6];
+
+    int[][] state;
+    int width, height;
 
     public BoardBasic(){
+        this(7,6);
+    }
+    public BoardBasic(int width, int height){
+        state = new int[this.width = width][this.height = height];
     }
 
     @Override
-    public int getWidth(){ return 7; }
+    public int getWidth(){ return this.width; }
     @Override
-    public int getHeight() { return 6; }
+    public int getHeight() { return this.height; }
 
     @Override
     public int getPiece(int x, int y){
@@ -25,8 +31,7 @@ public class BoardBasic implements Board {
 
     public int dropPiece(int x, int piece)
     {
-        int y = 5;
-        for(; y>=0; y--){
+        for(int y = getHeight()-1; y>=0; y--){
             if( getPiece(x,y) == 0){
                 state[x][y] = piece;
                 return y;

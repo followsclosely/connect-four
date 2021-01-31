@@ -1,25 +1,28 @@
-package net.wilson.games.connect.ai;
+package net.wilson.games.connect.impl.ai;
 
 import net.wilson.games.connect.ArtificialIntelligence;
 import net.wilson.games.connect.Board;
+import net.wilson.games.connect.impl.MutableBoard;
 
 import java.util.Random;
 
 /**
  * A totally random inplementation of AI.
  */
-public class Dummy implements ArtificialIntelligence {
+public class Dummy extends ArtificialIntelligence {
 
-    private int color;
     private Random random = new Random();
 
     public Dummy(int color){
-        this.color = color;
+        super(color);
     }
 
-    public int yourTurn(Board board){
+    @Override
+    public int yourTurn(Board board) {
+        MutableBoard myBoard = new MutableBoard(board);
+
         int x = random.nextInt(board.getWidth());
-        boolean canDrop = board.canDropPiece(x);
+        boolean canDrop = myBoard.canDropPiece(x);
         System.out.println("Can I drop at " + x + "? " + canDrop);
         if( canDrop ){
             return x;

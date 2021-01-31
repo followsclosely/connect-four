@@ -45,6 +45,17 @@ public class MutableBoard extends AbstractBoard {
         return -1;
     }
 
+    public Coordinate undo(){
+        if( turns.isEmpty()){
+            return null;
+        }
+        int lastIndex = turns.size()-1;
+        Coordinate turn = turns.remove(lastIndex);
+        state[turn.getX()][turn.getY()] = 0;
+
+        return turn;
+    }
+
     public int getWinner() {
         if( turns.isEmpty()){
             return -1;

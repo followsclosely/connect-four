@@ -19,7 +19,7 @@ public class MutableBoard extends AbstractBoard {
 
     public MutableBoard(Board board){
         this.goal = board.getGoal();
-        this.turns = Collections.unmodifiableList(board.getTurns());
+        this.turns = new ArrayList<>(board.getTurns());
         this.state = new int[this.width = board.getWidth()][this.height = board.getHeight()];
         for(int y=0; y<height; y++) {
             for (int x = 0; x < width; x++) {

@@ -1,6 +1,6 @@
 package net.wilson.games.connect;
 
-import net.wilson.games.connect.ai.Dummy;
+import net.wilson.games.connect.impl.ai.Dummy;
 
 public class Main {
     public static void main(String[] args) {

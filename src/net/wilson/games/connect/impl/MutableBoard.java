@@ -45,6 +45,13 @@ public class MutableBoard extends AbstractBoard {
         return -1;
     }
 
+    public int getWinner() {
+        if( turns.isEmpty()){
+            return -1;
+        }
+        return getWinner(turns.get(turns.size()-1));
+    }
+
     /**
      * Determines if the piece at x,y just caused the game to end.
      *

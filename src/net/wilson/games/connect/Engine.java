@@ -12,7 +12,7 @@ import java.util.Map;
  */
 public class Engine {
 
-    // The number of players. This is set in teh constuctor.
+    // The number of players. This is set in the constuctor.
     int playerCount;
 
     // A List of players.

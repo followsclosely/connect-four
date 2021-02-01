@@ -38,7 +38,8 @@ public class MutableBoard extends AbstractBoard {
 
     public int dropPiece(int x, int piece) {
         for (int y = getHeight() - 1; y >= 0; y--) {
-            if (getPiece(x, y) == 0) {
+            int color = getPiece(x, y);
+            if (color == 0) {
                 state[x][y] = piece;
                 turns.add(new Coordinate(x, y));
                 return y;
@@ -82,7 +83,8 @@ public class MutableBoard extends AbstractBoard {
         int color = getPiece(x, y);
 
         // Horizontal First
-        List<Coordinate> horizontal = new ArrayList<>();
+        List<Coordinate> horizontal = new ArrayList<>(goal);
+        horizontal.add(lastTurn);
         for (int i = 1; i < goal && x - i >= 0         && getPiece(x - i, y) == color; horizontal.add(new Coordinate(x - i, y)), i++) ;
         for (int i = 1; i < goal && x + i < getWidth() && getPiece(x + i, y) == color; horizontal.add(new Coordinate(x + i, y)), i++) ;
         if (horizontal.size() >= goal) {
@@ -90,7 +92,8 @@ public class MutableBoard extends AbstractBoard {
         }
 
         // Vertical
-        List<Coordinate> vertical = new ArrayList<>();
+        List<Coordinate> vertical = new ArrayList<>(goal);
+        vertical.add(lastTurn);
         for (int i = 1; i < goal && y - i >= 0          && getPiece(x, y - i) == color; vertical.add(new Coordinate(x, y - i)), i++) ;
         for (int i = 1; i < goal && y + i < getHeight() && getPiece(x, y + i) == color; vertical.add(new Coordinate(x, y + i)), i++) ;
         if (vertical.size() >= goal) {
@@ -98,7 +101,8 @@ public class MutableBoard extends AbstractBoard {
         }
 
         // Forward Slash Diagonal /
-        List<Coordinate> forwardSlash = new ArrayList<>();
+        List<Coordinate> forwardSlash = new ArrayList<>(goal);
+        forwardSlash.add(lastTurn);
         for (int i = 1; i < goal && y + i < getHeight() && x - i >= 0         && getPiece(x - i, y + i) == color; forwardSlash.add(new Coordinate(x - i, y + i)), i++) ;
         for (int i = 1; i < goal && y - i >= 0          && x + i < getWidth() && getPiece(x + i, y - i) == color; forwardSlash.add(new Coordinate(x + i, y - i)), i++) ;
         if (forwardSlash.size() >= goal) {
@@ -106,7 +110,8 @@ public class MutableBoard extends AbstractBoard {
         }
 
         //Back Slash Diagonal \
-        List<Coordinate> backSlash = new ArrayList<>();
+        List<Coordinate> backSlash = new ArrayList<>(goal);
+        backSlash.add(lastTurn);
         for (int i = 1; i < goal && y - i >= 0          && x - i >= 0         && getPiece(x - i, y - i) == color; backSlash.add(new Coordinate(x - i, y - i)), i++) ;
         for (int i = 1; i < goal && y + i < getHeight() && x + i < getWidth() && getPiece(x + i, y + i) == color; backSlash.add(new Coordinate(x + i, y + i)), i++) ;
         if (backSlash.size() >= goal) {

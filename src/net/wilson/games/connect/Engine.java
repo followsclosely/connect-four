@@ -36,8 +36,10 @@ public class Engine {
     /**
      * Runs a simulation of one game.
      */
-    public void startGame() {
-        System.out.println(board.toMatrixString());
+    public int startGame() {
+
+        int winner = -1;
+        //System.out.println(board.toMatrixString());
 
         //The total number of turns before the board is full
         int total = board.getWidth() * board.getHeight();
@@ -55,14 +57,18 @@ public class Engine {
             if (!connections.isEmpty()) {
                 StringBuffer b = new StringBuffer();
                 for (Map.Entry<String, List<Coordinate>> entry : connections.entrySet()) {
-                    b.append(entry.getKey()).append(": ");
+                    Coordinate winningCoordinate = entry.getValue().get(0);
+                    winner = board.getPiece(winningCoordinate.getX(), winningCoordinate.getY());
+                    b.append(winner).append(" ").append(entry.getKey()).append(": ");
                     for (Coordinate coordinate : entry.getValue()) {
                         b.append(coordinate).append(" ");
                     }
                 }
                 System.out.println(b);
-                return;
+                return winner;
             }
         }
+
+        return winner;
     }
 }

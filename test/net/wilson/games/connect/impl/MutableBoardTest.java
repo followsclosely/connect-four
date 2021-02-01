@@ -1,36 +1,45 @@
-package net.wilson.games.connect.impl.ai.followsclosely.strategies;
+package net.wilson.games.connect.impl;
 
-import net.wilson.games.connect.impl.MutableBoard;
+import net.wilson.games.connect.Coordinate;
 import org.junit.jupiter.api.Test;
+
+import java.util.List;
+import java.util.Map;
+
 import static org.junit.jupiter.api.Assertions.*;
 
-class WinIfICanStrategyTest {
+class MutableBoardTest {
 
     @Test
     void yourTurnFindHorizontalWin() {
-        WinIfICanStrategy strategy = new WinIfICanStrategy(7);
         MutableBoard board = new MutableBoard();
         board.dropPiece(0, 7);
+        board.dropPiece(1, 7);
         board.dropPiece(2, 7);
         board.dropPiece(3, 7);
-        int x = strategy.yourTurn(board);
-        assertEquals(1, x);
+
+        Map<String, List<Coordinate>> connectFours = board.getWinningConnections();
+        assertEquals(1, connectFours.size());
+        assertFalse(connectFours.get("Horizontal").isEmpty());
     }
 
     @Test
     void yourTurnFindVerticalWin() {
-        WinIfICanStrategy strategy = new WinIfICanStrategy(7);
+
         MutableBoard board = new MutableBoard();
         board.dropPiece(3, 7);
         board.dropPiece(3, 7);
         board.dropPiece(3, 7);
-        int x = strategy.yourTurn(board);
-        assertEquals(3, x);
+        board.dropPiece(3, 7);
+
+        Map<String, List<Coordinate>> connectFours = board.getWinningConnections();
+        assertEquals(1, connectFours.size());
+        assertFalse(connectFours.get("Vertical").isEmpty());
     }
 
     @Test
-    void yourTurnFindDiagonalBackSlashWin() {
-        WinIfICanStrategy strategy = new WinIfICanStrategy(7);
+    void yourTurnFindDiagonalForwardSlashWin() {
+
         MutableBoard board = new MutableBoard();
         board.dropPiece(0, 7);
 
@@ -44,14 +53,16 @@ class WinIfICanStrategyTest {
         board.dropPiece(3, 1);
         board.dropPiece(3, 1);
         board.dropPiece(3, 1);
+        board.dropPiece(3, 7);
 
-        int x = strategy.yourTurn(board);
-        assertEquals(3, x);
+        Map<String, List<Coordinate>> connectFours = board.getWinningConnections();
+        assertEquals(1, connectFours.size());
+        assertFalse(connectFours.get("ForwardSlash").isEmpty());
     }
 
     @Test
-    void yourTurnFindDiagonalForwardSlashWin() {
-        WinIfICanStrategy strategy = new WinIfICanStrategy(7);
+    void yourTurnFindDiagonalBackSlashWin() {
+
         MutableBoard board = new MutableBoard();
         board.dropPiece(3, 7);
 
@@ -65,8 +76,10 @@ class WinIfICanStrategyTest {
         board.dropPiece(0, 1);
         board.dropPiece(0, 1);
         board.dropPiece(0, 1);
+        board.dropPiece(0, 7);
 
-        int x = strategy.yourTurn(board);
-        assertEquals(0, x);
+        Map<String, List<Coordinate>> connectFours = board.getWinningConnections();
+        assertEquals(1, connectFours.size());
+        assertFalse(connectFours.get("BackSlash").isEmpty());
     }
 }

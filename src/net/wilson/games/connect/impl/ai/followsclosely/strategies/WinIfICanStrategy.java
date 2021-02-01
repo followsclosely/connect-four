@@ -15,7 +15,7 @@ public class WinIfICanStrategy implements Strategy {
     public int yourTurn(MutableBoard board) {
         for(int x=0, width = board.getWidth(); x<width; x++){
             int y = board.dropPiece(x, 0);
-            if( !board.getWinner().isEmpty()){
+            if( !board.getWinningConnections().isEmpty()){
                 return x;
             } else  {
                 board.undo();

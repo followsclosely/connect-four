@@ -11,12 +11,13 @@ import java.util.List;
 
 public class StinkAI extends ArtificialIntelligence {
 
-    List<Strategy> chain = new ArrayList<>();
-    Strategy defaultStrategy = new RandomStrategy();
+    private List<Strategy> chain = new ArrayList<>();
+    private Strategy defaultStrategy = new RandomStrategy();
 
     public StinkAI(int color) {
         super(color);
         chain.add(new WinIfICanStrategy(getColor()));
+        chain.add(new RandomStrategy());
     }
 
     @Override
@@ -29,7 +30,7 @@ public class StinkAI extends ArtificialIntelligence {
             }
         }
 
-        //Return a random selection if none has yet been made.
-        return defaultStrategy.yourTurn(board);
+        //Should never happen as the last strategy will always return a valid x.
+        return -1;
     }
 }

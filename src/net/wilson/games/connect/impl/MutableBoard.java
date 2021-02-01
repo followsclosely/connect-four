@@ -1,7 +1,7 @@
 package net.wilson.games.connect.impl;
 
-import net.wilson.games.connect.Coordinate;
 import net.wilson.games.connect.Board;
+import net.wilson.games.connect.Coordinate;
 
 import java.util.*;
 
@@ -60,11 +60,11 @@ public class MutableBoard extends AbstractBoard {
         return turn;
     }
 
-    public Map<String, List<Coordinate>> getWinner() {
+    public Map<String, List<Coordinate>> getWinningConnections() {
         if (turns.isEmpty()) {
             return Collections.EMPTY_MAP;
         }
-        return getWinner(turns.get(turns.size() - 1));
+        return getWinningConnections(turns.get(turns.size() - 1));
     }
 
     /**
@@ -74,7 +74,7 @@ public class MutableBoard extends AbstractBoard {
      *
      * @return -1 if no winner found, else returns the winning index/color
      */
-    public Map<String, List<Coordinate>> getWinner(Coordinate lastTurn) {
+    public Map<String, List<Coordinate>> getWinningConnections(Coordinate lastTurn) {
 
         Map<String, List<Coordinate>> connections = new HashMap<>();
 
@@ -85,8 +85,10 @@ public class MutableBoard extends AbstractBoard {
         // Horizontal First
         List<Coordinate> horizontal = new ArrayList<>(goal);
         horizontal.add(lastTurn);
-        for (int i = 1; i < goal && x - i >= 0         && getPiece(x - i, y) == color; horizontal.add(new Coordinate(x - i, y)), i++) ;
-        for (int i = 1; i < goal && x + i < getWidth() && getPiece(x + i, y) == color; horizontal.add(new Coordinate(x + i, y)), i++) ;
+        for (int i = 1; i < goal && x - i >= 0 && getPiece(x - i, y) == color; horizontal.add(new Coordinate(x - i, y)), i++)
+            ;
+        for (int i = 1; i < goal && x + i < getWidth() && getPiece(x + i, y) == color; horizontal.add(new Coordinate(x + i, y)), i++)
+            ;
         if (horizontal.size() >= goal) {
             connections.put("Horizontal", horizontal);
         }
@@ -94,8 +96,10 @@ public class MutableBoard extends AbstractBoard {
         // Vertical
         List<Coordinate> vertical = new ArrayList<>(goal);
         vertical.add(lastTurn);
-        for (int i = 1; i < goal && y - i >= 0          && getPiece(x, y - i) == color; vertical.add(new Coordinate(x, y - i)), i++) ;
-        for (int i = 1; i < goal && y + i < getHeight() && getPiece(x, y + i) == color; vertical.add(new Coordinate(x, y + i)), i++) ;
+        for (int i = 1; i < goal && y - i >= 0 && getPiece(x, y - i) == color; vertical.add(new Coordinate(x, y - i)), i++)
+            ;
+        for (int i = 1; i < goal && y + i < getHeight() && getPiece(x, y + i) == color; vertical.add(new Coordinate(x, y + i)), i++)
+            ;
         if (vertical.size() >= goal) {
             connections.put("Vertical", vertical);
         }
@@ -103,8 +107,10 @@ public class MutableBoard extends AbstractBoard {
         // Forward Slash Diagonal /
         List<Coordinate> forwardSlash = new ArrayList<>(goal);
         forwardSlash.add(lastTurn);
-        for (int i = 1; i < goal && y + i < getHeight() && x - i >= 0         && getPiece(x - i, y + i) == color; forwardSlash.add(new Coordinate(x - i, y + i)), i++) ;
-        for (int i = 1; i < goal && y - i >= 0          && x + i < getWidth() && getPiece(x + i, y - i) == color; forwardSlash.add(new Coordinate(x + i, y - i)), i++) ;
+        for (int i = 1; i < goal && y + i < getHeight() && x - i >= 0 && getPiece(x - i, y + i) == color; forwardSlash.add(new Coordinate(x - i, y + i)), i++)
+            ;
+        for (int i = 1; i < goal && y - i >= 0 && x + i < getWidth() && getPiece(x + i, y - i) == color; forwardSlash.add(new Coordinate(x + i, y - i)), i++)
+            ;
         if (forwardSlash.size() >= goal) {
             connections.put("ForwardSlash", forwardSlash);
         }
@@ -112,8 +118,10 @@ public class MutableBoard extends AbstractBoard {
         //Back Slash Diagonal \
         List<Coordinate> backSlash = new ArrayList<>(goal);
         backSlash.add(lastTurn);
-        for (int i = 1; i < goal && y - i >= 0          && x - i >= 0         && getPiece(x - i, y - i) == color; backSlash.add(new Coordinate(x - i, y - i)), i++) ;
-        for (int i = 1; i < goal && y + i < getHeight() && x + i < getWidth() && getPiece(x + i, y + i) == color; backSlash.add(new Coordinate(x + i, y + i)), i++) ;
+        for (int i = 1; i < goal && y - i >= 0 && x - i >= 0 && getPiece(x - i, y - i) == color; backSlash.add(new Coordinate(x - i, y - i)), i++)
+            ;
+        for (int i = 1; i < goal && y + i < getHeight() && x + i < getWidth() && getPiece(x + i, y + i) == color; backSlash.add(new Coordinate(x + i, y + i)), i++)
+            ;
         if (backSlash.size() >= goal) {
             connections.put("BackSlash", backSlash);
         }

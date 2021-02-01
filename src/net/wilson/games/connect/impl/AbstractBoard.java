@@ -1,7 +1,7 @@
 package net.wilson.games.connect.impl;
 
-import net.wilson.games.connect.Coordinate;
 import net.wilson.games.connect.Board;
+import net.wilson.games.connect.Coordinate;
 
 import java.util.List;
 

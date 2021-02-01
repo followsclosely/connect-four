@@ -50,10 +50,10 @@ public class Engine {
             int x = player.yourTurn(new ImmutableBoard(board));
 
             int y = board.dropPiece(x, player.getColor());
-            System.out.println(board);
+            //System.out.println(board);
 
             //Check for a winner, print if found
-            Map<String, List<Coordinate>> connections = board.getWinner(new Coordinate(x, y));
+            Map<String, List<Coordinate>> connections = board.getWinningConnections(new Coordinate(x, y));
             if (!connections.isEmpty()) {
                 StringBuffer b = new StringBuffer();
                 for (Map.Entry<String, List<Coordinate>> entry : connections.entrySet()) {
@@ -64,7 +64,7 @@ public class Engine {
                         b.append(coordinate).append(" ");
                     }
                 }
-                System.out.println(b);
+                //System.out.println(b);
                 return winner;
             }
         }

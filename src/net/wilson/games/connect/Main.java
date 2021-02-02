@@ -1,7 +1,6 @@
 package net.wilson.games.connect;
 
 import net.wilson.games.connect.impl.ai.Dummy;
-import net.wilson.games.connect.impl.ai.followsclosely.StinkAI;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -23,7 +22,7 @@ public class Main {
 
         int numberOfSimulations = 20000;
         for (int i = 0; i < numberOfSimulations; i++) {
-            Engine engine = new Engine(new Dummy(1), new StinkAI(2));
+            Engine engine = new Engine(new Dummy(1), new Dummy(2));
             int winner = engine.startGame();
             counts.get(winner).getAndIncrement();
         }

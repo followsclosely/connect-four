@@ -69,10 +69,6 @@ public class MutableBoard extends AbstractBoard {
 
     /**
      * Determines if the piece at x,y just caused the game to end.
-     * <p>
-     * todo: It would be nice if this method would return back a list of coordinates if there is a winner.
-     *
-     * @return -1 if no winner found, else returns the winning index/color
      */
     public Map<String, List<Coordinate>> getWinningConnections(Coordinate lastTurn) {
 

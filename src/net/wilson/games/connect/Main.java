@@ -21,8 +21,8 @@ public class Main {
             }
         };
 
-        int numberOfSimulations = 1000;
-        for (int i = 0; i < 20000; i++) {
+        int numberOfSimulations = 20000;
+        for (int i = 0; i < numberOfSimulations; i++) {
             Engine engine = new Engine(new Dummy(1), new StinkAI(2));
             int winner = engine.startGame();
             counts.get(winner).getAndIncrement();
@@ -30,8 +30,9 @@ public class Main {
 
         for (Map.Entry<Integer, AtomicInteger> entry : counts.entrySet()) {
             StringBuffer b = new StringBuffer();
-            b.append("Player/Color\t").append(entry.getKey()).append(": ").append(entry.getValue());
-
+            b.append("Player/Color\t").append(entry.getKey()).append(": ");
+            b.append((float)(Math.round(entry.getValue().floatValue() / numberOfSimulations * 10000)) / 100).append("%\t");
+            b.append(entry.getValue());
             System.out.println(b);
         }
     }

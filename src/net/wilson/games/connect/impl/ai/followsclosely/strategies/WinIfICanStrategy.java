@@ -3,6 +3,10 @@ package net.wilson.games.connect.impl.ai.followsclosely.strategies;
 import net.wilson.games.connect.impl.MutableBoard;
 import net.wilson.games.connect.impl.ai.followsclosely.StinkAI;
 
+/**
+ * This strategy will check each spot to see if a win can be made.
+ * Alone wins around 67% of games against a random AI.
+ */
 public class WinIfICanStrategy implements StinkAI.Strategy {
 
     private int color;

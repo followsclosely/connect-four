@@ -15,7 +15,8 @@ public abstract class ArtificialIntelligence {
         return color;
     }
 
-    /** This method is called by the Engine when it is "your" turn to play.
+    /**
+     * This method is called by the Engine when it is "your" turn to play.
      *
      * @param board The current state of the game.
      * @return The column (y) to drop the piece.

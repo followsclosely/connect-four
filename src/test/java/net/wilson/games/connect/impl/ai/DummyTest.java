@@ -1,15 +1,14 @@
 package net.wilson.games.connect.impl.ai;
 
-import net.wilson.games.connect.Board;
 import net.wilson.games.connect.impl.MutableBoard;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.Assert.*;
 
-class DummyTest {
+public class DummyTest {
 
     @Test
-    void yourTurnHasNoSpacesLeft() {
+    public void yourTurnHasNoSpacesLeft() {
         Dummy dummy = new Dummy(7);
         MutableBoard board = new MutableBoard(3,3,3);
 
@@ -26,7 +25,7 @@ class DummyTest {
     }
 
     @Test
-    void alwaysInBounds() {
+    public void alwaysInBounds() {
         Dummy dummy = new Dummy(7);
         MutableBoard board = new MutableBoard(10,10,11);
 
@@ -34,8 +33,8 @@ class DummyTest {
         for(int i=0; i<100; i++)
         {
             int x = dummy.yourTurn(board);
-            assertTrue(x>=0, "Value can not be less than zero.");
-            assertTrue(x<10, "Value can not be greater than ten.");
+            assertTrue("Value can not be less than zero.", x>=0);
+            assertTrue("Value can not be greater than ten.", x<10);
         }
     }
 }

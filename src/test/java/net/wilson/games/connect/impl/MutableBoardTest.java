@@ -1,17 +1,17 @@
 package net.wilson.games.connect.impl;
 
 import net.wilson.games.connect.Coordinate;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
 import java.util.List;
 import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.Assert.*;
 
-class MutableBoardTest {
+public class MutableBoardTest {
 
     @Test
-    void yourTurnFindHorizontalWin() {
+    public void yourTurnFindHorizontalWin() {
         MutableBoard board = new MutableBoard();
         board.dropPiece(0, 7);
         board.dropPiece(1, 7);
@@ -24,7 +24,7 @@ class MutableBoardTest {
     }
 
     @Test
-    void yourTurnFindVerticalWin() {
+    public void yourTurnFindVerticalWin() {
 
         MutableBoard board = new MutableBoard();
         board.dropPiece(3, 7);
@@ -38,7 +38,7 @@ class MutableBoardTest {
     }
 
     @Test
-    void yourTurnFindDiagonalForwardSlashWin() {
+    public void yourTurnFindDiagonalForwardSlashWin() {
 
         MutableBoard board = new MutableBoard();
         board.dropPiece(0, 7);
@@ -61,7 +61,7 @@ class MutableBoardTest {
     }
 
     @Test
-    void yourTurnFindDiagonalBackSlashWin() {
+    public void yourTurnFindDiagonalBackSlashWin() {
 
         MutableBoard board = new MutableBoard();
         board.dropPiece(3, 7);

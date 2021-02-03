@@ -1,2 +1,4 @@
 connect-four.iml
 .idea
+.gradle
+build

@@ -8,9 +8,3 @@ dependencies {
     compile(project(':core'))
     testCompile 'junit:junit:4.12'
 }
-
-jar {
-    manifest {
-        attributes 'Main-Class': 'net.wilson.games.connect.Main'
-    }
-}

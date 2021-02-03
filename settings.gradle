@@ -1,3 +1,3 @@
 include 'core'
-include 'implementations:copy-me-to-get-started'
-include 'implementations:followsclosely'
+include 'entries:copy-me-to-get-started'
+include 'entries:followsclosely'

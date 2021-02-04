@@ -7,6 +7,8 @@ import java.util.*;
 
 public class MutableBoard extends AbstractBoard {
 
+    private Coordinate lastMove = null;
+
     public MutableBoard() {
         this(7, 6, 4);
     }
@@ -28,6 +30,10 @@ public class MutableBoard extends AbstractBoard {
         }
     }
 
+    public Coordinate getLastMove(){
+        return this.lastMove;
+    }
+
     public void setGoal(int goal) {
         this.goal = goal;
     }
@@ -41,7 +47,7 @@ public class MutableBoard extends AbstractBoard {
             int color = getPiece(x, y);
             if (color == 0) {
                 state[x][y] = piece;
-                turns.add(new Coordinate(x, y));
+                turns.add(this.lastMove = new Coordinate(x, y));
                 return y;
             }
         }

@@ -35,7 +35,7 @@ public class ScoreStrategy extends ArtificialIntelligence {
 
                 int y = board.dropPiece(x, getColor());
 
-                scores[x] = scoreMove(board, x, y);
+                scores[x] = scoreMove(board);
                 if (maxScore < scores[x]) {
                     maxScore = scores[x];
                     maxIndex = x;
@@ -51,16 +51,20 @@ public class ScoreStrategy extends ArtificialIntelligence {
         return maxIndex;
     }
 
-    public int scoreMove(MutableBoard board, int x, int y) {
+    public int scoreMove(MutableBoard board){
+        return scoreMove(board, board.getLastMove());
+    }
+
+    public int scoreMove(MutableBoard board, Coordinate lastTurn) {
 
         int score = -1;
         //System.out.println(String.format("Score (%d):", score));
 
-        Coordinate lastTurn = new Coordinate(x, y);
+        //Coordinate lastTurn = new Coordinate(x, y);
 
         //Center column is worth 10 points
         int center = board.getWidth() / 2;
-        if (x == center) {
+        if (lastTurn.getX() == center) {
             score += 10;
             //System.out.println(String.format("Score (%d): +10 for center", score));
         }

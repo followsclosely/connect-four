@@ -1,3 +1,5 @@
+rootProject.name = 'connect-four'
+
 include 'core'
 include 'entries:copy-me-to-get-started'
 include 'entries:followsclosely'

@@ -3,27 +3,33 @@ package net.wilson.games.connect.ai;
 import junit.framework.TestCase;
 import net.wilson.games.connect.impl.MutableBoard;
 
+import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Collectors;
+
 public class MiniMaxAlgorithmTest extends TestCase {
 
     public void testEvaluate() {
-        MutableBoard board = new MutableBoard();
-        MiniMaxAlgorithm algorithm = new MiniMaxAlgorithm(board, 1, 1,2);
+
+        MutableBoard board = ConnectTestUtils.initialize(new MutableBoard(), "" +
+                "0002000" +
+                "0001000" +
+                "0002000" +
+                "0001000" +
+                "0002000" +
+                "0001210");
+
+        MiniMaxAlgorithm algorithm = new MiniMaxAlgorithm(board, 1, 1, 2);
 
         MiniMaxAlgorithm.Node root = algorithm.evaluate();
 
-        System.out.print(root);
-        //printNode(root);
-    }
+        //Sort by score.
+        List<MiniMaxAlgorithm.Node> sortedList = root.getChildren().stream()
+                .sorted(Comparator.comparing(MiniMaxAlgorithm.Node::getScore).reversed())
+                .collect(Collectors.toList());
 
-    private void printNode(MiniMaxAlgorithm.Node node){
-        System.out.print(node.getDepth() + "]    ");
-        for(MiniMaxAlgorithm.Node child : node.getChildren()){
-            System.out.print(String.format("%d: %d      ",child.getColumn(), child.getScore()));
-        }
-        System.out.println();
+        MiniMaxAlgorithm.Node best = sortedList.get(0);
 
-        for(MiniMaxAlgorithm.Node child : node.getChildren()){
-            printNode(child);
-        }
+        assertEquals(4, best.getColumn());
     }
 }

@@ -9,9 +9,10 @@ public class ConnectTestUtils {
         int index = config.length() -1;
         for(int y= board.getHeight()-1; y>=0 && index >=0; y--){
             for(int x= board.getWidth()-1; x>=0 && index >=0; x--, index--){
-                char color = config.charAt(index);
-                if( color != '0' && color != ' ' ) {
-                    board.dropPiece(x, Character.getNumericValue(color));
+                char c = config.charAt(index);
+                if( c != '0' && c != ' ' ) {
+                    int color = Character.getNumericValue(c);
+                    board.dropPiece(x, color);
                 }
             }
         }

@@ -11,14 +11,21 @@ public class MiniMaxAlgorithmTest extends TestCase {
 
     public void testEvaluate() {
 
-        MutableBoard board = ConnectTestUtils.initialize(new MutableBoard(), "" +
-                "0002000" +
-                "0001000" +
-                "0002000" +
-                "0001000" +
-                "0002000" +
-                "0001210");
+//        MutableBoard board = ConnectTestUtils.initialize(new MutableBoard(), "" +
+//                "2000002" +
+//                "2000001" +
+//                "2020112" +
+//                "1211122" +
+//                "1221211" +
+//                "1112221");
 
+        MutableBoard board = ConnectTestUtils.initialize(new MutableBoard(5,4,4), "" +
+                "00000" +
+                "00100" +
+                "00200" +
+                "00100");
+
+        System.out.println(board);
         MiniMaxAlgorithm algorithm = new MiniMaxAlgorithm(board, 1, 1, 2);
 
         MiniMaxAlgorithm.Node root = algorithm.evaluate();

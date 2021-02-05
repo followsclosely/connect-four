@@ -16,6 +16,8 @@ import java.util.Map;
  */
 public class ScoreStrategy extends ArtificialIntelligence {
 
+    private StringBuffer notes = new StringBuffer();
+
     public ScoreStrategy(int color) {
         super(color);
     }
@@ -62,31 +64,41 @@ public class ScoreStrategy extends ArtificialIntelligence {
 
         //Coordinate lastTurn = new Coordinate(x, y);
 
+        notes.append(" -1 ");
+
         //Center column is worth 10 points
         int center = board.getWidth() / 2;
         if (lastTurn.getX() == center) {
-            score += 10;
-            //System.out.println(String.format("Score (%d): +10 for center", score));
+            score += scoring.getCenter();
+            notes.append(String.format(" + Center(+%d) ", scoring.getCenter()));
         }
 
         //If you can win its worth 1,000 points
         if (!board.getWinningConnections().isEmpty()) {
-            score += 1000;
-            //System.out.println(String.format("Score (%d): +1000 for winning!", score));
+            score += scoring.getWinner();
+            notes.append(String.format(" + Winner(+%d)", scoring.getWinner()));
         }
 
         //Look for possible connect 2,3 or more with gaps
         Map<String, ConnectionDetails> details = getConnectionDetails(board, lastTurn);
         for (ConnectionDetails detail : details.values()) {
-            score += detail.getPieceCount() * 2 + detail.getEmptyCount();
-            //System.out.println(String.format("Score (%d): +%d in-a-row and +%d for empty-in-a-row", score, detail.getPieceCount() * 2, detail.getEmptyCount()));
+            if( (detail.getEmptyCount() + detail.getPieceCount() ) >= board.getGoal()) {
+                score += detail.getPieceCount() * scoring.getYourColorInRow() + detail.getEmptyCount();
+                notes.append(String.format(" + InRow(%d*2) + EmptyInRow(%d)", detail.getPieceCount(), detail.getEmptyCount()));
+            }
         }
 
+        notes.append(String.format(" = %d", score));
 
         //System.out.println("========================");
         return score;
     }
 
+    public String getNotes() {
+        String contents = notes.toString();
+        notes.delete(0, notes.length());
+        return contents;
+    }
     public Map<String, ConnectionDetails> getConnectionDetails(MutableBoard board, Coordinate lastTurn) {
 
         int goal = board.getWidth();
@@ -173,5 +185,18 @@ public class ScoreStrategy extends ArtificialIntelligence {
         public int getEmptyCount() {
             return emptyCount;
         }
+    }
+
+    private Config scoring = new Config();
+    public static class Config{
+        private int winner = 1000;
+        private int center = 5;
+        private int yourColorInRow = 2;
+        private int emptyInRow = 1;
+
+        public int getWinner() { return winner; }
+        public int getCenter() { return center; }
+        public int getYourColorInRow() { return yourColorInRow; }
+        public int getEmptyInRow() { return emptyInRow; }
     }
 }

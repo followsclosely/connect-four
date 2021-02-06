@@ -2,7 +2,6 @@ package net.wilson.games.connect.ai;
 
 import net.wilson.games.connect.impl.MutableBoard;
 
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.IntBinaryOperator;
@@ -12,7 +11,7 @@ public class MiniMaxAlgorithm {
     private int color;
     private int[] colors;
     private int width;
-    private int maxDepth = 3;
+    private int maxDepth = 5;
     private MutableBoard board;
     private ScoreStrategy scoreStrategy;
 
@@ -23,64 +22,89 @@ public class MiniMaxAlgorithm {
         this.scoreStrategy = new ScoreStrategy(color);
     }
 
-    public Node evaluate(){
+    public Node evaluate() {
         Node root = new Node();
         root.evaluate();
         return root;
     }
 
+    public enum Mode {Mini, Max}
+
     public class Node {
-        private int depth = 0;
+        private String notes;
+        private Mode mode;
+        private int depth;
         private int column;
-        private int score = -1;
-        private int minMaxScore = -1;
+        private int score;
+        private int minMaxScore;
         private IntBinaryOperator operator;
 
         private Node parent;
         private List<Node> children = null;
 
         public Node() {
-            this.operator = Math::max;
+            mode = Mode.Max;
+            this.operator = Integer::max;
+            this.minMaxScore = Integer.MIN_VALUE;
             this.children = new ArrayList<>(board.getWidth());
         }
 
-        public Node(Node parent, int column, int depth, int score) {
-            this();
-            this.operator = (depth % 2 == 0) ? Integer::max : Integer::min;
+        public Node(Node parent, int column) {
+
+            if ((parent.getDepth() % 2 == 0)) {
+                mode = Mode.Max;
+                this.operator = Integer::max;
+                this.minMaxScore = Integer.MIN_VALUE;
+            } else {
+                mode = Mode.Mini;
+                this.operator = Integer::min;
+                this.minMaxScore = Integer.MAX_VALUE;
+            }
+
+            this.depth = parent.getDepth() + 1;
+            this.children = new ArrayList<>(board.getWidth());
             this.parent = parent;
-            this.depth = depth;
             this.column = column;
-            this.score = score;
         }
 
-        public void evaluate(){
+        public void evaluate() {
 
-            //If the game is already won, then do not dig down any further.
-            if( !board.getWinningConnections().isEmpty() || depth >= maxDepth) {
-                this.minMaxScore = scoreStrategy.scoreMove(board);
-                this.parent.childScore(this.minMaxScore);
-            } else {
-                int color = colors[depth%2];
-                for (int x = 0; x < width; x++) {
+            boolean gameWon = false;
+            int color = colors[depth % 2];
+            for (int x = 0; x < width && !gameWon; x++) {
+                if (board.canDropPiece(x)) {
                     int y = board.dropPiece(x, color);
-                    if (y != -1) {
-                        Node node = new Node(this, x, depth + 1, scoreStrategy.scoreMove(board));
-                        //System.out.println( node.column + " -> " + node.score);
-                        children.add(node);
+                    Node node = new Node(this, x);
+                    if (node.mode == Mode.Max) {
+                        node.score = scoreStrategy.scoreMove(board);
+                        node.notes = scoreStrategy.getNotes();
+                    }
 
-                        if (depth < maxDepth) {
-                            node.evaluate();
-                        }
+                    //System.out.println( node.column + " -> " + node.score);
+                    children.add(node);
+
+                    gameWon = !board.getWinningConnections().isEmpty();
+                    if (gameWon || depth >= maxDepth) {
+                        //if(!board.getWinningConnections().isEmpty()) {
+                            node.rollUpScore(scoreStrategy.scoreMove(board));
+                        //}
+                    }
+                    else {
+                        node.evaluate();
                     }
                     board.undo();
                 }
             }
         }
 
-        public void childScore(int score){
-            this.minMaxScore = operator.applyAsInt(this.minMaxScore, score);
-            if( parent != null){
-                parent.childScore(this.minMaxScore);
+        public void rollUpScore(int score) {
+            int newScore = operator.applyAsInt(minMaxScore, score);
+            //If the score changed, then roll it on up.
+            if (newScore != minMaxScore) {
+                minMaxScore = newScore;
+                if (parent != null) {
+                    parent.rollUpScore(this.minMaxScore);
+                }
             }
         }
 
@@ -102,7 +126,9 @@ public class MiniMaxAlgorithm {
 
         @Override
         public String toString() {
-            return "Node{" + "depth=" + depth + ", column=" + column + ", score=" + score + "/ " + minMaxScore + '}';
+            return "Node(" + mode + "){" + "depth=" + depth + ", column=" + column + ", score=" + score + "/" + minMaxScore + '}';
         }
+
+
     }
 }

@@ -1,6 +1,7 @@
 package net.wilson.games.connect;
 
 import net.wilson.games.connect.ai.ScoreStrategy;
+import net.wilson.games.connect.impl.BoardChangedListener;
 import net.wilson.games.connect.impl.MutableBoard;
 import net.wilson.games.connect.impl.ai.Dummy;
 
@@ -28,29 +29,20 @@ public class Main {
                 if( board.canDropPiece(x)){
                     board.dropPiece(x, PLAYER_COLOR);
 
-                    SwingUtilities.invokeLater(() -> boardPanel.repaint());
-
-                    SwingUtilities.invokeLater(() -> {
-                        boardPanel.repaint();
-                        int x2 = bot.yourTurn(board);
-                        board.dropPiece(x2, COMPUTER_COLOR);
-                        boardPanel.repaint();
-                    });
+                    int x2 = bot.yourTurn(board);
+                    board.dropPiece(x2, COMPUTER_COLOR);
                 }
             }
         });
+
+        board.addBoardChangedListener(coordinate -> SwingUtilities.invokeLater(() -> boardPanel.repaint()));
 
         JPanel statusPanel = new JPanel(new BorderLayout());
         JTextField status = new JTextField("Your turn player 1...");
         status.setEditable(false);
         statusPanel.add(status, BorderLayout.CENTER);
         JButton undo = new JButton("<");
-        undo.addActionListener((ActionEvent e) -> {
-            SwingUtilities.invokeLater(() -> {
-                board.undo();
-                boardPanel.repaint();
-            });
-        });
+        undo.addActionListener((ActionEvent e) -> SwingUtilities.invokeLater(() -> board.undo()));
         statusPanel.add(undo, BorderLayout.EAST);
 
         JFrame frame = new JFrame("Connect");

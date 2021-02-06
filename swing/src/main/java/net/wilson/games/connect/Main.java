@@ -11,10 +11,14 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class Main {
+
+    private static int PLAYER_COLOR = 1;
+    private static int COMPUTER_COLOR = 2;
+
     public static void main(String[] args) {
 
         MutableBoard board = new MutableBoard();
-        ArtificialIntelligence bot = new ScoreStrategy(2);
+        ArtificialIntelligence bot = new ScoreStrategy(COMPUTER_COLOR, PLAYER_COLOR);
 
         BoardPanel boardPanel = new BoardPanel(board);
         //Register a listener to capture when a piece is to be played.
@@ -22,12 +26,14 @@ public class Main {
             public void mouseClicked(MouseEvent e) {
                 int x = e.getX() / 50;
                 if( board.canDropPiece(x)){
-                    board.dropPiece(x, 1);
-                    SwingUtilities.invokeLater(() -> {boardPanel.repaint();});
+                    board.dropPiece(x, PLAYER_COLOR);
+
+                    SwingUtilities.invokeLater(() -> boardPanel.repaint());
 
                     SwingUtilities.invokeLater(() -> {
+                        boardPanel.repaint();
                         int x2 = bot.yourTurn(board);
-                        board.dropPiece(x2, 2);
+                        board.dropPiece(x2, COMPUTER_COLOR);
                         boardPanel.repaint();
                     });
                 }
@@ -42,27 +48,18 @@ public class Main {
         undo.addActionListener((ActionEvent e) -> {
             SwingUtilities.invokeLater(() -> {
                 board.undo();
-                board.undo();
                 boardPanel.repaint();
             });
         });
         statusPanel.add(undo, BorderLayout.EAST);
 
-
-        // Run GUI in the Event Dispatcher Thread (EDT) instead of main thread.
-        javax.swing.SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                // Set up main window (using Swing's Jframe)
-                JFrame frame = new JFrame("Connect");
-                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                //frame.setContentPane(boardPanel);
-                frame.setLayout(new BorderLayout());
-                GridBagConstraints c = new GridBagConstraints();
-                frame.add(boardPanel, BorderLayout.CENTER);
-                frame.add(statusPanel, BorderLayout.SOUTH);
-                frame.pack();
-                frame.setVisible(true);
-            }
-        });
+        JFrame frame = new JFrame("Connect");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setLayout(new BorderLayout());
+        GridBagConstraints c = new GridBagConstraints();
+        frame.add(boardPanel, BorderLayout.CENTER);
+        frame.add(statusPanel, BorderLayout.SOUTH);
+        frame.pack();
+        frame.setVisible(true);
     }
 }

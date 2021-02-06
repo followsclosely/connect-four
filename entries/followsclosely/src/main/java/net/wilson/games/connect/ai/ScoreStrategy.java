@@ -5,21 +5,20 @@ import net.wilson.games.connect.Board;
 import net.wilson.games.connect.Coordinate;
 import net.wilson.games.connect.impl.MutableBoard;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
  * This strategy will assign a score to each option, then select the best option.
- * Alone wins around 93% of games against a random AI.
+ * Alone wins around 99% of games against a random AI.
  */
 public class ScoreStrategy extends ArtificialIntelligence {
 
     private StringBuffer notes = new StringBuffer();
+    private int[] opponents;
 
-    public ScoreStrategy(int color) {
+    public ScoreStrategy(int color, int... opponents) {
         super(color);
+        this.opponents = opponents;
     }
 
     @Override
@@ -60,6 +59,7 @@ public class ScoreStrategy extends ArtificialIntelligence {
     public int scoreMove(MutableBoard board, Coordinate lastTurn) {
 
         int score = -1;
+
         //System.out.println(String.format("Score (%d):", score));
 
         //Coordinate lastTurn = new Coordinate(x, y);
@@ -73,17 +73,46 @@ public class ScoreStrategy extends ArtificialIntelligence {
             notes.append(String.format(" + Center(+%d) ", scoring.getCenter()));
         }
 
-        //If you can win its worth 1,000 points
+        //If you can win its worth 1,000 points, if so just return as the rest does not matter.
         if (!board.getWinningConnections().isEmpty()) {
             score += scoring.getWinner();
-            notes.append(String.format(" + Winner(+%d)", scoring.getWinner()));
+            notes.append(String.format(" + Winner(+%d) = %d", scoring.getWinner(), score));
+            return score;
+        }
+
+        //Check out what happens is your opponent places a piece here instead of you
+        for(int opponent : opponents) {
+            //Undo the last move and replace the piece with your opponent
+            Coordinate undo = board.undo();
+            board.dropPiece(undo.getX(), opponent);
+
+            //If your opponent can win its worth -500 points.
+            if (!board.getWinningConnections().isEmpty()) {
+                score += scoring.getLooser();
+                notes.append(String.format(" + Looser(-%d) = %d", scoring.getWinner(), score));
+            }
+
+//            Map<String, ConnectionUtils.Details> details = ConnectionUtils.getConnectionDetails(board, lastTurn);
+//            for (ConnectionUtils.Details detail : details.values()) {
+//                if ((detail.getEmptyCount() + detail.getPieceCount()) >= board.getGoal()) {
+//                    if( detail.getPieceCount() >=3 && detail.getEmptyCountBackward() >0 && detail.getEmptyCountForward()>0){
+//                        score =+ scoring.getLooserInTwo();
+//                        notes.append(String.format(" + LooserInTwo(+%d)", scoring.getLooserInTwo()));
+//                    }
+//                }
+//            }
+
+            //Place the board back into the original state
+            board.undo();
+            board.dropPiece(undo.getX(), getColor());
         }
 
         //Look for possible connect 2,3 or more with gaps
-        Map<String, ConnectionDetails> details = getConnectionDetails(board, lastTurn);
-        for (ConnectionDetails detail : details.values()) {
-            if( (detail.getEmptyCount() + detail.getPieceCount() ) >= board.getGoal()) {
-                score += detail.getPieceCount() * scoring.getYourColorInRow() + detail.getEmptyCount();
+        Map<String, ConnectionUtils.Details> details = ConnectionUtils.getConnectionDetails(board, lastTurn);
+        for (ConnectionUtils.Details detail : details.values()) {
+            if ((detail.getEmptyCount() + detail.getPieceCount()) >= board.getGoal()) {
+                score += (detail.getPieceCount() * scoring.getYourColorInRow())
+                        + (detail.getEmptyCount() * scoring.getEmptyInRow());
                 notes.append(String.format(" + InRow(%d*2) + EmptyInRow(%d)", detail.getPieceCount(), detail.getEmptyCount()));
             }
         }
@@ -99,98 +128,13 @@ public class ScoreStrategy extends ArtificialIntelligence {
         notes.delete(0, notes.length());
         return contents;
     }
-    public Map<String, ConnectionDetails> getConnectionDetails(MutableBoard board, Coordinate lastTurn) {
-
-        int goal = board.getWidth();
-        Map<String, ConnectionDetails> connections = new HashMap<>();
-
-        int x = lastTurn.getX();
-        int y = lastTurn.getY();
-        int color = board.getPiece(x, y);
-
-        // Horizontal First
-        ConnectionDetails horizontal = new ConnectionDetails(lastTurn, color);
-        for (int i = 1; i < goal && x - i >= 0 && horizontal.isEmptyOrMine(board.getPiece(x - i, y)); horizontal.add(new Coordinate(x - i, y)), i++)
-            ;
-        for (int i = 1; i < goal && x + i < board.getWidth() && horizontal.isEmptyOrMine(board.getPiece(x + i, y)); horizontal.add(new Coordinate(x + i, y)), i++)
-            ;
-        if (horizontal.pieceCount > 1) {
-            connections.put("Horizontal", horizontal);
-        }
-
-        // Vertical
-        ConnectionDetails vertical = new ConnectionDetails(lastTurn, color);
-        for (int i = 1; i < goal && y - i >= 0 && vertical.isEmptyOrMine(board.getPiece(x, y - i)); vertical.add(new Coordinate(x, y - i)), i++)
-            ;
-        for (int i = 1; i < goal && y + i < board.getHeight() && vertical.isEmptyOrMine(board.getPiece(x, y + i)); vertical.add(new Coordinate(x, y + i)), i++)
-            ;
-        if (vertical.pieceCount > 1) {
-            connections.put("Vertical", vertical);
-        }
-
-        // Forward Slash Diagonal /
-        ConnectionDetails forwardSlash = new ConnectionDetails(lastTurn, color);
-        for (int i = 1; i < goal && y + i < board.getHeight() && x - i >= 0 && forwardSlash.isEmptyOrMine(board.getPiece(x - i, y + i)); forwardSlash.add(new Coordinate(x - i, y + i)), i++)
-            ;
-        for (int i = 1; i < goal && y - i >= 0 && x + i < board.getWidth() && forwardSlash.isEmptyOrMine(board.getPiece(x + i, y - i)); forwardSlash.add(new Coordinate(x + i, y - i)), i++)
-            ;
-        if (forwardSlash.pieceCount > 1) {
-            connections.put("ForwardSlash", forwardSlash);
-        }
-
-        //Back Slash Diagonal \
-        ConnectionDetails backSlash = new ConnectionDetails(lastTurn, color);
-        for (int i = 1; i < goal && y - i >= 0 && x - i >= 0 && backSlash.isEmptyOrMine(board.getPiece(x - i, y - i)); backSlash.add(new Coordinate(x - i, y - i)), i++)
-            ;
-        for (int i = 1; i < goal && y + i < board.getHeight() && x + i < board.getWidth() && backSlash.isEmptyOrMine(board.getPiece(x + i, y + i)); backSlash.add(new Coordinate(x + i, y + i)), i++)
-            ;
-        if (backSlash.pieceCount > 1) {
-            connections.put("BackSlash", backSlash);
-        }
-
-        return connections;
-    }
-
-    private class ConnectionDetails {
-
-        private int color;
-        private int pieceCount = 1;
-        private int emptyCount = 0;
-
-        List<Coordinate> coordinates = new ArrayList<>();
-
-        ConnectionDetails(Coordinate coordinate, int color) {
-            coordinates.add(coordinate);
-            this.color = color;
-        }
-
-        boolean isEmptyOrMine(int color) {
-            if (color == 0) {
-                emptyCount++;
-                return true;
-            } else if (color == this.color) {
-                pieceCount++;
-                return true;
-            } else return false;
-        }
-
-        void add(Coordinate coordinate) {
-            coordinates.add(coordinate);
-        }
-
-        public int getPieceCount() {
-            return pieceCount;
-        }
-
-        public int getEmptyCount() {
-            return emptyCount;
-        }
-    }
 
     private Config scoring = new Config();
     public static class Config{
         private int winner = 1000;
-        private int center = 5;
+        private int looser = 500;
+        private int looserInTwo = 500;
+        private int center = 10;
         private int yourColorInRow = 2;
         private int emptyInRow = 1;
 
@@ -198,5 +142,7 @@ public class ScoreStrategy extends ArtificialIntelligence {
         public int getCenter() { return center; }
         public int getYourColorInRow() { return yourColorInRow; }
         public int getEmptyInRow() { return emptyInRow; }
+        public int getLooser() { return looser; }
+        public int getLooserInTwo() { return looserInTwo; }
     }
 }

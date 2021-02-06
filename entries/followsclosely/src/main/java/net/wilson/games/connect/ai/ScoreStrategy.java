@@ -9,7 +9,7 @@ import java.util.Map;
 
 /**
  * This strategy will assign a score to each option, then select the best option.
- * Alone wins around 99% of games against a random AI.
+ * Wins 99.25% of games against a random AI.
  */
 public class ScoreStrategy extends ArtificialIntelligence {
 
@@ -92,15 +92,15 @@ public class ScoreStrategy extends ArtificialIntelligence {
                 notes.append(String.format(" + Looser(-%d) = %d", scoring.getWinner(), score));
             }
 
-//            Map<String, ConnectionUtils.Details> details = ConnectionUtils.getConnectionDetails(board, lastTurn);
-//            for (ConnectionUtils.Details detail : details.values()) {
-//                if ((detail.getEmptyCount() + detail.getPieceCount()) >= board.getGoal()) {
-//                    if( detail.getPieceCount() >=3 && detail.getEmptyCountBackward() >0 && detail.getEmptyCountForward()>0){
-//                        score =+ scoring.getLooserInTwo();
-//                        notes.append(String.format(" + LooserInTwo(+%d)", scoring.getLooserInTwo()));
-//                    }
-//                }
-//            }
+            Map<String, ConnectionUtils.Details> details = ConnectionUtils.getConnectionDetails(board, lastTurn);
+            for (ConnectionUtils.Details detail : details.values()) {
+                if ((detail.getEmptyCount() + detail.getPieceCount()) >= board.getGoal()) {
+                    if( detail.getPieceCountConnected() ==3 && detail.getBackward().getEmptyCount() >0 && detail.getForward().getEmptyCount()>0){
+                        score =+ scoring.getLooserInTwo();
+                        notes.append(String.format(" + LooserInTwo(+%d)", scoring.getLooserInTwo()));
+                    }
+                }
+            }
 
             //Place the board back into the original state
             board.undo();
@@ -131,9 +131,9 @@ public class ScoreStrategy extends ArtificialIntelligence {
 
     private Config scoring = new Config();
     public static class Config{
-        private int winner = 1000;
-        private int looser = 500;
-        private int looserInTwo = 500;
+        private int winner = 10000;
+        private int looser = 2000;
+        private int looserInTwo = 200;
         private int center = 10;
         private int yourColorInRow = 2;
         private int emptyInRow = 1;

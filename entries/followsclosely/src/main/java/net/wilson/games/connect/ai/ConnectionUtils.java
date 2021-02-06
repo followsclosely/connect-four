@@ -21,40 +21,32 @@ public class ConnectionUtils {
 
         // Horizontal First
         Details horizontal = new Details(lastTurn, color);
-        for (int i = 1; i < goal && x - i >= 0 && horizontal.isEmptyOrMineForward(board.getPiece(x - i, y)); horizontal.add(new Coordinate(x - i, y)), i++)
-            ;
-        for (int i = 1; i < goal && x + i < board.getWidth() && horizontal.isEmptyOrMineBackwards(board.getPiece(x + i, y)); horizontal.add(new Coordinate(x + i, y)), i++)
-            ;
+        for (int i = 1; i < goal && x - i >= 0 && horizontal.getForward().isEmptyOrMine(board.getPiece(x - i, y)); horizontal.add(new Coordinate(x - i, y)), i++) ;
+        for (int i = 1; i < goal && x + i < board.getWidth() && horizontal.getBackward().isEmptyOrMine(board.getPiece(x + i, y)); horizontal.add(new Coordinate(x + i, y)), i++) ;
         if (horizontal.getPieceCount() > 1) {
             connections.put("Horizontal", horizontal);
         }
 
         // Vertical
         Details vertical = new Details(lastTurn, color);
-        for (int i = 1; i < goal && y - i >= 0 && vertical.isEmptyOrMineForward(board.getPiece(x, y - i)); vertical.add(new Coordinate(x, y - i)), i++)
-            ;
-        for (int i = 1; i < goal && y + i < board.getHeight() && vertical.isEmptyOrMineBackwards(board.getPiece(x, y + i)); vertical.add(new Coordinate(x, y + i)), i++)
-            ;
+        for (int i = 1; i < goal && y - i >= 0 && vertical.getForward().isEmptyOrMine(board.getPiece(x, y - i)); vertical.add(new Coordinate(x, y - i)), i++) ;
+        for (int i = 1; i < goal && y + i < board.getHeight() && vertical.getBackward().isEmptyOrMine(board.getPiece(x, y + i)); vertical.add(new Coordinate(x, y + i)), i++) ;
         if (vertical.getPieceCount() > 1) {
             connections.put("Vertical", vertical);
         }
 
         // Forward Slash Diagonal /
         Details forwardSlash = new Details(lastTurn, color);
-        for (int i = 1; i < goal && y + i < board.getHeight() && x - i >= 0 && forwardSlash.isEmptyOrMineForward(board.getPiece(x - i, y + i)); forwardSlash.add(new Coordinate(x - i, y + i)), i++)
-            ;
-        for (int i = 1; i < goal && y - i >= 0 && x + i < board.getWidth() && forwardSlash.isEmptyOrMineBackwards(board.getPiece(x + i, y - i)); forwardSlash.add(new Coordinate(x + i, y - i)), i++)
-            ;
+        for (int i = 1; i < goal && y + i < board.getHeight() && x - i >= 0 && forwardSlash.getForward().isEmptyOrMine(board.getPiece(x - i, y + i)); forwardSlash.add(new Coordinate(x - i, y + i)), i++) ;
+        for (int i = 1; i < goal && y - i >= 0 && x + i < board.getWidth() && forwardSlash.getBackward().isEmptyOrMine(board.getPiece(x + i, y - i)); forwardSlash.add(new Coordinate(x + i, y - i)), i++) ;
         if (forwardSlash.getPieceCount() > 1) {
             connections.put("ForwardSlash", forwardSlash);
         }
 
         //Back Slash Diagonal \
         Details backSlash = new Details(lastTurn, color);
-        for (int i = 1; i < goal && y - i >= 0 && x - i >= 0 && backSlash.isEmptyOrMineForward(board.getPiece(x - i, y - i)); backSlash.add(new Coordinate(x - i, y - i)), i++)
-            ;
-        for (int i = 1; i < goal && y + i < board.getHeight() && x + i < board.getWidth() && backSlash.isEmptyOrMineBackwards(board.getPiece(x + i, y + i)); backSlash.add(new Coordinate(x + i, y + i)), i++)
-            ;
+        for (int i = 1; i < goal && y - i >= 0 && x - i >= 0 && backSlash.getForward().isEmptyOrMine(board.getPiece(x - i, y - i)); backSlash.add(new Coordinate(x - i, y - i)), i++) ;
+        for (int i = 1; i < goal && y + i < board.getHeight() && x + i < board.getWidth() && backSlash.getBackward().isEmptyOrMine(board.getPiece(x + i, y + i)); backSlash.add(new Coordinate(x + i, y + i)), i++) ;
         if (backSlash.getPieceCount() > 1) {
             connections.put("BackSlash", backSlash);
         }
@@ -64,13 +56,11 @@ public class ConnectionUtils {
 
     public static class Details {
 
+        private Counts forwards = new Counts();
+        private Counts backwards = new Counts();
+
         private int color;
-
-        private int pieceCountForward = 1;
-        private int pieceCountBackward = 1;
-
-        private int emptyCountForward = 0;
-        private int emptyCountBackward = 0;
+        private int pieceCountConnected = 1;
 
         List<Coordinate> coordinates = new ArrayList<>();
 
@@ -79,37 +69,42 @@ public class ConnectionUtils {
             this.color = color;
         }
 
-        boolean isEmptyOrMineForward(int color) {
-            if (color == 0) {
-                emptyCountForward++;
-                return true;
-            } else if (color == this.color) {
-                pieceCountForward++;
-                return true;
-            } else return false;
-        }
-        boolean isEmptyOrMineBackwards(int color) {
-            if (color == 0) {
-                emptyCountBackward++;
-                return true;
-            } else if (color == this.color) {
-                pieceCountBackward++;
-                return true;
-            } else return false;
-        }
-
         void add(Coordinate coordinate) {
             coordinates.add(coordinate);
         }
 
-        public int getPieceCount() { return pieceCountForward+pieceCountBackward; }
-        public int getPieceCountForward() { return pieceCountForward; }
-        public int getPieceCountBackward() { return pieceCountBackward; }
-
+        public int getPieceCountConnected() { return pieceCountConnected; }
+        public int getPieceCount() { return 1+forwards.pieceCount+backwards.pieceCount; }
         public int getEmptyCount() {
-            return emptyCountForward+emptyCountBackward;
+            return forwards.emptyCount+backwards.emptyCount;
         }
-        public int getEmptyCountForward() { return emptyCountForward; }
-        public int getEmptyCountBackward() { return emptyCountBackward; }
+
+        public Counts getForward(){ return forwards; }
+        public Counts getBackward(){ return backwards; }
+
+        public class Counts {
+            boolean connectionBroken = false;
+            int pieceCount = 0;
+            int emptyCount = 0;
+
+            boolean isEmptyOrMine(int color) {
+                if (color == 0) {
+                    emptyCount++;
+                    return true;
+                } else if (color == color) {
+                    if( !connectionBroken ){
+                        pieceCountConnected++;
+                    }
+                    pieceCount++;
+                    return true;
+                } else {
+                    connectionBroken = true;
+                    return false;
+                }
+            }
+
+            public int getEmptyCount() { return emptyCount; }
+            public int getPieceCount() { return pieceCount; }
+        }
     }
 }

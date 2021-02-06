@@ -19,7 +19,7 @@ public class MiniMaxAlgorithm {
         this.board = board;
         this.width = board.getWidth();
         this.colors = colors;
-        this.scoreStrategy = new ScoreStrategy(color);
+        this.scoreStrategy = new ScoreStrategy(color, colors);
     }
 
     public Node evaluate() {
@@ -40,7 +40,7 @@ public class MiniMaxAlgorithm {
         private IntBinaryOperator operator;
 
         private Node parent;
-        private List<Node> children = null;
+        private List<Node> children;
 
         public Node() {
             mode = Mode.Max;
@@ -108,27 +108,14 @@ public class MiniMaxAlgorithm {
             }
         }
 
-        public int getDepth() {
-            return depth;
-        }
-
-        public int getColumn() {
-            return column;
-        }
-
-        public int getScore() {
-            return score;
-        }
-
-        public List<Node> getChildren() {
-            return children;
-        }
+        public int getDepth() { return depth; }
+        public int getColumn() { return column; }
+        public int getScore() { return score; }
+        public List<Node> getChildren() { return children; }
 
         @Override
         public String toString() {
             return "Node(" + mode + "){" + "depth=" + depth + ", column=" + column + ", score=" + score + "/" + minMaxScore + '}';
         }
-
-
     }
 }

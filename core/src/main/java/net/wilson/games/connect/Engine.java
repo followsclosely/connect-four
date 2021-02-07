@@ -1,5 +1,7 @@
 package net.wilson.games.connect;
 
+import static net.wilson.games.connect.impl.ConnectionUtils.*;
+
 import net.wilson.games.connect.impl.ImmutableBoard;
 import net.wilson.games.connect.impl.MutableBoard;
 
@@ -53,7 +55,7 @@ public class Engine {
             //System.out.println(board);
 
             //Check for a winner, print if found
-            Map<String, List<Coordinate>> connections = board.getWinningConnections(new Coordinate(x, y));
+            Map<String, List<Coordinate>> connections = getWinningConnections(board, new Coordinate(x, y));
             if (!connections.isEmpty()) {
                 StringBuffer b = new StringBuffer();
                 for (Map.Entry<String, List<Coordinate>> entry : connections.entrySet()) {

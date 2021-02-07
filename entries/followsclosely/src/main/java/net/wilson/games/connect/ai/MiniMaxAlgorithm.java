@@ -1,6 +1,7 @@
 package net.wilson.games.connect.ai;
 
 import net.wilson.games.connect.impl.MutableBoard;
+import static net.wilson.games.connect.impl.ConnectionUtils.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -83,7 +84,7 @@ public class MiniMaxAlgorithm {
                     //System.out.println( node.column + " -> " + node.score);
                     children.add(node);
 
-                    gameWon = !board.getWinningConnections().isEmpty();
+                    gameWon = !getWinningConnections(board).isEmpty();
                     if (gameWon || depth >= maxDepth) {
                         //if(!board.getWinningConnections().isEmpty()) {
                         node.rollUpScore(scoreStrategy.scoreMove(board));

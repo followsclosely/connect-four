@@ -2,7 +2,9 @@ package net.wilson.games.connect.ai;
 
 import net.wilson.games.connect.ArtificialIntelligence;
 import net.wilson.games.connect.Board;
+import static net.wilson.games.connect.impl.ConnectionUtils.*;
 import net.wilson.games.connect.Coordinate;
+import net.wilson.games.connect.impl.ConnectionUtils;
 import net.wilson.games.connect.impl.MutableBoard;
 
 import java.util.Map;
@@ -75,7 +77,7 @@ public class ScoreStrategy extends ArtificialIntelligence {
         }
 
         //If you can win its worth 1,000 points, if so just return as the rest does not matter.
-        if (!board.getWinningConnections().isEmpty()) {
+        if (!getWinningConnections(board).isEmpty()) {
             score += scoring.getWinner();
             notes.append(String.format(" + Winner(+%d) = %d", scoring.getWinner(), score));
             return score;
@@ -86,7 +88,7 @@ public class ScoreStrategy extends ArtificialIntelligence {
             for (int x = 0, width = board.getWidth(); x < width; x++) {
                 if (board.canDropPiece(x)) {
                     int y = board.dropPiece(x, opponentColor);
-                    if (!board.getWinningConnections().isEmpty()) {
+                    if (!getWinningConnections(board).isEmpty()) {
                         score = +scoring.getLooserInOne();
                         notes.append(String.format(" + LooserInOne(+%d)", scoring.getLooserInOne()));
                     }
@@ -102,7 +104,7 @@ public class ScoreStrategy extends ArtificialIntelligence {
             board.dropPiece(undo.getX(), opponent);
 
             //If your opponent can win its worth -500 points.
-            if (!board.getWinningConnections().isEmpty()) {
+            if (!getWinningConnections(board).isEmpty()) {
                 score += scoring.getLooser();
                 notes.append(String.format(" + Looser(-%d) = %d", scoring.getWinner(), score));
             }

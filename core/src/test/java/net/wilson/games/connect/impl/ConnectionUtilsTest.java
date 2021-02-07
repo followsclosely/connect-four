@@ -9,7 +9,7 @@ import java.util.Map;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
-public class MutableBoardTest {
+public class ConnectionUtilsTest {
 
     @Test
     public void yourTurnFindHorizontalWin() {
@@ -19,7 +19,7 @@ public class MutableBoardTest {
         board.dropPiece(2, 7);
         board.dropPiece(3, 7);
 
-        Map<String, List<Coordinate>> connectFours = board.getWinningConnections();
+        Map<String, List<Coordinate>> connectFours = ConnectionUtils.getWinningConnections(board);
         assertEquals(1, connectFours.size());
         assertFalse(connectFours.get("Horizontal").isEmpty());
     }
@@ -33,7 +33,7 @@ public class MutableBoardTest {
         board.dropPiece(3, 7);
         board.dropPiece(3, 7);
 
-        Map<String, List<Coordinate>> connectFours = board.getWinningConnections();
+        Map<String, List<Coordinate>> connectFours = ConnectionUtils.getWinningConnections(board);
         assertEquals(1, connectFours.size());
         assertFalse(connectFours.get("Vertical").isEmpty());
     }
@@ -56,7 +56,7 @@ public class MutableBoardTest {
         board.dropPiece(3, 1);
         board.dropPiece(3, 7);
 
-        Map<String, List<Coordinate>> connectFours = board.getWinningConnections();
+        Map<String, List<Coordinate>> connectFours = ConnectionUtils.getWinningConnections(board);
         assertEquals(1, connectFours.size());
         assertFalse(connectFours.get("ForwardSlash").isEmpty());
     }
@@ -79,7 +79,7 @@ public class MutableBoardTest {
         board.dropPiece(0, 1);
         board.dropPiece(0, 7);
 
-        Map<String, List<Coordinate>> connectFours = board.getWinningConnections();
+        Map<String, List<Coordinate>> connectFours = ConnectionUtils.getWinningConnections(board);
         assertEquals(1, connectFours.size());
         assertFalse(connectFours.get("BackSlash").isEmpty());
     }

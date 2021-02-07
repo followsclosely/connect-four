@@ -21,8 +21,12 @@ public class ConnectionUtils {
 
         // Horizontal First
         Details horizontal = new Details(lastTurn, color);
-        for (int i = 1; i < goal && x - i >= 0 && horizontal.getForward().isEmptyOrMine(board.getPiece(x - i, y)); horizontal.add(new Coordinate(x - i, y)), i++) ;
-        for (int i = 1; i < goal && x + i < board.getWidth() && horizontal.getBackward().isEmptyOrMine(board.getPiece(x + i, y)); horizontal.add(new Coordinate(x + i, y)), i++) ;
+        for (int i = 1; i < goal && x - i >= 0 && horizontal.getForward().isEmptyOrMine(board.getPiece(x - i, y)); horizontal.add(new Coordinate(x - i, y)), i++){
+            System.out.println(horizontal.pieceCountConnected);
+        }
+        for (int i = 1; i < goal && x + i < board.getWidth() && horizontal.getBackward().isEmptyOrMine(board.getPiece(x + i, y)); horizontal.add(new Coordinate(x + i, y)), i++){
+            System.out.println(horizontal.pieceCountConnected);
+        }
         if (horizontal.getPieceCount() > 1) {
             connections.put("Horizontal", horizontal);
         }
@@ -59,14 +63,14 @@ public class ConnectionUtils {
         private Counts forwards = new Counts();
         private Counts backwards = new Counts();
 
-        private int color;
+        private int myColor;
         private int pieceCountConnected = 1;
 
         List<Coordinate> coordinates = new ArrayList<>();
 
         Details(Coordinate coordinate, int color) {
             coordinates.add(coordinate);
-            this.color = color;
+            this.myColor = color;
         }
 
         void add(Coordinate coordinate) {
@@ -91,7 +95,7 @@ public class ConnectionUtils {
                 if (color == 0) {
                     emptyCount++;
                     return true;
-                } else if (color == color) {
+                } else if (color == myColor) {
                     if( !connectionBroken ){
                         pieceCountConnected++;
                     }

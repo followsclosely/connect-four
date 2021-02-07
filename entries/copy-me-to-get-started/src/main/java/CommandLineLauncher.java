@@ -1,7 +1,7 @@
 import net.wilson.games.connect.Simulation;
 import net.wilson.games.connect.impl.ai.Dummy;
 
-public class Main {
+public class CommandLineLauncher {
     public static void main(String[] args) {
         new Simulation()
                 .number(200000)

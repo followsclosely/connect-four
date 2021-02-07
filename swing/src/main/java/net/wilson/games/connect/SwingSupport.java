@@ -9,15 +9,18 @@ import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class Main {
+public class SwingSupport {
 
-    private static int PLAYER_COLOR = 1;
-    private static int COMPUTER_COLOR = 2;
+    public static final int PLAYER_COLOR = 1;
+    public static final int COMPUTER_COLOR = 2;
 
     public static void main(String[] args) {
+        SwingSupport launcher = new SwingSupport();
+        launcher.run(new ScoreStrategy(COMPUTER_COLOR, PLAYER_COLOR));
+    }
 
+    public void run(ArtificialIntelligence bot){
         MutableBoard board = new MutableBoard();
-        ArtificialIntelligence bot = new ScoreStrategy(COMPUTER_COLOR, PLAYER_COLOR);
 
         BoardPanel boardPanel = new BoardPanel(board);
         //Register a listener to capture when a piece is to be played.

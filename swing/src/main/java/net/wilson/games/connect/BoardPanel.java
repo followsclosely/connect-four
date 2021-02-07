@@ -1,17 +1,23 @@
 package net.wilson.games.connect;
 
-import net.wilson.games.connect.impl.MutableBoard;
 
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * This panel draws the connect four board given a Board
+ *
+ * @see net.wilson.games.connect.Board
+ */
 public class BoardPanel extends JPanel {
 
     protected Dimension defaultDimension;
-    Color[] COLORS = {Color.GRAY, Color.GRAY, Color.RED, Color.BLACK};
-    private MutableBoard board;
 
-    public BoardPanel(MutableBoard board) {
+    private Color[] COLORS = {Color.GRAY, Color.GRAY, Color.RED, Color.BLACK};
+
+    private Board board;
+
+    public BoardPanel(Board board) {
         this.board = board;
         this.defaultDimension = new Dimension(board.getWidth() * 50 - 5, board.getHeight() * 50 - 5);
     }

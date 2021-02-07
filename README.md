@@ -45,12 +45,12 @@ public abstract class ArtificialIntelligence {
 ```
 ### Testing Your AI (Command Line)
 You can test your AI using the following:
-[CommandLineLauncher.java](https://github.com/followsclosely/connect-four/blob/master/entries/copy-me-to-get-started/src/main/java/CommandLineLauncher.java)
+[ShellLauncher.java](https://github.com/followsclosely/connect-four/blob/master/entries/copy-me-to-get-started/src/main/java/ShellLauncher.java)
 ```java
 import net.wilson.games.connect.Simulation;
 import net.wilson.games.connect.impl.ai.Dummy;
 
-public class CommandLineLauncher {
+public class ShellLauncher {
     public static void main(String[] args) {
         new Simulation()
                 .number(200000)
@@ -63,14 +63,18 @@ public class CommandLineLauncher {
 ```
 
 ### Testing Your AI (Swing)
-You can test your AI using a graphical interface: SwingLauncher.java
+You can test your AI using a graphical interface: 
+[SwingLauncher.java](https://github.com/followsclosely/connect-four/blob/master/entries/copy-me-to-get-started/src/main/java/SwingLauncher.java)
 ```java
 import net.wilson.games.connect.SwingSupport;
+import net.wilson.games.connect.impl.MutableBoard;
 
 public class SwingLauncher {
     public static void main(String[] args) {
-        SwingSupport launcher = new SwingSupport();
-        launcher.run(new YourCustomAI(SwingSupport.COMPUTER_COLOR));
+        new SwingSupport()
+                .setBoard(new MutableBoard())
+                .setArtificialIntelligence(new YourCustomAI(SwingSupport.COMPUTER_COLOR))
+                .run();
     }
 }
 ```

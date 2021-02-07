@@ -2,6 +2,7 @@ package net.wilson.games.connect;
 
 import net.wilson.games.connect.ai.ScoreStrategy;
 import net.wilson.games.connect.impl.MutableBoard;
+import net.wilson.games.connect.impl.ai.Dummy;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,18 +10,53 @@ import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+/**
+ * This class uses a builder patter to launch a swing UI to
+ * test your AI.
+ *
+ * @see
+ */
 public class SwingSupport {
 
     public static final int PLAYER_COLOR = 1;
     public static final int COMPUTER_COLOR = 2;
 
+    private ArtificialIntelligence bot;
+    private MutableBoard board;
+
     public static void main(String[] args) {
-        SwingSupport launcher = new SwingSupport();
-        launcher.run(new ScoreStrategy(COMPUTER_COLOR, PLAYER_COLOR));
+        new SwingSupport()
+                .setArtificialIntelligence(new Dummy(COMPUTER_COLOR))
+                .run();
     }
 
-    public void run(ArtificialIntelligence bot){
-        MutableBoard board = new MutableBoard();
+    /**
+     * You can pass in your own board. This allows you to:
+     * <ol>
+     *     <li>Set up the state of the board</li>
+     *     <li>To configure the size of the board</li>
+     *     <li>To configure other settings suck as the goal</li>
+     * </ol>
+     * @param board
+     * @return this to keep the builder going
+     */
+    public SwingSupport setBoard(MutableBoard board) {
+        this.board = board;
+        return this;
+    }
+
+    public SwingSupport setArtificialIntelligence(ArtificialIntelligence bot) {
+        this.bot = bot;
+        return this;
+    }
+
+    /**
+     * Launches the JFrame that contains the BoardPanel to display the game.
+     */
+    public void run(){
+        if( board == null) {
+            board = new MutableBoard();
+        }
 
         BoardPanel boardPanel = new BoardPanel(board);
         //Register a listener to capture when a piece is to be played.

@@ -13,12 +13,18 @@ public abstract class ArtificialIntelligence {
         this.color = color;
     }
 
+    /**
+     * Gets the color that the AI is playing for.
+     *
+     * @return color of the AI player
+     */
     public int getColor() {
         return color;
     }
 
     /**
      * This method is called by the Engine when it is "your" turn to play.
+     * It should return the column to drop the piece down.
      *
      * @param board The current state of the game.
      * @return The column (x) to drop the piece.

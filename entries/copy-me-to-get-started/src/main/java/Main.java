@@ -1,10 +1,12 @@
 import net.wilson.games.connect.Simulation;
+import net.wilson.games.connect.impl.ai.Dummy;
 
 public class Main {
     public static void main(String[] args) {
         new Simulation()
-                .number(2000)
-                .addArtificialIntelligence(new YourCustomAI(7))
+                .number(200000)
+                .addArtificialIntelligence(new Dummy(1))
+                .addArtificialIntelligence(new YourCustomAI(2))
                 .run()
                 .printSummary();
     }

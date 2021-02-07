@@ -22,7 +22,7 @@ public class YourCustomAI extends ArtificialIntelligence {
         //Select a random place on the board
         int x = random.nextInt(board.getWidth());
 
-        //Keep adding one to the randome spot while canDropPiece is false or we get to the width of the board
+        //Keep adding one to the random spot while canDropPiece is false or we get to the width of the board
         for (int i = 0, width = board.getWidth(); i < width; i++, x = (x + 1) % board.getWidth()) {
             if (myBoard.canDropPiece(x)) {
                 return x;

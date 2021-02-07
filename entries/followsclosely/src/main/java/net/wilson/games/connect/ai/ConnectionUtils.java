@@ -21,12 +21,8 @@ public class ConnectionUtils {
 
         // Horizontal First
         Details horizontal = new Details(lastTurn, color);
-        for (int i = 1; i < goal && x - i >= 0 && horizontal.getForward().isEmptyOrMine(board.getPiece(x - i, y)); horizontal.add(new Coordinate(x - i, y)), i++){
-            System.out.println(horizontal.pieceCountConnected);
-        }
-        for (int i = 1; i < goal && x + i < board.getWidth() && horizontal.getBackward().isEmptyOrMine(board.getPiece(x + i, y)); horizontal.add(new Coordinate(x + i, y)), i++){
-            System.out.println(horizontal.pieceCountConnected);
-        }
+        for (int i = 1; i < goal && x - i >= 0 && horizontal.getForward().isEmptyOrMine(board.getPiece(x - i, y)); horizontal.add(new Coordinate(x - i, y)), i++);
+        for (int i = 1; i < goal && x + i < board.getWidth() && horizontal.getBackward().isEmptyOrMine(board.getPiece(x + i, y)); horizontal.add(new Coordinate(x + i, y)), i++);
         if (horizontal.getPieceCount() > 1) {
             connections.put("Horizontal", horizontal);
         }

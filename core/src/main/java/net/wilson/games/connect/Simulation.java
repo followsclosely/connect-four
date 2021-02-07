@@ -11,9 +11,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class Simulation {
 
     private int numberOfSimulations = 20000;
-    private List<ArtificialIntelligence> ais = new ArrayList<>();
-
-    Map<Integer, AtomicInteger> counts = new HashMap<Integer, AtomicInteger>() {
+    private Map<Integer, AtomicInteger> counts = new HashMap<Integer, AtomicInteger>() {
         @Override
         public AtomicInteger get(Object key) {
             AtomicInteger value = super.get(key);
@@ -23,23 +21,24 @@ public class Simulation {
             return value;
         }
     };
+    private List<ArtificialIntelligence> ais = new ArrayList<>();
 
-    public Simulation addArtificialIntelligence(ArtificialIntelligence ai){
+    public Simulation addArtificialIntelligence(ArtificialIntelligence ai) {
         ais.add(ai);
         return this;
     }
 
-    public Simulation number(int simulations){
+    public Simulation number(int simulations) {
         this.numberOfSimulations = simulations;
         return this;
     }
 
-    public Simulation run(){
+    public Simulation run() {
 
-        if( ais.size() == 0){
+        if (ais.size() == 0) {
             System.out.println("ERROR: ai not provided, call addArtificialIntelligence()");
             return this;
-        } else if( ais.size() == 1){
+        } else if (ais.size() == 1) {
             ais.add(0, new Dummy(1));
         }
 
@@ -53,12 +52,12 @@ public class Simulation {
         return this;
     }
 
-    public Simulation printSummary(){
+    public Simulation printSummary() {
 
         for (Map.Entry<Integer, AtomicInteger> entry : counts.entrySet()) {
             StringBuffer b = new StringBuffer();
             b.append("Player/Color\t").append(entry.getKey()).append(": ");
-            b.append((float)(Math.round(entry.getValue().floatValue() / numberOfSimulations * 10000)) / 100).append("%\t");
+            b.append((float) (Math.round(entry.getValue().floatValue() / numberOfSimulations * 10000)) / 100).append("%\t");
             b.append(entry.getValue());
             System.out.println(b);
         }
@@ -66,7 +65,7 @@ public class Simulation {
         return this;
     }
 
-    public Simulation reset(){
+    public Simulation reset() {
         counts.clear();
         return this;
     }

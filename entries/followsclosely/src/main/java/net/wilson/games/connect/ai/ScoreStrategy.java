@@ -15,6 +15,7 @@ public class ScoreStrategy extends ArtificialIntelligence {
 
     private StringBuffer notes = new StringBuffer();
     private int[] opponents;
+    private Config scoring = new Config();
 
     public ScoreStrategy(int color, int... opponents) {
         super(color);
@@ -52,7 +53,7 @@ public class ScoreStrategy extends ArtificialIntelligence {
         return maxIndex;
     }
 
-    public int scoreMove(MutableBoard board){
+    public int scoreMove(MutableBoard board) {
         return scoreMove(board, board.getLastMove());
     }
 
@@ -81,12 +82,12 @@ public class ScoreStrategy extends ArtificialIntelligence {
         }
 
         //Check if the computer can win next turn
-        for(int opponentColor : opponents) {
+        for (int opponentColor : opponents) {
             for (int x = 0, width = board.getWidth(); x < width; x++) {
                 if (board.canDropPiece(x)) {
                     int y = board.dropPiece(x, opponentColor);
-                    if( !board.getWinningConnections().isEmpty()){
-                        score =+ scoring.getLooserInOne();
+                    if (!board.getWinningConnections().isEmpty()) {
+                        score = +scoring.getLooserInOne();
                         notes.append(String.format(" + LooserInOne(+%d)", scoring.getLooserInOne()));
                     }
                     board.undo();
@@ -94,9 +95,8 @@ public class ScoreStrategy extends ArtificialIntelligence {
             }
         }
 
-
         //Check out what happens is your opponent places a piece here instead of you
-        for(int opponent : opponents) {
+        for (int opponent : opponents) {
             //Undo the last move and replace the piece with your opponent
             Coordinate undo = board.undo();
             board.dropPiece(undo.getX(), opponent);
@@ -110,8 +110,8 @@ public class ScoreStrategy extends ArtificialIntelligence {
             Map<String, ConnectionUtils.Details> details = ConnectionUtils.getConnectionDetails(board, lastTurn);
             for (ConnectionUtils.Details detail : details.values()) {
                 if ((detail.getEmptyCount() + detail.getPieceCount()) >= board.getGoal()) {
-                    if( detail.getPieceCountConnected() ==3 && detail.getBackward().getEmptyCount() >0 && detail.getForward().getEmptyCount()>0){
-                        score =+ scoring.getLooserInTwo();
+                    if (detail.getPieceCountConnected() == 3 && detail.getBackward().getEmptyCount() > 0 && detail.getForward().getEmptyCount() > 0) {
+                        score = +scoring.getLooserInTwo();
                         notes.append(String.format(" + LooserInTwo(+%d)", scoring.getLooserInTwo()));
                     }
                 }
@@ -144,8 +144,7 @@ public class ScoreStrategy extends ArtificialIntelligence {
         return contents;
     }
 
-    private Config scoring = new Config();
-    public static class Config{
+    public static class Config {
         private int winner = 10000;
         private int looser = 2000;
         private int looserInTwo = 200;
@@ -154,12 +153,32 @@ public class ScoreStrategy extends ArtificialIntelligence {
         private int yourColorInRow = 2;
         private int emptyInRow = 1;
 
-        public int getWinner() { return winner; }
-        public int getCenter() { return center; }
-        public int getYourColorInRow() { return yourColorInRow; }
-        public int getEmptyInRow() { return emptyInRow; }
-        public int getLooser() { return looser; }
-        public int getLooserInTwo() { return looserInTwo; }
-        public int getLooserInOne() { return looserInOne; }
+        public int getWinner() {
+            return winner;
+        }
+
+        public int getCenter() {
+            return center;
+        }
+
+        public int getYourColorInRow() {
+            return yourColorInRow;
+        }
+
+        public int getEmptyInRow() {
+            return emptyInRow;
+        }
+
+        public int getLooser() {
+            return looser;
+        }
+
+        public int getLooserInTwo() {
+            return looserInTwo;
+        }
+
+        public int getLooserInOne() {
+            return looserInOne;
+        }
     }
 }

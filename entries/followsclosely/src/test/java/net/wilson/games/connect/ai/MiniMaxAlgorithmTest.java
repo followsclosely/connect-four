@@ -19,7 +19,7 @@ public class MiniMaxAlgorithmTest extends TestCase {
 //                "1221211" +
 //                "1112221");
 
-        MutableBoard board = ConnectTestUtils.initialize(new MutableBoard(5,4,4), "" +
+        MutableBoard board = ConnectTestUtils.initialize(new MutableBoard(5, 4, 4), "" +
                 "00000" +
                 "00100" +
                 "00200" +

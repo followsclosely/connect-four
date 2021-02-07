@@ -4,7 +4,7 @@ import net.wilson.games.connect.ai.ScoreStrategy;
 import net.wilson.games.connect.impl.ai.Dummy;
 
 public class Main {
-    public static void main(String[] args){
+    public static void main(String[] args) {
         new Simulation()
                 .number(20000)
                 .addArtificialIntelligence(new Dummy(1))

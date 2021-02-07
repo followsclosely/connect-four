@@ -1,9 +1,7 @@
 package net.wilson.games.connect;
 
 import net.wilson.games.connect.ai.ScoreStrategy;
-import net.wilson.games.connect.impl.BoardChangedListener;
 import net.wilson.games.connect.impl.MutableBoard;
-import net.wilson.games.connect.impl.ai.Dummy;
 
 import javax.swing.*;
 import java.awt.*;
@@ -26,7 +24,7 @@ public class Main {
         boardPanel.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
                 int x = e.getX() / 50;
-                if( board.canDropPiece(x)){
+                if (board.canDropPiece(x)) {
                     board.dropPiece(x, PLAYER_COLOR);
 
                     int x2 = bot.yourTurn(board);

@@ -86,10 +86,9 @@ public class MiniMaxAlgorithm {
                     gameWon = !board.getWinningConnections().isEmpty();
                     if (gameWon || depth >= maxDepth) {
                         //if(!board.getWinningConnections().isEmpty()) {
-                            node.rollUpScore(scoreStrategy.scoreMove(board));
+                        node.rollUpScore(scoreStrategy.scoreMove(board));
                         //}
-                    }
-                    else {
+                    } else {
                         node.evaluate();
                     }
                     board.undo();
@@ -108,10 +107,21 @@ public class MiniMaxAlgorithm {
             }
         }
 
-        public int getDepth() { return depth; }
-        public int getColumn() { return column; }
-        public int getScore() { return score; }
-        public List<Node> getChildren() { return children; }
+        public int getDepth() {
+            return depth;
+        }
+
+        public int getColumn() {
+            return column;
+        }
+
+        public int getScore() {
+            return score;
+        }
+
+        public List<Node> getChildren() {
+            return children;
+        }
 
         @Override
         public String toString() {

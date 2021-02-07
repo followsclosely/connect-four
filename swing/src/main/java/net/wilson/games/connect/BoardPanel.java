@@ -7,12 +7,13 @@ import java.awt.*;
 
 public class BoardPanel extends JPanel {
 
-    private MutableBoard board;
     protected Dimension defaultDimension;
+    Color[] COLORS = {Color.GRAY, Color.GRAY, Color.RED, Color.BLACK};
+    private MutableBoard board;
 
     public BoardPanel(MutableBoard board) {
         this.board = board;
-        this.defaultDimension = new Dimension(board.getWidth()*50-5,board.getHeight()*50-5);
+        this.defaultDimension = new Dimension(board.getWidth() * 50 - 5, board.getHeight() * 50 - 5);
     }
 
     @Override
@@ -20,16 +21,14 @@ public class BoardPanel extends JPanel {
         return defaultDimension;
     }
 
-    Color[] COLORS = {Color.GRAY, Color.GRAY, Color.RED, Color.BLACK};
-
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        for(int x=0, width = board.getWidth(); x<width; x++){
-            for(int y=0, height = board.getHeight(); y<height; y++){
-                g.setColor(COLORS[board.getPiece(x,y)+1]);
-                g.fillRoundRect(x*50,y*50,45, 45, 45,45);
+        for (int x = 0, width = board.getWidth(); x < width; x++) {
+            for (int y = 0, height = board.getHeight(); y < height; y++) {
+                g.setColor(COLORS[board.getPiece(x, y) + 1]);
+                g.fillRoundRect(x * 50, y * 50, 45, 45, 45, 45);
             }
         }
     }

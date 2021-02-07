@@ -1,7 +1,9 @@
 package net.wilson.games.connect;
 
 /**
+ * This abstract class can be extended to create your own AI.
  *
+ * @see net.wilson.games.connect.impl.ai.Dummy
  */
 public abstract class ArtificialIntelligence {
 

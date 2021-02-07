@@ -7,8 +7,8 @@ public class Main {
     public static void main(String[] args) {
         new Simulation()
                 .number(20000)
-                .addArtificialIntelligence(new Dummy(1))
                 .addArtificialIntelligence(new ScoreStrategy(2, 1))
+                .addArtificialIntelligence(new Dummy(1))
                 .run()
                 .printSummary();
     }

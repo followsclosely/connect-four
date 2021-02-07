@@ -9,7 +9,7 @@ import java.util.Map;
 
 /**
  * This strategy will assign a score to each option, then select the best option.
- * Wins 99.9% of games against a random AI.
+ * Wins 99.92% of games against a random AI.
  */
 public class ScoreStrategy extends ArtificialIntelligence {
 

@@ -36,14 +36,14 @@ public class Engine {
     /**
      * Runs a simulation of one game.
      */
-    public int startGame() {
+    public int startGame(int firstIndex) {
 
         int winner = -1;
         //System.out.println(board.toMatrixString());
 
         //The total number of turns before the board is full
         int total = board.getWidth() * board.getHeight();
-        for (int turn = 0; turn < total; turn++) {
+        for (int turn = firstIndex; turn < total; turn++) {
             ArtificialIntelligence player = players.get(turn % playerCount);
 
             //Pass an immutable board down as to not mess with this standard

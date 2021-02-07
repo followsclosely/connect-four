@@ -9,7 +9,7 @@ import java.util.Map;
 
 /**
  * This strategy will assign a score to each option, then select the best option.
- * Wins 99.25% of games against a random AI.
+ * Wins 99.9% of games against a random AI.
  */
 public class ScoreStrategy extends ArtificialIntelligence {
 
@@ -58,13 +58,13 @@ public class ScoreStrategy extends ArtificialIntelligence {
 
     public int scoreMove(MutableBoard board, Coordinate lastTurn) {
 
-        int score = -1;
+        int score = 1;
 
         //System.out.println(String.format("Score (%d):", score));
 
         //Coordinate lastTurn = new Coordinate(x, y);
 
-        notes.append(" -1 ");
+        notes.append(" +1 ");
 
         //Center column is worth 10 points
         int center = board.getWidth() / 2;
@@ -79,6 +79,21 @@ public class ScoreStrategy extends ArtificialIntelligence {
             notes.append(String.format(" + Winner(+%d) = %d", scoring.getWinner(), score));
             return score;
         }
+
+        //Check if the computer can win next turn
+        for(int opponentColor : opponents) {
+            for (int x = 0, width = board.getWidth(); x < width; x++) {
+                if (board.canDropPiece(x)) {
+                    int y = board.dropPiece(x, opponentColor);
+                    if( !board.getWinningConnections().isEmpty()){
+                        score =+ scoring.getLooserInOne();
+                        notes.append(String.format(" + LooserInOne(+%d)", scoring.getLooserInOne()));
+                    }
+                    board.undo();
+                }
+            }
+        }
+
 
         //Check out what happens is your opponent places a piece here instead of you
         for(int opponent : opponents) {
@@ -134,6 +149,7 @@ public class ScoreStrategy extends ArtificialIntelligence {
         private int winner = 10000;
         private int looser = 2000;
         private int looserInTwo = 200;
+        private int looserInOne = -400;
         private int center = 10;
         private int yourColorInRow = 2;
         private int emptyInRow = 1;
@@ -144,5 +160,6 @@ public class ScoreStrategy extends ArtificialIntelligence {
         public int getEmptyInRow() { return emptyInRow; }
         public int getLooser() { return looser; }
         public int getLooserInTwo() { return looserInTwo; }
+        public int getLooserInOne() { return looserInOne; }
     }
 }

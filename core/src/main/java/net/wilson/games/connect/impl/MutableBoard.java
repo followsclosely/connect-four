@@ -64,11 +64,11 @@ public class MutableBoard extends AbstractBoard {
             return null;
         }
         int lastIndex = turns.size() - 1;
-        Coordinate turn = turns.remove(lastIndex);
-        state[turn.getX()][turn.getY()] = 0;
-        fireBoardChanged(turn);
+        this.lastMove = turns.remove(lastIndex);
+        state[this.lastMove.getX()][this.lastMove.getY()] = 0;
+        fireBoardChanged(this.lastMove);
 
-        return turn;
+        return this.lastMove;
     }
 
     private void fireBoardChanged(Coordinate coordinate) {

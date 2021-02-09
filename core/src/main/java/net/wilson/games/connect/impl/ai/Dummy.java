@@ -9,13 +9,17 @@ import java.util.Random;
 /**
  * A totally random impl of AI.
  */
-public class Dummy extends ArtificialIntelligence {
+public class Dummy implements ArtificialIntelligence {
 
     private Random random = new Random();
 
+    private int color;
+
     public Dummy(int color) {
-        super(color);
+        this.color = color;
     }
+
+    @Override public int getColor() { return color; }
 
     @Override
     public int yourTurn(Board board) {

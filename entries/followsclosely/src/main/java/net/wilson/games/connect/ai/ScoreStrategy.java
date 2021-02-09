@@ -13,15 +13,21 @@ import java.util.Map;
  * This strategy will assign a score to each option, then select the best option.
  * Wins 99.92% of games against a random AI.
  */
-public class ScoreStrategy extends ArtificialIntelligence {
+public class ScoreStrategy implements ArtificialIntelligence {
 
+    private int color;
     private StringBuffer notes = new StringBuffer();
     private int[] opponents;
     private Config scoring = new Config();
 
     public ScoreStrategy(int color, int... opponents) {
-        super(color);
+        this.color = color;
         this.opponents = opponents;
+    }
+
+    @Override
+    public int getColor() {
+        return color;
     }
 
     @Override

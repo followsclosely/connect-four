@@ -7,13 +7,17 @@ import java.util.Random;
 /**
  * A totally random impl of AI.
  */
-public class YourCustomAI extends ArtificialIntelligence {
+public class YourCustomAI implements ArtificialIntelligence {
 
     private Random random = new Random();
 
+    private int color;
+
     public YourCustomAI(int color) {
-        super(color);
+        this.color = color;
     }
+
+    @Override public int getColor() { return color; }
 
     @Override
     public int yourTurn(Board board) {

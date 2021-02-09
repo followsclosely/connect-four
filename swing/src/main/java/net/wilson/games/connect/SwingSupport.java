@@ -1,6 +1,5 @@
 package net.wilson.games.connect;
 
-import net.wilson.games.connect.ai.ScoreStrategy;
 import net.wilson.games.connect.impl.MutableBoard;
 import net.wilson.games.connect.impl.ai.Dummy;
 

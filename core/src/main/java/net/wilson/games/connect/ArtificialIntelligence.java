@@ -1,26 +1,18 @@
 package net.wilson.games.connect;
 
 /**
- * This abstract class can be extended to create your own AI.
+ * This interface is all you need to create your own AI.
  *
  * @see net.wilson.games.connect.impl.ai.Dummy
  */
-public abstract class ArtificialIntelligence {
-
-    private int color;
-
-    public ArtificialIntelligence(int color) {
-        this.color = color;
-    }
+public interface ArtificialIntelligence {
 
     /**
      * Gets the color that the AI is playing for.
      *
      * @return color of the AI player
      */
-    public int getColor() {
-        return color;
-    }
+    public int getColor();
 
     /**
      * This method is called by the Engine when it is "your" turn to play.

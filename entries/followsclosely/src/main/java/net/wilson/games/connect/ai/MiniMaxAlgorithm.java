@@ -1,39 +1,56 @@
 package net.wilson.games.connect.ai;
 
+import net.wilson.games.connect.ArtificialIntelligence;
+import net.wilson.games.connect.Board;
 import net.wilson.games.connect.impl.MutableBoard;
 import static net.wilson.games.connect.impl.ConnectionUtils.*;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.function.IntBinaryOperator;
+import java.util.stream.Collectors;
 
-public class MiniMaxAlgorithm {
+public class MiniMaxAlgorithm implements ArtificialIntelligence {
 
     private int color;
     private int[] colors;
-    private int width;
-    private int maxDepth = 5;
-    private MutableBoard board;
+    private int maxDepth = 3;
     private ScoreStrategy scoreStrategy;
 
-    public MiniMaxAlgorithm(MutableBoard board, int color, int... colors) {
-        this.board = board;
-        this.width = board.getWidth();
+    public MiniMaxAlgorithm(int color, int... colors) {
+        this.color = color;
         this.colors = colors;
         this.scoreStrategy = new ScoreStrategy(color, colors);
     }
 
-    public Node evaluate() {
+    @Override
+    public int getColor() {
+        return color;
+    }
+
+    @Override
+    public int yourTurn(Board b) {
+        MutableBoard board = (b instanceof MutableBoard) ? (MutableBoard)b : new MutableBoard(b);
+        MiniMaxAlgorithm.Node root = evaluate(board);
+        //Sort by score.
+        List<MiniMaxAlgorithm.Node> sortedList = root.getChildren().stream()
+                .sorted(Comparator.comparing(MiniMaxAlgorithm.Node::getScore).reversed())
+                .collect(Collectors.toList());
+
+        MiniMaxAlgorithm.Node best = sortedList.get(0);
+
+        return best.getColumn();
+    }
+
+    public Node evaluate(MutableBoard board) {
         Node root = new Node();
-        root.evaluate();
+        root.evaluate(board);
         return root;
     }
 
-    public enum Mode {Mini, Max}
-
     public class Node {
         private String notes;
-        private Mode mode;
         private int depth;
         private int column;
         private int score;
@@ -44,42 +61,37 @@ public class MiniMaxAlgorithm {
         private List<Node> children;
 
         public Node() {
-            mode = Mode.Max;
             this.operator = Integer::max;
             this.minMaxScore = Integer.MIN_VALUE;
-            this.children = new ArrayList<>(board.getWidth());
+            this.children = new ArrayList<>();
         }
 
         public Node(Node parent, int column) {
 
             if ((parent.getDepth() % 2 == 0)) {
-                mode = Mode.Max;
                 this.operator = Integer::max;
                 this.minMaxScore = Integer.MIN_VALUE;
             } else {
-                mode = Mode.Mini;
                 this.operator = Integer::min;
                 this.minMaxScore = Integer.MAX_VALUE;
             }
 
             this.depth = parent.getDepth() + 1;
-            this.children = new ArrayList<>(board.getWidth());
+            this.children = new ArrayList<>();
             this.parent = parent;
             this.column = column;
         }
 
-        public void evaluate() {
+        public void evaluate(MutableBoard board) {
 
             boolean gameWon = false;
             int color = colors[depth % 2];
-            for (int x = 0; x < width && !gameWon; x++) {
+            for (int x = 0, width = board.getWidth(); x < width && !gameWon; x++) {
                 if (board.canDropPiece(x)) {
                     int y = board.dropPiece(x, color);
                     Node node = new Node(this, x);
-                    if (node.mode == Mode.Max) {
-                        node.score = scoreStrategy.scoreMove(board);
-                        node.notes = scoreStrategy.getNotes();
-                    }
+                    node.score = scoreStrategy.scoreMove(board);
+                    node.notes = scoreStrategy.getNotes();
 
                     //System.out.println( node.column + " -> " + node.score);
                     children.add(node);
@@ -90,7 +102,7 @@ public class MiniMaxAlgorithm {
                         node.rollUpScore(scoreStrategy.scoreMove(board));
                         //}
                     } else {
-                        node.evaluate();
+                        node.evaluate(board);
                     }
                     board.undo();
                 }
@@ -126,7 +138,7 @@ public class MiniMaxAlgorithm {
 
         @Override
         public String toString() {
-            return "Node(" + mode + "){" + "depth=" + depth + ", column=" + column + ", score=" + score + "/" + minMaxScore + '}';
+            return "Node{" + "depth=" + depth + ", column=" + column + ", score=" + score + "/" + minMaxScore + '}';
         }
     }
 }

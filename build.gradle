@@ -2,7 +2,7 @@ plugins {
     id 'java'
 }
 
-group 'net.followsclosley'
+group 'io.github.followsclosley'
 version '1.0-SNAPSHOT'
 
 repositories {

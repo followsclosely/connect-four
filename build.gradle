@@ -1,4 +1,7 @@
-
+plugins {
+    id 'java'
+    id 'maven-publish'
+}
 
 group 'io.github.followsclosley'
 version '1.0-SNAPSHOT'

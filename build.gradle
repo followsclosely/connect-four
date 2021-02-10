@@ -1,6 +1,4 @@
-plugins {
-    id 'java'
-}
+
 
 group 'io.github.followsclosley'
 version '1.0-SNAPSHOT'

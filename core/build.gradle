@@ -1,4 +1,7 @@
-apply plugin: 'java'
+plugins {
+    id 'java'
+    id 'maven-publish'
+}
 
 repositories {
     jcenter()
@@ -12,4 +15,29 @@ jar {
     manifest {
         attributes 'Main-Class': 'net.wilson.games.connect.Main'
     }
+}
+
+publishing {
+
+    publications {
+        maven(MavenPublication) {
+            groupId = 'io.github.followsclosley'
+            artifactId = 'connect-core'
+            version = '1.0'
+
+            from components.java
+        }
+    }
+
+    repositories {
+        maven {
+            name = "OSSRH"
+            url = "https://oss.sonatype.org/service/local/staging/deploy/maven2/"
+            credentials {
+                username = System.getenv("MAVEN_USERNAME")
+                password = System.getenv("MAVEN_PASSWORD")
+            }
+        }
+    }
+
 }

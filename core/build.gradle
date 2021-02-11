@@ -23,7 +23,7 @@ publishing {
         maven(MavenPublication) {
             groupId = 'io.github.followsclosley'
             artifactId = 'connect-core'
-            version = '1.0.0'
+            version = '1.0.0-SNAPSHOT'
 
             from components.java
         }

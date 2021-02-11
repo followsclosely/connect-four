@@ -1,5 +1,5 @@
-import net.wilson.games.connect.SwingSupport;
-import net.wilson.games.connect.impl.MutableBoard;
+import io.github.followsclosley.connect.impl.MutableBoard;
+import io.github.followsclosley.connect.swing.SwingSupport;
 
 /**
  * Class to launch a Swing interface to test your AI.

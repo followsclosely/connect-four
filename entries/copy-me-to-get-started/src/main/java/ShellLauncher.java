@@ -1,5 +1,5 @@
-import net.wilson.games.connect.Simulation;
-import net.wilson.games.connect.impl.ai.Dummy;
+import io.github.followsclosley.connect.Simulation;
+import io.github.followsclosley.connect.impl.ai.Dummy;
 
 public class ShellLauncher {
     public static void main(String[] args) {

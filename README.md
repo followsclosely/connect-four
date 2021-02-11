@@ -47,8 +47,8 @@ public abstract class ArtificialIntelligence {
 You can test your AI using the following:
 [ShellLauncher.java](https://github.com/followsclosely/connect-four/blob/master/entries/copy-me-to-get-started/src/main/java/ShellLauncher.java)
 ```java
-import net.wilson.games.connect.Simulation;
-import net.wilson.games.connect.impl.ai.Dummy;
+import io.github.followsclosley.connect.Simulation;
+import io.github.followsclosley.connect.impl.ai.Dummy;
 
 public class ShellLauncher {
     public static void main(String[] args) {
@@ -66,8 +66,8 @@ public class ShellLauncher {
 You can test your AI using a graphical interface: 
 [SwingLauncher.java](https://github.com/followsclosely/connect-four/blob/master/entries/copy-me-to-get-started/src/main/java/SwingLauncher.java)
 ```java
-import net.wilson.games.connect.SwingSupport;
-import net.wilson.games.connect.impl.MutableBoard;
+import io.github.followsclosley.connect.swing.SwingSupport;
+import io.github.followsclosley.connect.impl.MutableBoard;
 
 public class SwingLauncher {
     public static void main(String[] args) {
@@ -83,6 +83,6 @@ public class SwingLauncher {
 
 | Module | Class Name  | Win % |
 | ---: | :--- | :---: |
-| core | [net.wilson.games.connect.impl.ai.Dummy](https://github.com/followsclosely/connect-four/blob/master/core/src/main/java/net/wilson/games/connect/impl/ai/Dummy.java) | N/A |
-| entries/followsclosely | [net.wilson.games.connect.ai.ScoreStrategy](https://github.com/followsclosely/connect-four/blob/master/entries/followsclosely/src/main/java/net/wilson/games/connect/ai/ScoreStrategy.java) | 99.92% |
+| core | [io.github.followsclosley.connect.impl.ai.Dummy](https://github.com/followsclosely/connect-four/blob/master/core/src/main/java/net/wilson/games/connect/impl/ai/Dummy.java) | N/A |
+| entries/followsclosely | [io.github.followsclosley.connect.ai.ScoreStrategy](https://github.com/followsclosely/connect-four/blob/master/entries/followsclosely/src/main/java/net/wilson/games/connect/ai/ScoreStrategy.java) | 99.92% |
 |  |  |   |

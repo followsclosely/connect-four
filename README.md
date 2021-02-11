@@ -83,6 +83,6 @@ public class SwingLauncher {
 
 | Module | Class Name  | Win % |
 | ---: | :--- | :---: |
-| core | [io.github.followsclosley.connect.impl.ai.Dummy](https://github.com/followsclosely/connect-four/blob/master/core/src/main/java/net/wilson/games/connect/impl/ai/Dummy.java) | N/A |
-| entries/followsclosely | [io.github.followsclosley.connect.ai.ScoreStrategy](https://github.com/followsclosely/connect-four/blob/master/entries/followsclosely/src/main/java/net/wilson/games/connect/ai/ScoreStrategy.java) | 99.92% |
+| core | [io.github.followsclosley.connect.impl.ai.Dummy](https://github.com/followsclosely/connect-four/blob/master/core/src/main/java/io/github/followsclosley/connect/impl/ai/Dummy.java) | N/A |
+| entries/followsclosely | [io.github.followsclosley.connect.ai.ScoreStrategy](https://github.com/followsclosely/connect-four/blob/master/entries/followsclosely/src/main/java/io/github/followsclosley/connect/ai/ScoreStrategy.java) | 99.92% |
 |  |  |   |

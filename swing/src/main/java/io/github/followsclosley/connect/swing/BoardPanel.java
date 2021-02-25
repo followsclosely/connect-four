@@ -46,18 +46,14 @@ public class BoardPanel extends JPanel {
         }
 
         //Draw the winning lines
-        Map<String, List<Coordinate>> connections = ConnectionUtils.getWinningConnections(board);
-        if( !connections.isEmpty() ) {
-            for(Map.Entry<String, List<Coordinate>> entry : connections.entrySet()){
-                List<Coordinate> coordinates = entry.getValue();
-                Coordinate start = coordinates.get(0);
-                Coordinate end = coordinates.get(coordinates.size()-1);
+        for(Map.Entry<String, List<Coordinate>> entry : ConnectionUtils.getWinningConnections(board).entrySet()){
+            List<Coordinate> coordinates = entry.getValue();
+            Coordinate start = coordinates.get(0);
+            Coordinate end = coordinates.get(coordinates.size()-1);
 
-                ((Graphics2D) g).setStroke(new BasicStroke(10));
-                g.setColor(Color.YELLOW);
-                g.drawLine(start.getX() * 50+ 24, start.getY() * 50 + 24,end.getX() * 50 + 24, end.getY() * 50 + 24 );
-            }
-            ((Graphics2D) g).setStroke(new BasicStroke(1));
+            ((Graphics2D) g).setStroke(new BasicStroke(10));
+            g.setColor(Color.YELLOW);
+            g.drawLine(start.getX() * 50+ 24, start.getY() * 50 + 24,end.getX() * 50 + 24, end.getY() * 50 + 24 );
         }
     }
 }

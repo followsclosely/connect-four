@@ -1,6 +1,8 @@
 package io.github.followsclosley.connect.swing;
 
 import io.github.followsclosley.connect.ArtificialIntelligence;
+import io.github.followsclosley.connect.Coordinate;
+import io.github.followsclosley.connect.impl.ConnectionUtils;
 import io.github.followsclosley.connect.impl.MutableBoard;
 import io.github.followsclosley.connect.impl.ai.Dummy;
 
@@ -9,6 +11,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.List;
+import java.util.Map;
 
 /**
  * This class uses a builder patter to launch a swing UI to
@@ -65,7 +69,6 @@ public class SwingSupport {
                 int x = e.getX() / 50;
                 if (board.canDropPiece(x)) {
                     board.dropPiece(x, PLAYER_COLOR);
-
                     int x2 = bot.yourTurn(board);
                     board.dropPiece(x2, COMPUTER_COLOR);
                 }
@@ -75,7 +78,7 @@ public class SwingSupport {
         board.addBoardChangedListener(coordinate -> SwingUtilities.invokeLater(() -> boardPanel.repaint()));
 
         JPanel statusPanel = new JPanel(new BorderLayout());
-        JTextField status = new JTextField("Your turn player 1...");
+        JTextField status = new JTextField("");
         status.setEditable(false);
         statusPanel.add(status, BorderLayout.CENTER);
         JButton undo = new JButton("<");

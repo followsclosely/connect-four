@@ -28,7 +28,7 @@ public class ConnectionUtils {
         // Horizontal First
         List<Coordinate> horizontal = new ArrayList<>(board.getGoal());
         horizontal.add(lastTurn);
-        for (int i = 1; i < board.getGoal() && x - i >= 0 && board.getPiece(x - i, y) == color; horizontal.add(new Coordinate(x - i, y)), i++) ;
+        for (int i = 1; i < board.getGoal() && x - i >= 0 && board.getPiece(x - i, y) == color; horizontal.add(0, new Coordinate(x - i, y)), i++) ;
         for (int i = 1; i < board.getGoal() && x + i < board.getWidth() && board.getPiece(x + i, y) == color; horizontal.add(new Coordinate(x + i, y)), i++) ;
         if (horizontal.size() >= board.getGoal()) {
             connections.put("Horizontal", horizontal);
@@ -37,7 +37,7 @@ public class ConnectionUtils {
         // Vertical
         List<Coordinate> vertical = new ArrayList<>(board.getGoal());
         vertical.add(lastTurn);
-        for (int i = 1; i < board.getGoal() && y - i >= 0 && board.getPiece(x, y - i) == color; vertical.add(new Coordinate(x, y - i)), i++) ;
+        for (int i = 1; i < board.getGoal() && y - i >= 0 && board.getPiece(x, y - i) == color; vertical.add(0, new Coordinate(x, y - i)), i++) ;
         for (int i = 1; i < board.getGoal() && y + i < board.getHeight() && board.getPiece(x, y + i) == color; vertical.add(new Coordinate(x, y + i)), i++) ;
         if (vertical.size() >= board.getGoal()) {
             connections.put("Vertical", vertical);
@@ -46,7 +46,7 @@ public class ConnectionUtils {
         // Forward Slash Diagonal /
         List<Coordinate> forwardSlash = new ArrayList<>(board.getGoal());
         forwardSlash.add(lastTurn);
-        for (int i = 1; i < board.getGoal() && y + i < board.getHeight() && x - i >= 0 && board.getPiece(x - i, y + i) == color; forwardSlash.add(new Coordinate(x - i, y + i)), i++) ;
+        for (int i = 1; i < board.getGoal() && y + i < board.getHeight() && x - i >= 0 && board.getPiece(x - i, y + i) == color; forwardSlash.add(0, new Coordinate(x - i, y + i)), i++) ;
         for (int i = 1; i < board.getGoal() && y - i >= 0 && x + i < board.getWidth() && board.getPiece(x + i, y - i) == color; forwardSlash.add(new Coordinate(x + i, y - i)), i++) ;
         if (forwardSlash.size() >= board.getGoal()) {
             connections.put("ForwardSlash", forwardSlash);
@@ -55,7 +55,7 @@ public class ConnectionUtils {
         //Back Slash Diagonal \
         List<Coordinate> backSlash = new ArrayList<>(board.getGoal());
         backSlash.add(lastTurn);
-        for (int i = 1; i < board.getGoal() && y - i >= 0 && x - i >= 0 && board.getPiece(x - i, y - i) == color; backSlash.add(new Coordinate(x - i, y - i)), i++) ;
+        for (int i = 1; i < board.getGoal() && y - i >= 0 && x - i >= 0 && board.getPiece(x - i, y - i) == color; backSlash.add(0, new Coordinate(x - i, y - i)), i++) ;
         for (int i = 1; i < board.getGoal() && y + i < board.getHeight() && x + i < board.getWidth() && board.getPiece(x + i, y + i) == color; backSlash.add(new Coordinate(x + i, y + i)), i++) ;
         if (backSlash.size() >= board.getGoal()) {
             connections.put("BackSlash", backSlash);

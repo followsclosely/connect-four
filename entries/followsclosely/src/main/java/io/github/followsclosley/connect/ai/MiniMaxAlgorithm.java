@@ -3,14 +3,14 @@ package io.github.followsclosley.connect.ai;
 import io.github.followsclosley.connect.ArtificialIntelligence;
 import io.github.followsclosley.connect.Board;
 import io.github.followsclosley.connect.impl.MutableBoard;
+import io.github.followsclosley.connect.impl.Turn;
+import io.github.followsclosley.connect.impl.TurnUtils;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.function.IntBinaryOperator;
 import java.util.stream.Collectors;
-
-import static io.github.followsclosley.connect.impl.ConnectionUtils.getWinningConnections;
 
 public class MiniMaxAlgorithm implements ArtificialIntelligence {
 
@@ -97,13 +97,16 @@ public class MiniMaxAlgorithm implements ArtificialIntelligence {
                     //System.out.println( node.column + " -> " + node.score);
                     children.add(node);
 
-                    gameWon = !getWinningConnections(board).isEmpty();
-                    if (gameWon || depth >= maxDepth) {
-                        //if(!board.getWinningConnections().isEmpty()) {
-                        node.rollUpScore(scoreStrategy.scoreMove(board));
-                        //}
-                    } else {
-                        node.evaluate(board);
+                    Turn turn = TurnUtils.getWinningConnections(board);
+                    if (turn != null) {
+                        gameWon = !turn.getLines().isEmpty();
+                        if (gameWon || depth >= maxDepth) {
+                            //if(!board.getWinningConnections().isEmpty()) {
+                            node.rollUpScore(scoreStrategy.scoreMove(board));
+                            //}
+                        } else {
+                            node.evaluate(board);
+                        }
                     }
                     board.undo();
                 }

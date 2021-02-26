@@ -3,12 +3,9 @@ package io.github.followsclosley.connect.ai;
 import io.github.followsclosley.connect.ArtificialIntelligence;
 import io.github.followsclosley.connect.Board;
 import io.github.followsclosley.connect.Coordinate;
-import io.github.followsclosley.connect.impl.ConnectionUtils;
 import io.github.followsclosley.connect.impl.MutableBoard;
-
-import java.util.Map;
-
-import static io.github.followsclosley.connect.impl.ConnectionUtils.getWinningConnections;
+import io.github.followsclosley.connect.impl.Turn;
+import io.github.followsclosley.connect.impl.TurnUtils;
 
 /**
  * This strategy will assign a score to each option, then select the best option.
@@ -84,7 +81,8 @@ public class ScoreStrategy implements ArtificialIntelligence {
         }
 
         //If you can win its worth 1,000 points, if so just return as the rest does not matter.
-        if (!getWinningConnections(board).isEmpty()) {
+
+        if (!TurnUtils.getWinningConnections(board).getLines().isEmpty()) {
             score += scoring.getWinner();
             notes.append(String.format(" + Winner(+%d) = %d", scoring.getWinner(), score));
             return score;
@@ -95,7 +93,7 @@ public class ScoreStrategy implements ArtificialIntelligence {
             for (int x = 0, width = board.getWidth(); x < width; x++) {
                 if (board.canDropPiece(x)) {
                     int y = board.dropPiece(x, opponentColor);
-                    if (!getWinningConnections(board).isEmpty()) {
+                    if (!TurnUtils.getWinningConnections(board).getLines().isEmpty()) {
                         score = +scoring.getLooserInOne();
                         notes.append(String.format(" + LooserInOne(+%d)", scoring.getLooserInOne()));
                     }
@@ -111,18 +109,16 @@ public class ScoreStrategy implements ArtificialIntelligence {
             board.dropPiece(undo.getX(), opponent);
 
             //If your opponent can win its worth -500 points.
-            if (!getWinningConnections(board).isEmpty()) {
+            if (!TurnUtils.getWinningConnections(board).getLines().isEmpty()) {
                 score += scoring.getLooser();
                 notes.append(String.format(" + Looser(-%d) = %d", scoring.getWinner(), score));
             }
 
-            Map<String, ConnectionUtils.Details> details = ConnectionUtils.getConnectionDetails(board, lastTurn);
-            for (ConnectionUtils.Details detail : details.values()) {
-                if ((detail.getEmptyCount() + detail.getPieceCount()) >= board.getGoal()) {
-                    if (detail.getPieceCountConnected() == 3 && detail.getBackward().getEmptyCount() > 0 && detail.getForward().getEmptyCount() > 0) {
-                        score = +scoring.getLooserInTwo();
-                        notes.append(String.format(" + LooserInTwo(+%d)", scoring.getLooserInTwo()));
-                    }
+            Turn turn = TurnUtils.getAllConnections(board);
+            for (Turn.Line line : turn.getLines()) {
+                if (line.getPieceCount() == 3 && line.isOpenOnBothEnds() ) {
+                    score = +scoring.getLooserInTwo();
+                    notes.append(String.format(" + LooserInTwo(+%d)", scoring.getLooserInTwo()));
                 }
             }
 
@@ -132,12 +128,12 @@ public class ScoreStrategy implements ArtificialIntelligence {
         }
 
         //Look for possible connect 2,3 or more with gaps
-        Map<String, ConnectionUtils.Details> details = ConnectionUtils.getConnectionDetails(board, lastTurn);
-        for (ConnectionUtils.Details detail : details.values()) {
-            if ((detail.getEmptyCount() + detail.getPieceCount()) >= board.getGoal()) {
-                score += (detail.getPieceCount() * scoring.getYourColorInRow())
-                        + (detail.getEmptyCount() * scoring.getEmptyInRow());
-                notes.append(String.format(" + InRow(%d*2) + EmptyInRow(%d)", detail.getPieceCount(), detail.getEmptyCount()));
+        Turn turn = TurnUtils.getAllConnections(board);
+        for (Turn.Line line : turn.getLines()) {
+            if (line.getPotential() >= board.getGoal()) {
+                score += (line.getPieceCount() * scoring.getYourColorInRow())
+                        + (line.getEmptyCount() * scoring.getEmptyInRow());
+                notes.append(String.format(" + InRow(%d*2) + EmptyInRow(%d)", line.getPieceCount(), line.getEmptyCount()));
             }
         }
 

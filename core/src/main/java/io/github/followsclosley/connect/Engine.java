@@ -2,12 +2,11 @@ package io.github.followsclosley.connect;
 
 import io.github.followsclosley.connect.impl.ImmutableBoard;
 import io.github.followsclosley.connect.impl.MutableBoard;
+import io.github.followsclosley.connect.impl.Turn;
+import io.github.followsclosley.connect.impl.TurnUtils;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-
-import static io.github.followsclosley.connect.impl.ConnectionUtils.getWinningConnections;
 
 /**
  * This class runs a game using ArtificialIntelligence to play the pieces.
@@ -55,14 +54,15 @@ public class Engine {
             //System.out.println(board);
 
             //Check for a winner, print if found
-            Map<String, List<Coordinate>> connections = getWinningConnections(board, new Coordinate(x, y));
-            if (!connections.isEmpty()) {
+            Turn turnDetails = TurnUtils.getWinningConnections(board, new Coordinate(x, y), board.getPiece(x,y));
+
+            if (!turnDetails.getLines().isEmpty()) {
                 StringBuffer b = new StringBuffer();
-                for (Map.Entry<String, List<Coordinate>> entry : connections.entrySet()) {
-                    Coordinate winningCoordinate = entry.getValue().get(0);
+                for (Turn.Line line : turnDetails.getLines()) {
+                    Coordinate winningCoordinate = line.getCoordinates().get(0);
                     winner = board.getPiece(winningCoordinate.getX(), winningCoordinate.getY());
-                    b.append(winner).append(" ").append(entry.getKey()).append(": ");
-                    for (Coordinate coordinate : entry.getValue()) {
+                    b.append(winner).append(" : ");
+                    for (Coordinate coordinate : line.getCoordinates()) {
                         b.append(coordinate).append(" ");
                     }
                 }

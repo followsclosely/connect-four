@@ -9,7 +9,8 @@ public class Turn {
 
     private Coordinate move;
     private List<Line> lines = new ArrayList<>();
-    private List<Line> linesOpen = new ArrayList<>();
+    private List<Line> linesOpenForward = new ArrayList<>();
+    private List<Line> linesOpenBackwards = new ArrayList<>();
 
     public Turn(Coordinate move) {
         this.move = move;
@@ -17,11 +18,34 @@ public class Turn {
 
     public Coordinate getMove() { return move; }
     public List<Line> getLines() { return lines; }
-    public List<Line> getLinesOpen() { return linesOpen; }
 
     public class Line {
-        private List<Coordinate> coordinates = new ArrayList<>();
+        public Line(Coordinate move){
+            coordinates.add(move);
+        }
 
+        private List<Coordinate> coordinates = new ArrayList<>();
         public List<Coordinate> getCoordinates() { return coordinates; }
+
+        private List<Coordinate> openForward = new ArrayList<>();
+        public List<Coordinate> getOpenForward() { return openForward; }
+
+        private List<Coordinate> openBackwards = new ArrayList<>();
+        public List<Coordinate> getOpenBackwards() { return openBackwards; }
+
+        public int getEmptyCount(){
+            return openForward.size() + openBackwards.size();
+        }
+        public int getPieceCount(){
+            return coordinates.size();
+        }
+
+        public boolean isOpenOnBothEnds(){
+            return (openForward.size() > 0 && openBackwards.size() > 0);
+        }
+
+        public int getPotential(){
+            return coordinates.size() + openForward.size() + openBackwards.size();
+        }
     }
 }

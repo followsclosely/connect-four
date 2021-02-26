@@ -1,8 +1,6 @@
 package io.github.followsclosley.connect.swing;
 
 import io.github.followsclosley.connect.ArtificialIntelligence;
-import io.github.followsclosley.connect.Coordinate;
-import io.github.followsclosley.connect.impl.ConnectionUtils;
 import io.github.followsclosley.connect.impl.MutableBoard;
 import io.github.followsclosley.connect.impl.ai.Dummy;
 
@@ -11,8 +9,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.List;
-import java.util.Map;
 
 /**
  * This class uses a builder patter to launch a swing UI to

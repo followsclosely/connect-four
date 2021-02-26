@@ -3,14 +3,12 @@ package io.github.followsclosley.connect.swing;
 
 import io.github.followsclosley.connect.Board;
 import io.github.followsclosley.connect.Coordinate;
-import io.github.followsclosley.connect.impl.ConnectionUtils;
 import io.github.followsclosley.connect.impl.Turn;
 import io.github.followsclosley.connect.impl.TurnUtils;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.List;
-import java.util.Map;
 
 /**
  * This panel draws the connect four board given a Board
@@ -50,7 +48,7 @@ public class BoardPanel extends JPanel {
         //Draw the winning lines
         if( board.getTurns().size() > 0) {
             Coordinate turn = board.getTurns().get(board.getTurns().size() - 1);
-            for (Turn.Line line : TurnUtils.getTurn(board, turn, board.getPiece(turn.getX(), turn.getY())).getLines()) {
+            for (Turn.Line line : TurnUtils.getWinningConnections(board, turn, board.getPiece(turn.getX(), turn.getY())).getLines()) {
                 List<Coordinate> coordinates = line.getCoordinates();
                 Coordinate start = coordinates.get(0);
                 Coordinate end = coordinates.get(coordinates.size() - 1);

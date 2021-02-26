@@ -4,6 +4,8 @@ package io.github.followsclosley.connect.swing;
 import io.github.followsclosley.connect.Board;
 import io.github.followsclosley.connect.Coordinate;
 import io.github.followsclosley.connect.impl.ConnectionUtils;
+import io.github.followsclosley.connect.impl.Turn;
+import io.github.followsclosley.connect.impl.TurnUtils;
 
 import javax.swing.*;
 import java.awt.*;
@@ -46,14 +48,17 @@ public class BoardPanel extends JPanel {
         }
 
         //Draw the winning lines
-        for(Map.Entry<String, List<Coordinate>> entry : ConnectionUtils.getWinningConnections(board).entrySet()){
-            List<Coordinate> coordinates = entry.getValue();
-            Coordinate start = coordinates.get(0);
-            Coordinate end = coordinates.get(coordinates.size()-1);
+        if( board.getTurns().size() > 0) {
+            Coordinate turn = board.getTurns().get(board.getTurns().size() - 1);
+            for (Turn.Line line : TurnUtils.getTurn(board, turn, board.getPiece(turn.getX(), turn.getY())).getLines()) {
+                List<Coordinate> coordinates = line.getCoordinates();
+                Coordinate start = coordinates.get(0);
+                Coordinate end = coordinates.get(coordinates.size() - 1);
 
-            ((Graphics2D) g).setStroke(new BasicStroke(10));
-            g.setColor(Color.YELLOW);
-            g.drawLine(start.getX() * 50+ 24, start.getY() * 50 + 24,end.getX() * 50 + 24, end.getY() * 50 + 24 );
+                ((Graphics2D) g).setStroke(new BasicStroke(10));
+                g.setColor(Color.YELLOW);
+                g.drawLine(start.getX() * 50 + 24, start.getY() * 50 + 24, end.getX() * 50 + 24, end.getY() * 50 + 24);
+            }
         }
     }
 }

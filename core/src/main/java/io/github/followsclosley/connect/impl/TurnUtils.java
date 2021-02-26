@@ -17,20 +17,23 @@ public class TurnUtils {
 
         for( Coordinate d : DIRECTIONS_TO_SEARCH){
 
-            Turn.Line line = turn.new Line();
-            for (int x = c.getX() + d.getX(), y = c.getY() + d.getY(); x < b.getWidth() && x >= 0 && y < b.getHeight() && y >= 0; x += d.getX(), y += d.getY()) {
-                if( b.getPiece(x,y) == 0) {
-                    line.getCoordinates().add(new Coordinate(x, y));
-                }
-            }
-            for (int x = c.getX() - d.getX(), y = c.getY() - d.getY(); x < b.getWidth() && x >= 0 && y < b.getHeight() && y >= 0; x -= d.getX(), y -= d.getY()) {
-                if( b.getPiece(x,y) == 0) {
-                    line.getCoordinates().add(new Coordinate(x, y));
+            Turn.Line lineMyColor = turn.new Line();
+            Turn.Line lineMyColorOrEmpty = turn.new Line();
+            for( int i = -1; i<2; i+=2) {
+                for (int x = c.getX() + (d.getX()*i), y = c.getY() + (d.getY()*i); x < b.getWidth() && x >= 0 && y < b.getHeight() && y >= 0; x += (d.getX()*i), y += (d.getY()*i)) {
+                    Coordinate currentTurn = new Coordinate(x, y);
+                    if (b.getPiece(x, y) == color) {
+                        lineMyColor.getCoordinates().add(currentTurn);
+                    }
+                    if (b.getPiece(x, y) == color || b.getPiece(x, y) == 0) {
+                        lineMyColorOrEmpty.getCoordinates().add(currentTurn);
+                    }
                 }
             }
 
-            if( line.getCoordinates().size() >= b.getGoal()){
-                turn.getLines().add(line);
+            turn.getLinesOpen().add(lineMyColorOrEmpty);
+            if( lineMyColor.getCoordinates().size() >= b.getGoal()){
+                turn.getLines().add(lineMyColor);
             }
         }
 

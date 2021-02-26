@@ -9,6 +9,7 @@ public class Turn {
 
     private Coordinate move;
     private List<Line> lines = new ArrayList<>();
+    private List<Line> linesOpen = new ArrayList<>();
 
     public Turn(Coordinate move) {
         this.move = move;
@@ -16,6 +17,7 @@ public class Turn {
 
     public Coordinate getMove() { return move; }
     public List<Line> getLines() { return lines; }
+    public List<Line> getLinesOpen() { return linesOpen; }
 
     public class Line {
         private List<Coordinate> coordinates = new ArrayList<>();

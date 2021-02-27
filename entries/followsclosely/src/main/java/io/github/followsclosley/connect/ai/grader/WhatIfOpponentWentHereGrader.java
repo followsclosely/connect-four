@@ -17,6 +17,40 @@ public class WhatIfOpponentWentHereGrader extends AbstractGrader {
         int score = 0;
         int color = board.getPiece(thisTurn.getMove().getX(), thisTurn.getMove().getY());
 
+        //Check out what happens if your opponent places a piece here instead of you
+        for (int opponent : opponents) {
+            //Undo the last move and replace the piece with your opponent
+            Coordinate undo = board.undo();
+            board.dropPiece(undo.getX(), opponent);
+
+            Turn turn = TurnUtils.getConnections(board);
+
+            //If your opponent can win its worth -500 points.
+            if (turn.hasWinningLine(board.getGoal())) {
+                score += 500;
+            }
+
+            //If your opponent get three in a row and empty on both sides...
+            for (Turn.Line line : turn.getLines()) {
+                if (line.getPieceCount() == 3 && line.isOpenOnBothEnds()) {
+                    score += 200;
+                }
+            }
+
+            //Place the board back into the original state
+            board.undo();
+            board.dropPiece(undo.getX(), color);
+        }
+
+        return score;
+    }
+
+
+    public int old_score(MutableBoard board, Turn thisTurn, int... opponents) {
+
+        int score = 0;
+        int color = board.getPiece(thisTurn.getMove().getX(), thisTurn.getMove().getY());
+
         //Check out what happens is your opponent places a piece here instead of you
         for (int opponent : opponents) {
             //Undo the last move and replace the piece with your opponent

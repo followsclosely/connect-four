@@ -31,6 +31,7 @@ public class ScoreStrategy implements ArtificialIntelligence {
         graders.add(new WinnerNextTurnGrader());
         graders.add(new OneMorePieceToWinGrader());
         graders.add(new InRowGrader());
+        graders.add(new WhatIfOpponentWentHereGrader());
     }
 
     @Override

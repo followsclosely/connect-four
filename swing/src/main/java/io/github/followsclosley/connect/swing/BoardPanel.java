@@ -49,10 +49,10 @@ public class BoardPanel extends JPanel {
         if (board.getTurns().size() > 0) {
             Turn turn = TurnUtils.getConnections(board);
 
-            if (turn.isWinner(board.getGoal()))
+            if (turn.hasWinningLine(board.getGoal()))
                 for (Turn.Line line : turn.getLines()) {
                     if (line.getPieceCount() >= board.getGoal()) {
-                        List<Coordinate> coordinates = line.getCoordinates();
+                        List<Coordinate> coordinates = line.getConnected();
                         Coordinate start = coordinates.get(0);
                         Coordinate end = coordinates.get(coordinates.size() - 1);
 

@@ -12,7 +12,7 @@ public class WinnerGrader extends AbstractGrader {
     @Override
     public int score(MutableBoard board, Turn thisTurn, int... opponents) {
         //If you can win its worth 1,000 points, if so just return as the rest does not matter.
-        return (thisTurn.isWinner(board.getGoal())) ? weight : 0;
+        return (thisTurn.hasWinningLine(board.getGoal())) ? weight : 0;
         //notes.append(String.format(" + Winner(+%d) = %d", scoring.getWinner(), score));
 
     }

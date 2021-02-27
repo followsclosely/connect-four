@@ -95,7 +95,7 @@ public class MiniMaxAlgorithm implements ArtificialIntelligence {
                     //System.out.println( node.column + " -> " + node.score);
                     children.add(node);
 
-                    gameWon = TurnUtils.getConnections(board).isWinner(board.getGoal());
+                    gameWon = TurnUtils.getConnections(board).hasWinningLine(board.getGoal());
                     if (gameWon || depth >= maxDepth) {
                         //if(!board.getWinningConnections().isEmpty()) {
                         node.rollUpScore(scoreStrategy.scoreMove(board, board.getLastMove()));

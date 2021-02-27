@@ -34,9 +34,9 @@ public class TurnUtils {
                     Coordinate currentTurn = new Coordinate(x, y);
                     if (streakAlive && b.getPiece(x, y) == color) {
                         if (i == -1) {
-                            lineMyColor.getCoordinates().add(0, currentTurn);
+                            lineMyColor.getConnected().add(0, currentTurn);
                         } else {
-                            lineMyColor.getCoordinates().add(currentTurn);
+                            lineMyColor.getConnected().add(currentTurn);
                         }
                     } else {
                         streakAlive = false;

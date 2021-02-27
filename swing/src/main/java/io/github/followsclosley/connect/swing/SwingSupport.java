@@ -1,8 +1,6 @@
 package io.github.followsclosley.connect.swing;
 
 import io.github.followsclosley.connect.ArtificialIntelligence;
-import io.github.followsclosley.connect.Coordinate;
-import io.github.followsclosley.connect.impl.ConnectionUtils;
 import io.github.followsclosley.connect.impl.MutableBoard;
 import io.github.followsclosley.connect.impl.ai.Dummy;
 
@@ -11,8 +9,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.List;
-import java.util.Map;
 
 /**
  * This class uses a builder patter to launch a swing UI to
@@ -41,6 +37,7 @@ public class SwingSupport {
      *     <li>To configure the size of the board</li>
      *     <li>To configure other settings suck as the goal</li>
      * </ol>
+     *
      * @param board
      * @return this to keep the builder going
      */
@@ -57,8 +54,8 @@ public class SwingSupport {
     /**
      * Launches the JFrame that contains the BoardPanel to display the game.
      */
-    public void run(){
-        if( board == null) {
+    public void run() {
+        if (board == null) {
             board = new MutableBoard();
         }
 
@@ -69,8 +66,15 @@ public class SwingSupport {
                 int x = e.getX() / 50;
                 if (board.canDropPiece(x)) {
                     board.dropPiece(x, PLAYER_COLOR);
-                    int x2 = bot.yourTurn(board);
-                    board.dropPiece(x2, COMPUTER_COLOR);
+
+                    new Thread(() -> {
+                        try {
+                            Thread.sleep(250);
+                        } catch (InterruptedException ignore) {
+                        }
+                        board.dropPiece(bot.yourTurn(board), COMPUTER_COLOR);
+                    }).start();
+
                 }
             }
         });

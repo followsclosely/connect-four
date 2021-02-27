@@ -19,7 +19,10 @@ public class Dummy implements ArtificialIntelligence {
         this.color = color;
     }
 
-    @Override public int getColor() { return color; }
+    @Override
+    public int getColor() {
+        return color;
+    }
 
     @Override
     public int yourTurn(Board board) {

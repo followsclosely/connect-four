@@ -18,6 +18,14 @@ public class Turn {
 
     public Coordinate getMove() { return move; }
     public List<Line> getLines() { return lines; }
+    public boolean isWinner(int goal){
+        for(Line line : lines){
+            if( line.getPieceCount() >= goal ){
+                return true;
+            }
+        }
+        return false;
+    }
 
     public class Line {
         public Line(Coordinate move){
@@ -33,19 +41,9 @@ public class Turn {
         private List<Coordinate> openBackwards = new ArrayList<>();
         public List<Coordinate> getOpenBackwards() { return openBackwards; }
 
-        public int getEmptyCount(){
-            return openForward.size() + openBackwards.size();
-        }
-        public int getPieceCount(){
-            return coordinates.size();
-        }
-
-        public boolean isOpenOnBothEnds(){
-            return (openForward.size() > 0 && openBackwards.size() > 0);
-        }
-
-        public int getPotential(){
-            return coordinates.size() + openForward.size() + openBackwards.size();
-        }
+        public int getEmptyCount(){ return openForward.size() + openBackwards.size(); }
+        public int getPieceCount(){ return coordinates.size(); }
+        public boolean isOpenOnBothEnds(){ return (openForward.size() > 0 && openBackwards.size() > 0); }
+        public int getPotential(){ return coordinates.size() + openForward.size() + openBackwards.size(); }
     }
 }

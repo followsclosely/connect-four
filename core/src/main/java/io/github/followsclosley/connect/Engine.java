@@ -54,9 +54,9 @@ public class Engine {
             //System.out.println(board);
 
             //Check for a winner, print if found
-            Turn turnDetails = TurnUtils.getWinningConnections(board, new Coordinate(x, y), board.getPiece(x,y));
+            Turn turnDetails = TurnUtils.getConnections(board, new Coordinate(x, y), board.getPiece(x,y));
 
-            if (!turnDetails.getLines().isEmpty()) {
+            if (turnDetails.isWinner(board.getGoal())) {
                 StringBuffer b = new StringBuffer();
                 for (Turn.Line line : turnDetails.getLines()) {
                     Coordinate winningCoordinate = line.getCoordinates().get(0);

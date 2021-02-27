@@ -7,6 +7,8 @@ import io.github.followsclosley.connect.impl.MutableBoard;
 import io.github.followsclosley.connect.impl.Turn;
 import io.github.followsclosley.connect.impl.TurnUtils;
 
+import java.util.Arrays;
+
 /**
  * This strategy will assign a score to each option, then select the best option.
  * Wins 99.92% of games against a random AI.
@@ -44,6 +46,9 @@ public class ScoreStrategy implements ArtificialIntelligence {
                 int y = board.dropPiece(x, getColor());
 
                 scores[x] = scoreMove(board);
+
+                //System.out.println(getNotes());
+
                 if (maxScore < scores[x]) {
                     maxScore = scores[x];
                     maxIndex = x;
@@ -81,8 +86,7 @@ public class ScoreStrategy implements ArtificialIntelligence {
         }
 
         //If you can win its worth 1,000 points, if so just return as the rest does not matter.
-
-        if (!TurnUtils.getWinningConnections(board).getLines().isEmpty()) {
+        if (TurnUtils.getConnections(board).isWinner(board.getGoal())) {
             score += scoring.getWinner();
             notes.append(String.format(" + Winner(+%d) = %d", scoring.getWinner(), score));
             return score;
@@ -93,7 +97,8 @@ public class ScoreStrategy implements ArtificialIntelligence {
             for (int x = 0, width = board.getWidth(); x < width; x++) {
                 if (board.canDropPiece(x)) {
                     int y = board.dropPiece(x, opponentColor);
-                    if (!TurnUtils.getWinningConnections(board).getLines().isEmpty()) {
+                    Turn turn = TurnUtils.getConnections(board);
+                    if (turn.isWinner(board.getGoal())) {
                         score = +scoring.getLooserInOne();
                         notes.append(String.format(" + LooserInOne(+%d)", scoring.getLooserInOne()));
                     }
@@ -108,13 +113,14 @@ public class ScoreStrategy implements ArtificialIntelligence {
             Coordinate undo = board.undo();
             board.dropPiece(undo.getX(), opponent);
 
+            Turn turn = TurnUtils.getConnections(board);
+
             //If your opponent can win its worth -500 points.
-            if (!TurnUtils.getWinningConnections(board).getLines().isEmpty()) {
+            if (turn.isWinner(board.getGoal())) {
                 score += scoring.getLooser();
                 notes.append(String.format(" + Looser(-%d) = %d", scoring.getWinner(), score));
             }
 
-            Turn turn = TurnUtils.getAllConnections(board);
             for (Turn.Line line : turn.getLines()) {
                 if (line.getPieceCount() == 3 && line.isOpenOnBothEnds() ) {
                     score = +scoring.getLooserInTwo();
@@ -128,7 +134,7 @@ public class ScoreStrategy implements ArtificialIntelligence {
         }
 
         //Look for possible connect 2,3 or more with gaps
-        Turn turn = TurnUtils.getAllConnections(board);
+        Turn turn = TurnUtils.getConnections(board);
         for (Turn.Line line : turn.getLines()) {
             if (line.getPotential() >= board.getGoal()) {
                 score += (line.getPieceCount() * scoring.getYourColorInRow())

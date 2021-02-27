@@ -65,8 +65,12 @@ public class SwingSupport {
                 int x = e.getX() / 50;
                 if (board.canDropPiece(x)) {
                     board.dropPiece(x, PLAYER_COLOR);
-                    int x2 = bot.yourTurn(board);
-                    board.dropPiece(x2, COMPUTER_COLOR);
+
+                    new Thread(() -> {
+                        try { Thread.sleep(250); } catch (InterruptedException ignore ){}
+                        board.dropPiece(bot.yourTurn(board), COMPUTER_COLOR);
+                    }).start();
+
                 }
             }
         });

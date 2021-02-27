@@ -2,8 +2,7 @@ package io.github.followsclosley.connect.impl;
 
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.*;
 
 public class TurnUtilsTest {
 
@@ -15,8 +14,8 @@ public class TurnUtilsTest {
         board.dropPiece(2, 7);
         board.dropPiece(3, 7);
 
-        Turn turn = TurnUtils.getWinningConnections(board);
-        assertEquals(1, turn.getLines().size());
+        Turn turn = TurnUtils.getConnections(board);
+        assertTrue(turn.isWinner(4));
     }
 
     @Test
@@ -28,8 +27,8 @@ public class TurnUtilsTest {
         board.dropPiece(3, 7);
         board.dropPiece(3, 7);
 
-        Turn turn = TurnUtils.getWinningConnections(board);
-        assertEquals(1, turn.getLines().size());
+        Turn turn = TurnUtils.getConnections(board);
+        assertTrue(turn.isWinner(4));
     }
 
     @Test
@@ -50,8 +49,8 @@ public class TurnUtilsTest {
         board.dropPiece(3, 1);
         board.dropPiece(3, 7);
 
-        Turn turn = TurnUtils.getWinningConnections(board);
-        assertEquals(1, turn.getLines().size());
+        Turn turn = TurnUtils.getConnections(board);
+        assertTrue(turn.isWinner(4));
     }
 
     @Test
@@ -72,7 +71,7 @@ public class TurnUtilsTest {
         board.dropPiece(0, 1);
         board.dropPiece(0, 7);
 
-        Turn turn = TurnUtils.getWinningConnections(board);
-        assertEquals(1, turn.getLines().size());
+        Turn turn = TurnUtils.getConnections(board);
+        assertTrue(turn.isWinner(4));
     }
 }

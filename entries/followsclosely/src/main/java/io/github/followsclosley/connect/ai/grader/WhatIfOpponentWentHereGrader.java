@@ -25,12 +25,12 @@ public class WhatIfOpponentWentHereGrader extends AbstractGrader {
 
             Turn turn = TurnUtils.getConnections(board);
 
-            //If your opponent can win its worth -500 points.
+            //If your opponent can win its worth 500 points.
             if (turn.hasWinningLine(board.getGoal())) {
                 score += 500;
             }
 
-            //If your opponent get three in a row and empty on both sides...
+            //If your opponent get three in a row and empty on both sides.
             for (Turn.Line line : turn.getLines()) {
                 if (line.getPieceCount() == 3 && line.isOpenOnBothEnds()) {
                     score += 200;

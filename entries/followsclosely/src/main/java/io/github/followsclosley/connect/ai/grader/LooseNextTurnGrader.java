@@ -7,7 +7,7 @@ import io.github.followsclosley.connect.impl.TurnUtils;
 public class LooseNextTurnGrader extends AbstractGrader {
 
     public LooseNextTurnGrader() {
-        super(-2000);
+        super(1000);
     }
 
     @Override
@@ -22,7 +22,7 @@ public class LooseNextTurnGrader extends AbstractGrader {
                     int y = board.dropPiece(x, opponentColor);
                     Turn turn = TurnUtils.getConnections(board);
                     if (turn.hasWinningLine(board.getGoal())) {
-                        score = +weight;
+                        score =- weight;
                         //notes.append(String.format(" + LooserInOne(+%d)", scoring.getLooserInOne()));
                     }
                     board.undo();

@@ -9,6 +9,7 @@ import io.github.followsclosley.connect.impl.Turn;
 import io.github.followsclosley.connect.impl.TurnUtils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -45,7 +46,7 @@ public class ScoreStrategy implements ArtificialIntelligence {
         MutableBoard board = new MutableBoard(b);
 
         int maxIndex = 0;
-        int maxScore = -1;
+        int maxScore = Integer.MIN_VALUE;
         int[] scores = new int[board.getWidth()];
 
         for (int x = 0, width = board.getWidth(); x < width; x++) {

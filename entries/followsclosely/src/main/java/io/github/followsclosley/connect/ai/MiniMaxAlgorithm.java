@@ -3,7 +3,6 @@ package io.github.followsclosley.connect.ai;
 import io.github.followsclosley.connect.ArtificialIntelligence;
 import io.github.followsclosley.connect.Board;
 import io.github.followsclosley.connect.impl.MutableBoard;
-import io.github.followsclosley.connect.impl.Turn;
 import io.github.followsclosley.connect.impl.TurnUtils;
 
 import java.util.ArrayList;
@@ -32,7 +31,7 @@ public class MiniMaxAlgorithm implements ArtificialIntelligence {
 
     @Override
     public int yourTurn(Board b) {
-        MutableBoard board = (b instanceof MutableBoard) ? (MutableBoard)b : new MutableBoard(b);
+        MutableBoard board = (b instanceof MutableBoard) ? (MutableBoard) b : new MutableBoard(b);
         MiniMaxAlgorithm.Node root = evaluate(board);
         //Sort by score.
         List<MiniMaxAlgorithm.Node> sortedList = root.getChildren().stream()
@@ -91,8 +90,7 @@ public class MiniMaxAlgorithm implements ArtificialIntelligence {
                 if (board.canDropPiece(x)) {
                     int y = board.dropPiece(x, color);
                     Node node = new Node(this, x);
-                    node.score = scoreStrategy.scoreMove(board);
-                    node.notes = scoreStrategy.getNotes();
+                    node.score = scoreStrategy.scoreMove(board, board.getLastMove());
 
                     //System.out.println( node.column + " -> " + node.score);
                     children.add(node);
@@ -100,7 +98,7 @@ public class MiniMaxAlgorithm implements ArtificialIntelligence {
                     gameWon = TurnUtils.getConnections(board).isWinner(board.getGoal());
                     if (gameWon || depth >= maxDepth) {
                         //if(!board.getWinningConnections().isEmpty()) {
-                        node.rollUpScore(scoreStrategy.scoreMove(board));
+                        node.rollUpScore(scoreStrategy.scoreMove(board, board.getLastMove()));
                         //}
                     } else {
                         node.evaluate(board);

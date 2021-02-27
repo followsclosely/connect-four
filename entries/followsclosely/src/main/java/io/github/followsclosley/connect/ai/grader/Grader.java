@@ -1,7 +1,5 @@
-package io.github.followsclosley.connect.ai;
+package io.github.followsclosley.connect.ai.grader;
 
-import io.github.followsclosley.connect.Board;
-import io.github.followsclosley.connect.Coordinate;
 import io.github.followsclosley.connect.impl.MutableBoard;
 import io.github.followsclosley.connect.impl.Turn;
 

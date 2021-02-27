@@ -16,11 +16,17 @@ public class Turn {
         this.move = move;
     }
 
-    public Coordinate getMove() { return move; }
-    public List<Line> getLines() { return lines; }
-    public boolean isWinner(int goal){
-        for(Line line : lines){
-            if( line.getPieceCount() >= goal ){
+    public Coordinate getMove() {
+        return move;
+    }
+
+    public List<Line> getLines() {
+        return lines;
+    }
+
+    public boolean isWinner(int goal) {
+        for (Line line : lines) {
+            if (line.getPieceCount() >= goal) {
                 return true;
             }
         }
@@ -28,22 +34,40 @@ public class Turn {
     }
 
     public class Line {
-        public Line(Coordinate move){
+        private List<Coordinate> coordinates = new ArrayList<>();
+        private List<Coordinate> openForward = new ArrayList<>();
+        private List<Coordinate> openBackwards = new ArrayList<>();
+
+        public Line(Coordinate move) {
             coordinates.add(move);
         }
 
-        private List<Coordinate> coordinates = new ArrayList<>();
-        public List<Coordinate> getCoordinates() { return coordinates; }
+        public List<Coordinate> getCoordinates() {
+            return coordinates;
+        }
 
-        private List<Coordinate> openForward = new ArrayList<>();
-        public List<Coordinate> getOpenForward() { return openForward; }
+        public List<Coordinate> getOpenForward() {
+            return openForward;
+        }
 
-        private List<Coordinate> openBackwards = new ArrayList<>();
-        public List<Coordinate> getOpenBackwards() { return openBackwards; }
+        public List<Coordinate> getOpenBackwards() {
+            return openBackwards;
+        }
 
-        public int getEmptyCount(){ return openForward.size() + openBackwards.size(); }
-        public int getPieceCount(){ return coordinates.size(); }
-        public boolean isOpenOnBothEnds(){ return (openForward.size() > 0 && openBackwards.size() > 0); }
-        public int getPotential(){ return coordinates.size() + openForward.size() + openBackwards.size(); }
+        public int getEmptyCount() {
+            return openForward.size() + openBackwards.size();
+        }
+
+        public int getPieceCount() {
+            return coordinates.size();
+        }
+
+        public boolean isOpenOnBothEnds() {
+            return (openForward.size() > 0 && openBackwards.size() > 0);
+        }
+
+        public int getPotential() {
+            return coordinates.size() + openForward.size() + openBackwards.size();
+        }
     }
 }

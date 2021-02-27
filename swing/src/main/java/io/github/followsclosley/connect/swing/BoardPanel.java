@@ -46,21 +46,21 @@ public class BoardPanel extends JPanel {
         }
 
         //Draw the winning lines
-        if( board.getTurns().size() > 0) {
+        if (board.getTurns().size() > 0) {
             Turn turn = TurnUtils.getConnections(board);
 
-            if( turn.isWinner(board.getGoal()))
-            for (Turn.Line line : turn.getLines()) {
-                if( line.getPieceCount() >= board.getGoal()) {
-                    List<Coordinate> coordinates = line.getCoordinates();
-                    Coordinate start = coordinates.get(0);
-                    Coordinate end = coordinates.get(coordinates.size() - 1);
+            if (turn.isWinner(board.getGoal()))
+                for (Turn.Line line : turn.getLines()) {
+                    if (line.getPieceCount() >= board.getGoal()) {
+                        List<Coordinate> coordinates = line.getCoordinates();
+                        Coordinate start = coordinates.get(0);
+                        Coordinate end = coordinates.get(coordinates.size() - 1);
 
-                    ((Graphics2D) g).setStroke(new BasicStroke(10));
-                    g.setColor(Color.YELLOW);
-                    g.drawLine(start.getX() * 50 + 24, start.getY() * 50 + 24, end.getX() * 50 + 24, end.getY() * 50 + 24);
+                        ((Graphics2D) g).setStroke(new BasicStroke(10));
+                        g.setColor(Color.YELLOW);
+                        g.drawLine(start.getX() * 50 + 24, start.getY() * 50 + 24, end.getX() * 50 + 24, end.getY() * 50 + 24);
+                    }
                 }
-            }
         }
     }
 }

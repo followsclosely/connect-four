@@ -37,6 +37,7 @@ public class SwingSupport {
      *     <li>To configure the size of the board</li>
      *     <li>To configure other settings suck as the goal</li>
      * </ol>
+     *
      * @param board
      * @return this to keep the builder going
      */
@@ -53,8 +54,8 @@ public class SwingSupport {
     /**
      * Launches the JFrame that contains the BoardPanel to display the game.
      */
-    public void run(){
-        if( board == null) {
+    public void run() {
+        if (board == null) {
             board = new MutableBoard();
         }
 
@@ -67,7 +68,10 @@ public class SwingSupport {
                     board.dropPiece(x, PLAYER_COLOR);
 
                     new Thread(() -> {
-                        try { Thread.sleep(250); } catch (InterruptedException ignore ){}
+                        try {
+                            Thread.sleep(250);
+                        } catch (InterruptedException ignore) {
+                        }
                         board.dropPiece(bot.yourTurn(board), COMPUTER_COLOR);
                     }).start();
 

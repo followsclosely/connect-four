@@ -9,12 +9,11 @@ import io.github.followsclosley.connect.impl.Turn;
 import io.github.followsclosley.connect.impl.TurnUtils;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
  * This strategy will assign a score to each option, then select the best option.
- * Wins 99.92% of games against a random AI.
+ * Wins 99.9% of games against a random AI.
  */
 public class ScoreStrategy implements ArtificialIntelligence {
 

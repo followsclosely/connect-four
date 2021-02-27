@@ -34,7 +34,7 @@ public class Turn {
         }
         return false;
     }
-    
+
     public class Line {
         private List<Coordinate> connected = new ArrayList<>();
         private List<Coordinate> openForward = new ArrayList<>();

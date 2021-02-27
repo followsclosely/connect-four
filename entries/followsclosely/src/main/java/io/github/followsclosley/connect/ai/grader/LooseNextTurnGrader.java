@@ -21,7 +21,7 @@ public class LooseNextTurnGrader extends AbstractGrader {
                 if (board.canDropPiece(x)) {
                     int y = board.dropPiece(x, opponentColor);
                     Turn turn = TurnUtils.getConnections(board);
-                    if (turn.isWinner(board.getGoal())) {
+                    if (turn.hasWinningLine(board.getGoal())) {
                         score = +weight;
                         //notes.append(String.format(" + LooserInOne(+%d)", scoring.getLooserInOne()));
                     }

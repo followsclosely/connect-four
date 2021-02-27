@@ -15,7 +15,7 @@ public class TurnUtilsTest {
         board.dropPiece(3, 7);
 
         Turn turn = TurnUtils.getConnections(board);
-        assertTrue(turn.isWinner(4));
+        assertTrue(turn.hasWinningLine(4));
     }
 
     @Test
@@ -28,7 +28,7 @@ public class TurnUtilsTest {
         board.dropPiece(3, 7);
 
         Turn turn = TurnUtils.getConnections(board);
-        assertTrue(turn.isWinner(4));
+        assertTrue(turn.hasWinningLine(4));
     }
 
     @Test
@@ -50,7 +50,7 @@ public class TurnUtilsTest {
         board.dropPiece(3, 7);
 
         Turn turn = TurnUtils.getConnections(board);
-        assertTrue(turn.isWinner(4));
+        assertTrue(turn.hasWinningLine(4));
     }
 
     @Test
@@ -72,6 +72,6 @@ public class TurnUtilsTest {
         board.dropPiece(0, 7);
 
         Turn turn = TurnUtils.getConnections(board);
-        assertTrue(turn.isWinner(4));
+        assertTrue(turn.hasWinningLine(4));
     }
 }

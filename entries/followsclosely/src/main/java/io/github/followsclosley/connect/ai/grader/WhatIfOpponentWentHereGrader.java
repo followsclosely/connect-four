@@ -26,7 +26,7 @@ public class WhatIfOpponentWentHereGrader extends AbstractGrader {
             Turn turn = TurnUtils.getConnections(board);
 
             //If your opponent can win its worth -500 points.
-            if (turn.isWinner(board.getGoal())) {
+            if (turn.hasWinningLine(board.getGoal())) {
                 score -= 2000;
             }
 

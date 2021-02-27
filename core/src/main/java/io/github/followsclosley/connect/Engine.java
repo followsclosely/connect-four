@@ -56,13 +56,13 @@ public class Engine {
             //Check for a winner, print if found
             Turn turnDetails = TurnUtils.getConnections(board, new Coordinate(x, y), board.getPiece(x, y));
 
-            if (turnDetails.isWinner(board.getGoal())) {
+            if (turnDetails.hasWinningLine(board.getGoal())) {
                 StringBuffer b = new StringBuffer();
                 for (Turn.Line line : turnDetails.getLines()) {
-                    Coordinate winningCoordinate = line.getCoordinates().get(0);
+                    Coordinate winningCoordinate = line.getConnected().get(0);
                     winner = board.getPiece(winningCoordinate.getX(), winningCoordinate.getY());
                     b.append(winner).append(" : ");
-                    for (Coordinate coordinate : line.getCoordinates()) {
+                    for (Coordinate coordinate : line.getConnected()) {
                         b.append(coordinate).append(" ");
                     }
                 }

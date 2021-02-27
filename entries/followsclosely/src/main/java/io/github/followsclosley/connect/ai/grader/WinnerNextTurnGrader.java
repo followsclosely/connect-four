@@ -21,7 +21,7 @@ public class WinnerNextTurnGrader extends AbstractGrader {
             if (board.canDropPiece(x)) {
                 int y = board.dropPiece(x, color);
                 Turn turn = TurnUtils.getConnections(board);
-                if (turn.isWinner(board.getGoal())) {
+                if (turn.hasWinningLine(board.getGoal())) {
                     winCount++;
                 }
                 board.undo();

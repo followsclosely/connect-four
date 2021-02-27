@@ -5,12 +5,14 @@ import io.github.followsclosley.connect.Coordinate;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * A Turn holds information about what would result or what has resulted.
+ * This information includes information about the lines of connections.
+ */
 public class Turn {
 
     private Coordinate move;
     private List<Line> lines = new ArrayList<>();
-    private List<Line> linesOpenForward = new ArrayList<>();
-    private List<Line> linesOpenBackwards = new ArrayList<>();
 
     public Turn(Coordinate move) {
         this.move = move;
@@ -24,7 +26,7 @@ public class Turn {
         return lines;
     }
 
-    public boolean isWinner(int goal) {
+    public boolean hasWinningLine(int goal) {
         for (Line line : lines) {
             if (line.getPieceCount() >= goal) {
                 return true;
@@ -32,18 +34,18 @@ public class Turn {
         }
         return false;
     }
-
+    
     public class Line {
-        private List<Coordinate> coordinates = new ArrayList<>();
+        private List<Coordinate> connected = new ArrayList<>();
         private List<Coordinate> openForward = new ArrayList<>();
         private List<Coordinate> openBackwards = new ArrayList<>();
 
         public Line(Coordinate move) {
-            coordinates.add(move);
+            connected.add(move);
         }
 
-        public List<Coordinate> getCoordinates() {
-            return coordinates;
+        public List<Coordinate> getConnected() {
+            return connected;
         }
 
         public List<Coordinate> getOpenForward() {
@@ -59,7 +61,7 @@ public class Turn {
         }
 
         public int getPieceCount() {
-            return coordinates.size();
+            return connected.size();
         }
 
         public boolean isOpenOnBothEnds() {
@@ -67,7 +69,7 @@ public class Turn {
         }
 
         public int getPotential() {
-            return coordinates.size() + openForward.size() + openBackwards.size();
+            return connected.size() + openForward.size() + openBackwards.size();
         }
     }
 }

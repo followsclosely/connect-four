@@ -17,15 +17,22 @@ import java.util.List;
  */
 public class BoardPanel extends JPanel {
 
+    public static final int PIECE_SIZE = 75;
+
     protected Dimension defaultDimension;
 
     private Color[] COLORS = {Color.GRAY, Color.GRAY, Color.RED, Color.BLACK};
 
     private Board board;
+    private Turn turn;
 
     public BoardPanel(Board board) {
         this.board = board;
-        this.defaultDimension = new Dimension(board.getWidth() * 50 - 5, board.getHeight() * 50 - 5);
+        this.defaultDimension = new Dimension(board.getWidth() * PIECE_SIZE - 5, board.getHeight() * PIECE_SIZE - 5);
+    }
+
+    public void setTurn(Turn turn) {
+        this.turn = turn;
     }
 
     @Override
@@ -41,14 +48,13 @@ public class BoardPanel extends JPanel {
         for (int x = 0, width = board.getWidth(); x < width; x++) {
             for (int y = 0, height = board.getHeight(); y < height; y++) {
                 g.setColor(COLORS[board.getPiece(x, y) + 1]);
-                g.fillRoundRect(x * 50, y * 50, 45, 45, 45, 45);
+                g.fillRoundRect(x * PIECE_SIZE, y * PIECE_SIZE, PIECE_SIZE-5, PIECE_SIZE-5, PIECE_SIZE-5, PIECE_SIZE-5);
             }
         }
 
         //Draw the winning lines
         if (board.getTurns().size() > 0) {
             Turn turn = TurnUtils.getConnections(board);
-
             if (turn.hasWinningLine(board.getGoal()))
                 for (Turn.Line line : turn.getLines()) {
                     if (line.getPieceCount() >= board.getGoal()) {
@@ -58,7 +64,7 @@ public class BoardPanel extends JPanel {
 
                         ((Graphics2D) g).setStroke(new BasicStroke(10));
                         g.setColor(Color.YELLOW);
-                        g.drawLine(start.getX() * 50 + 24, start.getY() * 50 + 24, end.getX() * 50 + 24, end.getY() * 50 + 24);
+                        g.drawLine(start.getX() * PIECE_SIZE + (PIECE_SIZE/2), start.getY() * PIECE_SIZE + (PIECE_SIZE/2), end.getX() * PIECE_SIZE + (PIECE_SIZE/2), end.getY() * PIECE_SIZE + (PIECE_SIZE/2));
                     }
                 }
         }

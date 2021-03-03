@@ -2,6 +2,8 @@ package io.github.followsclosley.connect.swing;
 
 import io.github.followsclosley.connect.ArtificialIntelligence;
 import io.github.followsclosley.connect.impl.MutableBoard;
+import io.github.followsclosley.connect.impl.Turn;
+import io.github.followsclosley.connect.impl.TurnUtils;
 import io.github.followsclosley.connect.impl.ai.Dummy;
 
 import javax.swing.*;
@@ -63,7 +65,7 @@ public class SwingSupport {
         //Register a listener to capture when a piece is to be played.
         boardPanel.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
-                int x = e.getX() / 50;
+                int x = e.getX() / BoardPanel.PIECE_SIZE;
                 if (board.canDropPiece(x)) {
                     board.dropPiece(x, PLAYER_COLOR);
 

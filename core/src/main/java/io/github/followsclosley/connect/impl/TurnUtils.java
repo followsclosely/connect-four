@@ -26,28 +26,27 @@ public class TurnUtils {
         Turn turn = new Turn(c);
 
         for (Coordinate d : DIRECTIONS_TO_SEARCH) {
-
-            Turn.Line lineMyColor = turn.new Line(c);
+            Turn.Line line = turn.new Line(c);
             for (int i = -1; i < 2; i += 2) {
                 boolean streakAlive = true;
                 for (int x = c.getX() + (d.getX() * i), y = c.getY() + (d.getY() * i); x < b.getWidth() && x >= 0 && y < b.getHeight() && y >= 0; x += (d.getX() * i), y += (d.getY() * i)) {
                     Coordinate currentTurn = new Coordinate(x, y);
                     if (streakAlive && b.getPiece(x, y) == color) {
                         if (i == -1) {
-                            lineMyColor.getConnected().add(0, currentTurn);
+                            line.getConnected().add(0, currentTurn);
                         } else {
-                            lineMyColor.getConnected().add(currentTurn);
+                            line.getConnected().add(currentTurn);
                         }
                     } else {
                         streakAlive = false;
                     }
                     if (b.getPiece(x, y) == color || b.getPiece(x, y) == 0) {
-                        ((i == -1) ? lineMyColor.getOpenBackwards() : lineMyColor.getOpenForward()).add(currentTurn);
+                        ((i == -1) ? line.getOpenBackwards() : line.getOpenForward()).add(currentTurn);
                     }
                 }
             }
 
-            turn.getLines().add(lineMyColor);
+            turn.getLines().add(line);
         }
 
         return turn;

@@ -1,5 +1,8 @@
 package io.github.followsclosley.connect;
 
+/**
+ * An [x,y] pojo
+ */
 public class Coordinate {
     int x, y;
 

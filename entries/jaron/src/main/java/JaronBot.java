@@ -72,7 +72,7 @@ public class JaronBot implements ArtificialIntelligence {
         }
 
         //I cant win and I am not going to lose, so...
-        if (board.getTurns().size() < 6){
+        if (board.getTurns().size() < 5){
             return board.getWidth() / 2;
         }
 

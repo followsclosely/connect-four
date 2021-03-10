@@ -3,7 +3,13 @@ package io.github.followsclosley.connect;
 import io.github.followsclosley.connect.ai.ScoreStrategy;
 import io.github.followsclosley.connect.impl.ai.Dummy;
 import io.github.jaron.connect.JaronBot;
+import org.apache.velocity.Template;
+import org.apache.velocity.VelocityContext;
+import org.apache.velocity.app.VelocityEngine;
+import org.apache.velocity.runtime.RuntimeConstants;
+import org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader;
 
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,9 +22,9 @@ public class Competition {
         return this;
     }
 
-    public Competition run(){
+    public void run(){
 
-        int numberOfSimulations = 50000;
+        int numberOfSimulations = 100;
 
         int size = ais.size();
         Match[][] matches = new Match[ais.size()][ais.size()];
@@ -64,7 +70,18 @@ public class Competition {
             System.out.println();
         }
 
-        return this;
+        VelocityEngine velocityEngine = new VelocityEngine();
+        velocityEngine.init();
+
+        VelocityContext context = new VelocityContext();
+        context.put("matches", matches);
+
+        Template t = velocityEngine.getTemplate("./competition/src/main/java/index.vm");
+
+        StringWriter writer = new StringWriter();
+        t.merge( context, writer );
+
+        System.out.println( writer.toString() );
     }
 
 

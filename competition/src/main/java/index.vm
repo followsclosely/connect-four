@@ -1,0 +1,12 @@
+ !!! CRAP !!!
+
+#set ($size = $matches.size() - 1)
+
+| | Class Name | #foreach($x in [0..$size]) #$x | #end
+
+| ---: | :--- | #foreach($x in [0..$size]) :---: | #end
+
+#foreach($x in [0..$size])
+#foreach($y in [0..$size]) | #$x | $matches.get($x).get($y).getName() |  $matches.get($x).get($y).getWins() #end
+
+#end

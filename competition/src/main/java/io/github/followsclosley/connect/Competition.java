@@ -18,7 +18,7 @@ public class Competition {
 
     public Competition run(){
 
-        int numberOfSimulations = 10000;
+        int numberOfSimulations = 50000;
 
         int size = ais.size();
         Match[][] matches = new Match[ais.size()][ais.size()];
@@ -28,6 +28,7 @@ public class Competition {
             for(int y=0; y<size; y++){
                 if( x != y){
                     ArtificialIntelligence player2 = ais.get(y);
+                    System.out.println(player1 + " vs. " + player2);
                     matches[x][y] = new Match(player1, player2).run(numberOfSimulations);
                 }
             }
@@ -52,8 +53,9 @@ public class Competition {
             System.out.print("| #" + (x+1) + "|" + player1.getClass().getName() + "|");
             for(int y=0; y<size; y++) {
                 if( matches[x][y] != null) {
-                    float winPercentage = (Math.round((float)matches[x][y].getWins(player1.getColor()) / numberOfSimulations * 10000)) / 100;
-                    System.out.print(winPercentage);
+                    //float winPercentage = (Math.round((float)matches[x][y].getWins(player1.getColor()) / numberOfSimulations * 10000)) / 100;
+                    int wins = matches[x][y].getWins(player1.getColor());
+                    System.out.print((wins/(numberOfSimulations/100f)) + "%");
                 } else {
                     System.out.print("-");
                 }

@@ -1,3 +1,4 @@
+package io.github.jaron.connect;
 
 import io.github.followsclosley.connect.ArtificialIntelligence;
 import io.github.followsclosley.connect.Board;

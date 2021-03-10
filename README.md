@@ -55,13 +55,13 @@ public abstract class ArtificialIntelligence {
 ### Testing Your AI (Command Line)
 
 You can test your AI using the following:
-[ShellLauncher.java](https://github.com/followsclosely/connect-four/blob/master/entries/copy-me-to-get-started/src/main/java/ShellLauncher.java)
+[io.github.jaron.connect.ShellLauncher.java](https://github.com/followsclosely/connect-four/blob/master/entries/copy-me-to-get-started/src/main/java/io.github.jaron.connect.ShellLauncher.java)
 
 ```java
 import io.github.followsclosley.connect.Simulation;
 import io.github.followsclosley.connect.impl.ai.Dummy;
 
-public class ShellLauncher {
+public class io.github.jaron.connect.ShellLauncher {
     public static void main(String[] args) {
         new Simulation()
                 .number(200000)
@@ -76,13 +76,13 @@ public class ShellLauncher {
 ### Testing Your AI (Swing)
 
 You can test your AI using a graphical interface:
-[SwingLauncher.java](https://github.com/followsclosely/connect-four/blob/master/entries/copy-me-to-get-started/src/main/java/SwingLauncher.java)
+[io.github.jaron.connect.SwingLauncher.java](https://github.com/followsclosely/connect-four/blob/master/entries/copy-me-to-get-started/src/main/java/io.github.jaron.connect.SwingLauncher.java)
 
 ```java
 import io.github.followsclosley.connect.swing.SwingSupport;
 import io.github.followsclosley.connect.impl.MutableBoard;
 
-public class SwingLauncher {
+public class io.github.jaron.connect.SwingLauncher {
     public static void main(String[] args) {
         new SwingSupport()
                 .setBoard(new MutableBoard())
@@ -94,8 +94,10 @@ public class SwingLauncher {
 
 ## Current Implementations
 
-| Module | Class Name  | Win % |
-| ---: | :--- | :---: |
-| core | [io.github.followsclosley.connect.impl.ai.Dummy](https://github.com/followsclosely/connect-four/blob/master/core/src/main/java/io/github/followsclosley/connect/impl/ai/Dummy.java) | N/A |
-| entries/followsclosely | [io.github.followsclosley.connect.ai.ScoreStrategy](https://github.com/followsclosely/connect-four/blob/master/entries/followsclosely/src/main/java/io/github/followsclosley/connect/ai/ScoreStrategy.java) | 99.92% |
-|  |  |   |
+The win percentage of current AI implementations:
+
+|  | Class Name |  #1 |  #2 |  #3 | 
+| ---: | :--- |  :---: | :---: | :---: |
+| #1|io.github.followsclosley.connect.impl.ai.Dummy|-|1.0|0.0|
+| #2|io.github.jaron.connect.JaronBot|98.0|-|9.0|
+| #3|io.github.followsclosley.connect.ai.ScoreStrategy|99.0|75.0|-|

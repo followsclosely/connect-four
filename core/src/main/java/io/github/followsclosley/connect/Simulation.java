@@ -43,7 +43,6 @@ public class Simulation {
         }
 
         for (int i = 0; i < numberOfSimulations; i++) {
-
             Engine engine = new Engine(ais.toArray(new ArtificialIntelligence[ais.size()]));
             int winner = engine.startGame(i % ais.size());
             counts.get(winner).getAndIncrement();
@@ -63,6 +62,10 @@ public class Simulation {
         }
 
         return this;
+    }
+
+    public Map<Integer, AtomicInteger> getCounts() {
+        return counts;
     }
 
     public Simulation reset() {

@@ -24,7 +24,7 @@ public class Competition {
 
     public void run(){
 
-        int numberOfSimulations = 100;
+        int numberOfSimulations = 1000;
 
         int size = ais.size();
         Match[][] matches = new Match[ais.size()][ais.size()];
@@ -32,44 +32,21 @@ public class Competition {
         for(int x=0; x<size; x++){
             ArtificialIntelligence player1 = ais.get(x);
             for(int y=0; y<size; y++){
+
+                ArtificialIntelligence player2 = ais.get(y);
+                System.out.println(player1 + " vs. " + player2);
+                matches[x][y] = new Match(player1, player2);
+
                 if( x != y){
-                    ArtificialIntelligence player2 = ais.get(y);
-                    System.out.println(player1 + " vs. " + player2);
-                    matches[x][y] = new Match(player1, player2).run(numberOfSimulations);
+                    matches[x][y].run(numberOfSimulations);
                 }
             }
         }
 
-        //TODO: Replace this with velocity
+        printWithVelocity(matches);
+    }
 
-        System.out.print("|  | Class Name | ");
-        for(int y=1; y<=size; y++) {
-            System.out.print( " #" + y + " | ");
-        }
-        System.out.println();
-
-        System.out.print("| ---: | :--- | ");
-        for(int y=1; y<=size; y++) {
-            System.out.print(" :---: |");
-        }
-        System.out.println();
-
-        for(int x=0; x<size; x++){
-            ArtificialIntelligence player1 = ais.get(x);
-            System.out.print("| #" + (x+1) + "|" + player1.getClass().getName() + "|");
-            for(int y=0; y<size; y++) {
-                if( matches[x][y] != null) {
-                    //float winPercentage = (Math.round((float)matches[x][y].getWins(player1.getColor()) / numberOfSimulations * 10000)) / 100;
-                    int wins = matches[x][y].getWins(player1.getColor());
-                    System.out.print((wins/(numberOfSimulations/100f)) + "%");
-                } else {
-                    System.out.print("-");
-                }
-                System.out.print("|");
-            }
-            System.out.println();
-        }
-
+    private void printWithVelocity(Match[][] matches){
         VelocityEngine velocityEngine = new VelocityEngine();
         velocityEngine.init();
 
@@ -83,7 +60,6 @@ public class Competition {
 
         System.out.println( writer.toString() );
     }
-
 
 
     public static void main(String[] args)

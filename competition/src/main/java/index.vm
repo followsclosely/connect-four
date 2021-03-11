@@ -1,12 +1,12 @@
- !!! CRAP !!!
-
 #set ($size = $matches.size() - 1)
 
 | | Class Name | #foreach($x in [0..$size]) #$x | #end
 
 | ---: | :--- | #foreach($x in [0..$size]) :---: | #end
 
-#foreach($x in [0..$size])
-#foreach($y in [0..$size]) | #$x | $matches.get($x).get($y).getName() |  $matches.get($x).get($y).getWins() #end
+#foreach($y in [0..$size])
+| #$y | $matches.get($y).get(0).getName() | #foreach($x in [0..$size])
+#set ($percentage = (($matches.get($y).get($x).getWins() / $matches.get($y).get($x).getNumberOfGames()) * 100) )
+#if ($matches.get($y).get($x).getWins()) %$percentage #else - #end | #end
 
 #end

@@ -6,6 +6,7 @@ import io.github.followsclosley.connect.impl.MutableBoard;
 import io.github.followsclosley.connect.impl.Turn;
 import io.github.followsclosley.connect.impl.TurnUtils;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.IntStream;
@@ -15,12 +16,13 @@ public class LaneAI implements ArtificialIntelligence {
     private int playerColor;
     private int opponentColor;
     private int recursiveDepth;
-    private List<Grader> graders;
+    private List<Grader> graders = new ArrayList<>();
 
     public LaneAI(int playerColor, int opponentColor, int recursiveDepth) {
         this.playerColor = playerColor;
         this.opponentColor = opponentColor;
         this.recursiveDepth = recursiveDepth;
+
 
         graders.add(new CenterColumnGrader());
         graders.add(new WinnerGrader());
@@ -88,13 +90,13 @@ public class LaneAI implements ArtificialIntelligence {
         return recursiveScoring(b, depth - 1, playerScores, nextColor);
     }
 
-    public int scoreMove(MutableBoard board, Coordinate lastTurn, int opponentColor) {
+    public int scoreMove(MutableBoard board, Coordinate lastTurn, int color) {
 
         int score = 0;
 
         Turn thisTurn = TurnUtils.getConnections(board);
         for (Grader grader : graders) {
-            score += grader.score(board, thisTurn, opponentColor);
+            score += grader.score(board, thisTurn, color);
         }
 
         return score;

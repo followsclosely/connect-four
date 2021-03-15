@@ -7,6 +7,8 @@ repositories {
 dependencies {
     compile(project(':core'))
     compile(project(':swing'))
+    compile(project(':entries:followsclosely'))
+    compile(project(':entries:jaron'))
 
     testCompile 'junit:junit:4.12'
 }

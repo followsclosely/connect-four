@@ -29,7 +29,7 @@ Gradle.
 ### Start Authoring Your AI
 
 The directory you copied already has a class
-named [LaneAI](https://github.com/followsclosely/connect-four/blob/master/entries/copy-me-to-get-started/src/main/java/LaneAI.java)
+named [YourCustomAI](https://github.com/followsclosely/connect-four/blob/master/entries/copy-me-to-get-started/src/main/java/YourCustomAI.java)
 that implements the
 [ArtificialIntelligence](https://github.com/followsclosely/connect-four/blob/master/core/src/main/java/net/wilson/games/connect/ArtificialIntelligence)
 interface. The
@@ -66,7 +66,7 @@ public class io.github.jaron.connect.ShellLauncher {
         new Simulation()
                 .number(200000)
                 .addArtificialIntelligence(new Dummy(1))
-                .addArtificialIntelligence(new LaneAI(2))
+                .addArtificialIntelligence(new YourCustomAI(2))
                 .run()
                 .printSummary();
     }
@@ -86,7 +86,7 @@ public class io.github.jaron.connect.SwingLauncher {
     public static void main(String[] args) {
         new SwingSupport()
                 .setBoard(new MutableBoard())
-                .setArtificialIntelligence(new LaneAI(SwingSupport.COMPUTER_COLOR))
+                .setArtificialIntelligence(new YourCustomAI(SwingSupport.COMPUTER_COLOR))
                 .run();
     }
 }

@@ -90,15 +90,15 @@ public class MiniMaxAlgorithm implements ArtificialIntelligence {
                 if (board.canDropPiece(x)) {
                     int y = board.dropPiece(x, color);
                     Node node = new Node(this, x);
-                    node.score = scoreStrategy.scoreMove(board, board.getLastMove());
+                    node.score = scoreStrategy.scoreMove(board, board.getLastMove(), null);
 
                     //System.out.println( node.column + " -> " + node.score);
                     children.add(node);
 
                     gameWon = TurnUtils.getConnections(board).hasWinningLine(board.getGoal());
                     if (gameWon || depth >= maxDepth) {
-                        //if(!board.getWinningConnections().isEmpty()) {
-                        node.rollUpScore(scoreStrategy.scoreMove(board, board.getLastMove()));
+                        //if(!board.getWinningConnections().isEmpty())
+                        node.rollUpScore(scoreStrategy.scoreMove(board, board.getLastMove(), null));
                         //}
                     } else {
                         node.evaluate(board);

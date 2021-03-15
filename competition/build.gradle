@@ -1,0 +1,23 @@
+plugins {
+    id 'java'
+}
+
+group 'io.github.followsclosley'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile(project(':core'))
+    compile(project(':entries:followsclosely'))
+    compile(project(':entries:jaron'))
+
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
+}
+
+test {
+    useJUnitPlatform()
+}

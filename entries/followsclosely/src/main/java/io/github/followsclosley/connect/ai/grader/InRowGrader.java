@@ -17,6 +17,7 @@ public class InRowGrader extends AbstractGrader {
         for (Turn.Line line : thisTurn.getLines()) {
             //Look for possible connect 2,3 or more with gaps
             if (line.getPotential() >= board.getGoal()) {
+                //score += Math.pow(weight, line.getPieceCount()) + line.getEmptyCount();
                 score += (line.getPieceCount() * (getWeight() * 2));
                 score += (line.getEmptyCount());
             }

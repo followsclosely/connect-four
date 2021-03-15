@@ -8,6 +8,6 @@ dependencies {
     compile(project(':core'))
     compile(project(':swing'))
     compile(project(':entries:followsclosely'))
-    
+
     testCompile 'junit:junit:4.12'
 }

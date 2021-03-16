@@ -98,8 +98,8 @@ The win percentage of current AI implementations:
 
 | | Class Name |  #0 |  #1 |  #2 |  #3 |  #4 | 
 | ---: | :--- |  :---: |  :---: |  :---: |  :---: |  :---: | 
-| #0 | io.github.followsclosley.connect.impl.ai.Dummy |  -  |  %0.0  |  %2.0  |  %0.0  |  %25.0  | 
-| #1 | io.github.jaron.connect.JaronBot |  %95.0  |  -  |  %6.0  |  %24.0  |  %96.0  | 
-| #2 | io.github.followsclosley.connect.ai.ScoreStrategy |  %100.0  |  %87.0  |  -  |  %0.0  |  %100.0  | 
-| #3 | io.github.lane.LaneAI |  %99.0  |  %63.0  |  %0.0  |  -  |  %100.0  | 
-| #4 | io.github.ryanp102694.connect.MonteCarloAI |  %76.0  |  %2.0  |  %0.0  |  %0.0  |  -  | 
+| #0 | io.github.followsclosley.connect.impl.ai.Dummy |  -  |  %1.6  |  %0.0  |  %0.4  |  %16.0  | 
+| #1 | io.github.jaron.connect.JaronBot |  %97.89  |  -  |  %11.4  |  %25.5  |  %94.0  | 
+| #2 | io.github.followsclosley.connect.ai.ScoreStrategy |  %100.0  |  %78.4  |  -  |  %0.0  |  %100.0  | 
+| #3 | io.github.lane.LaneAI |  %99.29  |  %60.5  |  %0.0  |  -  |  %100.0  | 
+| #4 | io.github.ryanp102694.connect.MonteCarloAI |  %77.9  |  %1.8  |  %0.0  |  %0.0  |  -  | 

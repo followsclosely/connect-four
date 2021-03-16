@@ -24,7 +24,7 @@ public class Competition {
 
     public void run(){
 
-        int numberOfSimulations = 100;
+        int numberOfSimulations = 1000;
 
         int size = ais.size();
         Match[][] matches = new Match[ais.size()][ais.size()];

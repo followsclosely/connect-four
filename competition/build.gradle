@@ -13,6 +13,9 @@ dependencies {
     compile(project(':core'))
     compile(project(':entries:followsclosely'))
     compile(project(':entries:jaron'))
+    compile(project(':entries:lane'))
+
+    implementation 'org.apache.velocity:velocity:1.7'
 
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'

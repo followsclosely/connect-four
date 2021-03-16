@@ -3,7 +3,12 @@ package io.github.followsclosley.connect;
 import io.github.followsclosley.connect.ai.ScoreStrategy;
 import io.github.followsclosley.connect.impl.ai.Dummy;
 import io.github.jaron.connect.JaronBot;
+import io.github.lane.LaneAI;
+import org.apache.velocity.Template;
+import org.apache.velocity.VelocityContext;
+import org.apache.velocity.app.VelocityEngine;
 
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,9 +21,9 @@ public class Competition {
         return this;
     }
 
-    public Competition run(){
+    public void run(){
 
-        int numberOfSimulations = 50000;
+        int numberOfSimulations = 100;
 
         int size = ais.size();
         Match[][] matches = new Match[ais.size()][ais.size()];
@@ -26,47 +31,34 @@ public class Competition {
         for(int x=0; x<size; x++){
             ArtificialIntelligence player1 = ais.get(x);
             for(int y=0; y<size; y++){
+
+                ArtificialIntelligence player2 = ais.get(y);
+                System.out.println(player1 + " vs. " + player2);
+                matches[x][y] = new Match(player1, player2);
+
                 if( x != y){
-                    ArtificialIntelligence player2 = ais.get(y);
-                    System.out.println(player1 + " vs. " + player2);
-                    matches[x][y] = new Match(player1, player2).run(numberOfSimulations);
+                    matches[x][y].run(numberOfSimulations);
                 }
             }
         }
 
-        //TODO: Replace this with velocity
-
-        System.out.print("|  | Class Name | ");
-        for(int y=1; y<=size; y++) {
-            System.out.print( " #" + y + " | ");
-        }
-        System.out.println();
-
-        System.out.print("| ---: | :--- | ");
-        for(int y=1; y<=size; y++) {
-            System.out.print(" :---: |");
-        }
-        System.out.println();
-
-        for(int x=0; x<size; x++){
-            ArtificialIntelligence player1 = ais.get(x);
-            System.out.print("| #" + (x+1) + "|" + player1.getClass().getName() + "|");
-            for(int y=0; y<size; y++) {
-                if( matches[x][y] != null) {
-                    //float winPercentage = (Math.round((float)matches[x][y].getWins(player1.getColor()) / numberOfSimulations * 10000)) / 100;
-                    int wins = matches[x][y].getWins(player1.getColor());
-                    System.out.print((wins/(numberOfSimulations/100f)) + "%");
-                } else {
-                    System.out.print("-");
-                }
-                System.out.print("|");
-            }
-            System.out.println();
-        }
-
-        return this;
+        printWithVelocity(matches);
     }
 
+    private void printWithVelocity(Match[][] matches){
+        VelocityEngine velocityEngine = new VelocityEngine();
+        velocityEngine.init();
+
+        VelocityContext context = new VelocityContext();
+        context.put("matches", matches);
+
+        Template t = velocityEngine.getTemplate("./competition/src/main/java/index.vm");
+
+        StringWriter writer = new StringWriter();
+        t.merge( context, writer );
+
+        System.out.println( writer.toString() );
+    }
 
 
     public static void main(String[] args)
@@ -75,6 +67,8 @@ public class Competition {
                 .add(new Dummy(1))
                 .add(new JaronBot(2))
                 .add(new ScoreStrategy(3))
+                //TODO: Need to get rid of opponentColor!
+                .add(new LaneAI(4, 1, 5))
                 .run();
     }
 }

@@ -4,7 +4,7 @@ import io.github.followsclosley.connect.impl.ai.Dummy;
 public class ShellLauncher {
     public static void main(String[] args) {
         new Simulation()
-                .number(200000)
+                .number(1000)
                 .addArtificialIntelligence(new Dummy(1))
                 .addArtificialIntelligence(new MonteCarloAI(2))
                 .run()

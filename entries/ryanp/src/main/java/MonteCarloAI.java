@@ -1,5 +1,6 @@
 import io.github.followsclosley.connect.ArtificialIntelligence;
 import io.github.followsclosley.connect.Board;
+import io.github.followsclosley.connect.Coordinate;
 import io.github.followsclosley.connect.impl.MutableBoard;
 import io.github.followsclosley.connect.impl.TurnUtils;
 
@@ -15,6 +16,7 @@ public class MonteCarloAI implements ArtificialIntelligence {
     private Random random = new Random();
 
     private int color;
+    private int otherColor = -1;
 
     public MonteCarloAI(int color) {
         this.color = color;
@@ -28,20 +30,6 @@ public class MonteCarloAI implements ArtificialIntelligence {
     @Override
     public int yourTurn(Board board) {
 
-        /**
-         * A Turn
-         *
-         * The Coordinate object is the x/y pair that is the origin of the Line objects.
-         *
-         * The List of lines is showing open spaces from the
-         * coordinate.
-         *
-         * Lines(0) is vertical
-         * Lines(1) is diagonal increasing
-         * Lines(2) is horizontal
-         * Lines(3) is diagonal decreasing
-         */
-
         MutableBoard mutableBoard = new MutableBoard(board);
 
         //get possible places to play
@@ -49,13 +37,18 @@ public class MonteCarloAI implements ArtificialIntelligence {
 
         Map<Integer, Integer> winCounter = winTrackerMap();
 
+        int obviousChoice = getObviousChoice(playableSpots, mutableBoard);
+
+        if(obviousChoice != -1){
+            return obviousChoice;
+        }
+
+        //if no obvious choice then run simulated games to find answer
         for(Integer playableSpot : playableSpots){
-            for(int i = 0; i < 10000; i++){
+            for(int i = 0; i < 100; i++){
                 winCounter.put(playableSpot, winCounter.get(playableSpot) + simulateGame(playableSpot, new MutableBoard(mutableBoard)));
             }
         }
-
-        System.out.println(winCounter);
 
         int max = Integer.MIN_VALUE;
         int decision = -1;
@@ -80,7 +73,7 @@ public class MonteCarloAI implements ArtificialIntelligence {
         }else{
             //randomly play out a game, starting with my opponent playing
             //this will return 1 if I win, -1 if I lose, and 0 if a draw
-            return simulateGameRecursive(otherColor(color), board);
+            return simulateGameRecursive(otherColor(color, board), board);
         }
     }
 
@@ -93,7 +86,7 @@ public class MonteCarloAI implements ArtificialIntelligence {
             if(TurnUtils.getConnections(board).hasWinningLine(board.getGoal())){
                 return turnColor == color ? 1 : -1;
             }else{
-                return simulateGameRecursive(otherColor(turnColor), board);
+                return simulateGameRecursive(otherColor(turnColor, board), board);
             }
         }
     }
@@ -128,8 +121,56 @@ public class MonteCarloAI implements ArtificialIntelligence {
                 .collect(Collectors.toList());
     }
 
-    private int otherColor(int color){
-        return color == 1 ? 2 : 1;
+    private int getObviousChoice(List<Integer> playableSpots, MutableBoard board){
+        for(Integer playableSpot : playableSpots){
+            if(TurnUtils.getConnections(board, getCoordinateIfPlayed(playableSpot, board), color)
+                    .hasWinningLine(board.getGoal())){
+                return playableSpot;
+            }
+        }
+
+        for(Integer playableSpot : playableSpots){
+            if(TurnUtils.getConnections(board, getCoordinateIfPlayed(playableSpot, board), otherColor(color, board))
+                    .hasWinningLine(board.getGoal())){
+                return playableSpot;
+            }
+        }
+
+        return -1;
+    }
+
+    //assumes spot is playable
+    private Coordinate getCoordinateIfPlayed(int playableSpot, MutableBoard mutableBoard){
+        for(int y = 0; y <= mutableBoard.getHeight(); y++){
+            if(y == mutableBoard.getHeight() - 1){
+                return new Coordinate(playableSpot, y);
+            }
+            if(mutableBoard.getPiece(playableSpot, y) != 0){
+                return new Coordinate(playableSpot, y - 1);
+            }
+        }
+        //should never happen
+        return null;
+    }
+
+    //kind of annoying way to find out the other color playing
+    private int otherColor(int firstColor, MutableBoard mutableBoard){
+
+        //if I don't know the other color I will pretend it is -1 for the simulations
+        //I will check to see what the other color is by looking at the bottom two rows for something that
+        //is not 0 and is not my color.
+        // once I find the other color I will set it internally and not have to pretend again
+        if(otherColor == -1){
+            for(int y = mutableBoard.getHeight() - 1; y <= mutableBoard.getHeight(); y++){
+                for(int x = 0; x < mutableBoard.getWidth(); x++){
+                    if(mutableBoard.getPiece(x, y) != color && mutableBoard.getPiece(x, y) != 0){
+                        otherColor = mutableBoard.getPiece(x, y);
+                        return otherColor;
+                    }
+                }
+            }
+        }
+        return color == firstColor ? otherColor : color;
     }
 
 }

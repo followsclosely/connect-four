@@ -13,6 +13,7 @@ import java.util.stream.Stream;
  */
 public class MonteCarloAI implements ArtificialIntelligence {
 
+    private final int SIMULATIONS_PER_TURN = 100;
     private Random random = new Random();
 
     private int color;
@@ -45,7 +46,7 @@ public class MonteCarloAI implements ArtificialIntelligence {
 
         //if no obvious choice then run simulated games to find answer
         for(Integer playableSpot : playableSpots){
-            for(int i = 0; i < 100; i++){
+            for(int i = 0; i < SIMULATIONS_PER_TURN; i++){
                 winCounter.put(playableSpot, winCounter.get(playableSpot) + simulateGame(playableSpot, new MutableBoard(mutableBoard)));
             }
         }

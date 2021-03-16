@@ -13,7 +13,7 @@ public interface ArtificialIntelligence {
      *
      * @param opponent Color of the opponent.
      */
-    void initialize(int opponent);
+    public void initialize(int opponent){}
 
     /**
      * Gets the color that the AI is playing for.

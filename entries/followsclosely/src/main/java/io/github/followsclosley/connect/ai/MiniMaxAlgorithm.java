@@ -18,10 +18,15 @@ public class MiniMaxAlgorithm implements ArtificialIntelligence {
     private int maxDepth = 3;
     private ScoreStrategy scoreStrategy;
 
-    public MiniMaxAlgorithm(int color, int... colors) {
+    public MiniMaxAlgorithm(int color) {
         this.color = color;
-        this.colors = colors;
-        this.scoreStrategy = new ScoreStrategy(color, colors);
+        this.scoreStrategy = new ScoreStrategy(color);
+    }
+
+    @Override
+    public void initialize(int opponent) {
+        colors = new int[]{opponent};
+        this.scoreStrategy.initialize(opponent);
     }
 
     @Override

@@ -42,6 +42,12 @@ public class Engine {
         int winner = -1;
         //System.out.println(board.toMatrixString());
 
+        //TODO: This is a hack that needs to be cleaned up...
+        ArtificialIntelligence ai0 = players.get(0);
+        ArtificialIntelligence ai1 = players.get(1);
+        ai0.initialize(ai1.getColor());
+        ai1.initialize(ai0.getColor());
+
         //The total number of turns before the board is full
         int total = board.getWidth() * board.getHeight();
         for (int turn = firstIndex; turn < total; turn++) {

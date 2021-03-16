@@ -96,10 +96,10 @@ public class io.github.jaron.connect.SwingLauncher {
 
 The win percentage of current AI implementations:
 
-as of 03-15-2021
-| | Class Name |  #0 |  #1 |  #2 |  #3 |
-| ---: | :--- |  :---: |  :---: |  :---: |  :---: |
-| #0 | io.github.followsclosley.connect.impl.ai.Dummy |  -  |  %3.0  |  %0.0  |  %1.0  |
-| #1 | io.github.jaron.connect.JaronBot |  %96.0  |  -  |  %10.0  |  %78.0  |
-| #2 | io.github.followsclosley.connect.ai.ScoreStrategy |  %100.0  |  %79.0  |  -  |  %100.0  |
-| #3 | io.github.lane.LaneAI |  %100.0  |  %23.0  |  %0.0  |  -  |
+| | Class Name |  #0 |  #1 |  #2 |  #3 |  #4 | 
+| ---: | :--- |  :---: |  :---: |  :---: |  :---: |  :---: | 
+| #0 | io.github.followsclosley.connect.impl.ai.Dummy |  -  |  %1.6  |  %0.0  |  %0.4  |  %16.0  | 
+| #1 | io.github.jaron.connect.JaronBot |  %97.89  |  -  |  %11.4  |  %25.5  |  %94.0  | 
+| #2 | io.github.followsclosley.connect.ai.ScoreStrategy |  %100.0  |  %78.4  |  -  |  %0.0  |  %100.0  | 
+| #3 | io.github.lane.LaneAI |  %99.29  |  %60.5  |  %0.0  |  -  |  %100.0  | 
+| #4 | io.github.ryanp102694.connect.MonteCarloAI |  %77.9  |  %1.8  |  %0.0  |  %0.0  |  -  | 

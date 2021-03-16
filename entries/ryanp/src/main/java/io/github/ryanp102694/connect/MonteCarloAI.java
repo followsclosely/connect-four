@@ -7,6 +7,10 @@ import io.github.followsclosley.connect.impl.MutableBoard;
 import io.github.followsclosley.connect.impl.TurnUtils;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -15,7 +19,7 @@ import java.util.stream.Stream;
  */
 public class MonteCarloAI implements ArtificialIntelligence {
 
-    private final int SIMULATIONS_PER_TURN = 100;
+    private final int SIMULATIONS_PER_TURN = 500;
     private Random random = new Random();
 
     private int color;
@@ -51,11 +55,16 @@ public class MonteCarloAI implements ArtificialIntelligence {
             return obviousChoice;
         }
 
+        ExecutorService executorService = Executors.newFixedThreadPool(playableSpots.size());
+        List<Future<Void>> futures = new ArrayList<>();
+
         //if no obvious choice then run simulated games to find answer
         for(Integer playableSpot : playableSpots){
-            for(int i = 0; i < SIMULATIONS_PER_TURN; i++){
-                winCounter.put(playableSpot, winCounter.get(playableSpot) + simulateGame(playableSpot, new MutableBoard(mutableBoard)));
-            }
+            executorService.submit(() -> {
+                for (int i = 0; i < SIMULATIONS_PER_TURN; i++) {
+                    winCounter.put(playableSpot, winCounter.get(playableSpot) + simulateGame(playableSpot, new MutableBoard(mutableBoard)));
+                }
+            });
         }
 
         int max = Integer.MIN_VALUE;
@@ -101,7 +110,7 @@ public class MonteCarloAI implements ArtificialIntelligence {
 
 
     private Map<Integer, Integer> winTrackerMap(){
-        Map<Integer, Integer> winTrackerMap = new HashMap<>();
+        Map<Integer, Integer> winTrackerMap = new ConcurrentHashMap<>();
         winTrackerMap.put(0, 0);
         winTrackerMap.put(1, 0);
         winTrackerMap.put(2, 0);

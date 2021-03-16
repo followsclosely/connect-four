@@ -18,10 +18,6 @@ public class YourCustomAI implements ArtificialIntelligence {
     }
 
     @Override
-    public void initialize(int opponent) {
-    }
-
-    @Override
     public int getColor() {
         return color;
     }

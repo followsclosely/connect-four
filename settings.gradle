@@ -5,5 +5,7 @@ include 'swing'
 include 'entries:copy-me-to-get-started'
 include 'entries:followsclosely'
 include 'entries:jaron'
+include 'entries:lane'
 include 'competition'
+
 

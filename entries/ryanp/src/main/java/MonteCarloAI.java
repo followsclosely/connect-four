@@ -50,10 +50,12 @@ public class MonteCarloAI implements ArtificialIntelligence {
         Map<Integer, Integer> winCounter = winTrackerMap();
 
         for(Integer playableSpot : playableSpots){
-            for(int i = 0; i < 10; i++){
-                winCounter.put(playableSpot, simulateGame(playableSpot, mutableBoard));
+            for(int i = 0; i < 10000; i++){
+                winCounter.put(playableSpot, winCounter.get(playableSpot) + simulateGame(playableSpot, new MutableBoard(mutableBoard)));
             }
         }
+
+        System.out.println(winCounter);
 
         int max = Integer.MIN_VALUE;
         int decision = -1;

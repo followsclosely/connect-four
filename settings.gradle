@@ -4,6 +4,7 @@ include 'core'
 include 'swing'
 include 'entries:copy-me-to-get-started'
 include 'entries:followsclosely'
+include 'entries:ryanp'
 include 'entries:jaron'
 include 'competition'
 

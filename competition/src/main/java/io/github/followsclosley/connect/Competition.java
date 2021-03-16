@@ -4,6 +4,7 @@ import io.github.followsclosley.connect.ai.ScoreStrategy;
 import io.github.followsclosley.connect.impl.ai.Dummy;
 import io.github.jaron.connect.JaronBot;
 import io.github.lane.LaneAI;
+import io.github.ryanp102694.connect.MonteCarloAI;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
@@ -67,8 +68,8 @@ public class Competition {
                 .add(new Dummy(1))
                 .add(new JaronBot(2))
                 .add(new ScoreStrategy(3))
-                //TODO: Need to get rid of opponentColor!
-                .add(new LaneAI(4, 1, 5))
+                .add(new LaneAI(4, 5))
+                .add(new MonteCarloAI(5))
                 .run();
     }
 }

@@ -9,12 +9,18 @@ import io.github.followsclosley.connect.impl.ai.Dummy;
  */
 public interface ArtificialIntelligence {
 
+    /** This method is called before a game starts.
+     *
+     * @param opponent Color of the opponent.
+     */
+    void initialize(int opponent);
+
     /**
      * Gets the color that the AI is playing for.
      *
      * @return color of the AI player
      */
-    public int getColor();
+    int getColor();
 
     /**
      * This method is called by the Engine when it is "your" turn to play.
@@ -23,5 +29,5 @@ public interface ArtificialIntelligence {
      * @param board The current state of the game.
      * @return The column (x) to drop the piece.
      */
-    abstract public int yourTurn(Board board);
+     int yourTurn(Board board);
 }

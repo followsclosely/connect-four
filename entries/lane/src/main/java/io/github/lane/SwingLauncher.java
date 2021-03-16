@@ -10,7 +10,7 @@ public class SwingLauncher {
     public static void main(String[] args) {
         new SwingSupport()
                 .setBoard(new MutableBoard())
-                .setArtificialIntelligence(new LaneAI(SwingSupport.COMPUTER_COLOR, SwingSupport.PLAYER_COLOR, 5))
+                .setArtificialIntelligence(new LaneAI(SwingSupport.COMPUTER_COLOR,5))
                 .run();
     }
 }

@@ -26,7 +26,7 @@ public class MiniMaxAlgorithmTest extends TestCase {
                 "00100");
 
         System.out.println(board);
-        MiniMaxAlgorithm algorithm = new MiniMaxAlgorithm(1, 1, 2);
+        MiniMaxAlgorithm algorithm = new MiniMaxAlgorithm(1);
 
         MiniMaxAlgorithm.Node root = algorithm.evaluate(board);
 

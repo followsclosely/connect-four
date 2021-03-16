@@ -1,3 +1,5 @@
+package io.github.ryanp102694.connect;
+
 import io.github.followsclosley.connect.ArtificialIntelligence;
 import io.github.followsclosley.connect.Board;
 import io.github.followsclosley.connect.Coordinate;
@@ -21,6 +23,11 @@ public class MonteCarloAI implements ArtificialIntelligence {
 
     public MonteCarloAI(int color) {
         this.color = color;
+    }
+
+    @Override
+    public void initialize(int opponent) {
+        this.otherColor = opponent;
     }
 
     @Override
@@ -74,7 +81,7 @@ public class MonteCarloAI implements ArtificialIntelligence {
         }else{
             //randomly play out a game, starting with my opponent playing
             //this will return 1 if I win, -1 if I lose, and 0 if a draw
-            return simulateGameRecursive(otherColor(color, board), board);
+            return simulateGameRecursive(otherColor, board);
         }
     }
 
@@ -87,7 +94,7 @@ public class MonteCarloAI implements ArtificialIntelligence {
             if(TurnUtils.getConnections(board).hasWinningLine(board.getGoal())){
                 return turnColor == color ? 1 : -1;
             }else{
-                return simulateGameRecursive(otherColor(turnColor, board), board);
+                return simulateGameRecursive(otherColor, board);
             }
         }
     }
@@ -131,7 +138,7 @@ public class MonteCarloAI implements ArtificialIntelligence {
         }
 
         for(Integer playableSpot : playableSpots){
-            if(TurnUtils.getConnections(board, getCoordinateIfPlayed(playableSpot, board), otherColor(color, board))
+            if(TurnUtils.getConnections(board, getCoordinateIfPlayed(playableSpot, board), otherColor)
                     .hasWinningLine(board.getGoal())){
                 return playableSpot;
             }
@@ -153,25 +160,4 @@ public class MonteCarloAI implements ArtificialIntelligence {
         //should never happen
         return null;
     }
-
-    //kind of annoying way to find out the other color playing
-    private int otherColor(int firstColor, MutableBoard mutableBoard){
-
-        //if I don't know the other color I will pretend it is -1 for the simulations
-        //I will check to see what the other color is by looking at the bottom two rows for something that
-        //is not 0 and is not my color.
-        // once I find the other color I will set it internally and not have to pretend again
-        if(otherColor == -1){
-            for(int y = mutableBoard.getHeight() - 1; y <= mutableBoard.getHeight(); y++){
-                for(int x = 0; x < mutableBoard.getWidth(); x++){
-                    if(mutableBoard.getPiece(x, y) != color && mutableBoard.getPiece(x, y) != 0){
-                        otherColor = mutableBoard.getPiece(x, y);
-                        return otherColor;
-                    }
-                }
-            }
-        }
-        return color == firstColor ? otherColor : color;
-    }
-
 }

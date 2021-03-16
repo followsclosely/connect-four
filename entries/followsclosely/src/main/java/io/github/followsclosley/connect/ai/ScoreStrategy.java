@@ -21,9 +21,8 @@ public class ScoreStrategy implements ArtificialIntelligence {
     private int[] opponents;
     private List<Grader> graders = new ArrayList<>();
 
-    public ScoreStrategy(int color, int... opponents) {
+    public ScoreStrategy(int color) {
         this.color = color;
-        this.opponents = opponents;
 
         graders.add(new CenterColumnGrader());
         graders.add(new WinnerGrader());
@@ -32,6 +31,11 @@ public class ScoreStrategy implements ArtificialIntelligence {
         graders.add(new OneMorePieceToWinGrader());
         graders.add(new InRowGrader());
         graders.add(new WhatIfOpponentWentHereGrader());
+    }
+
+    @Override
+    public void initialize(int opponent) {
+        this.opponents = new int[]{opponent};
     }
 
     @Override
@@ -48,13 +52,13 @@ public class ScoreStrategy implements ArtificialIntelligence {
         int maxScore = Integer.MIN_VALUE;
         int[] scores = new int[board.getWidth()];
 
-        int[] opponents = this.opponents;
-        if( opponents == null || opponents.length == 0) {
-            Coordinate lastTurn = board.getTurns().isEmpty() ? null : board.getTurns().get(board.getTurns().size() - 1);
-            if( lastTurn != null ){
-                opponents = new int[]{board.getPiece(lastTurn.getX(), lastTurn.getY())};
-            }
-        }
+//        int[] opponents = this.opponents;
+//        if( opponents == null || opponents.length == 0) {
+//            Coordinate lastTurn = board.getTurns().isEmpty() ? null : board.getTurns().get(board.getTurns().size() - 1);
+//            if( lastTurn != null ){
+//                opponents = new int[]{board.getPiece(lastTurn.getX(), lastTurn.getY())};
+//            }
+//        }
 
         for (int x = 0, width = board.getWidth(); x < width; x++) {
             if (board.canDropPiece(x)) {

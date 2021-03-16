@@ -8,7 +8,7 @@ public class ShellLauncher {
     public static void main(String[] args) {
         new Simulation()
                 .number(10000)
-                .addArtificialIntelligence(new ScoreStrategy(7, 1,2,3))
+                .addArtificialIntelligence(new ScoreStrategy(7))
                 .addArtificialIntelligence(new JaronBot(3))
                 .run()
                 .printSummary();

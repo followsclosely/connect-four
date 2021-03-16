@@ -20,9 +20,8 @@ public class LaneAI implements ArtificialIntelligence {
     private int recursiveDepth;
     private List<Grader> graders = new ArrayList<>();
 
-    public LaneAI(int playerColor, int opponentColor, int recursiveDepth) {
+    public LaneAI(int playerColor, int recursiveDepth) {
         this.playerColor = playerColor;
-        this.opponentColor = opponentColor;
         this.recursiveDepth = recursiveDepth;
 
         graders.add(new CenterColumnGrader());
@@ -32,6 +31,11 @@ public class LaneAI implements ArtificialIntelligence {
         graders.add(new OneMorePieceToWinGrader());
         graders.add(new InRowGrader());
         graders.add(new WhatIfOpponentWentHereGrader());
+    }
+
+    @Override
+    public void initialize(int opponent) {
+        this.opponentColor = opponent;
     }
 
     @Override

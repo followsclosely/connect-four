@@ -1,5 +1,8 @@
+package io.github.ryanp102694.connect;
+
 import io.github.followsclosley.connect.Simulation;
 import io.github.followsclosley.connect.impl.ai.Dummy;
+import io.github.ryanp102694.connect.MonteCarloAI;
 
 public class ShellLauncher {
     public static void main(String[] args) {

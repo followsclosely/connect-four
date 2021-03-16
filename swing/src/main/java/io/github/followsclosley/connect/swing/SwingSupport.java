@@ -61,6 +61,8 @@ public class SwingSupport {
             board = new MutableBoard();
         }
 
+        bot.initialize(PLAYER_COLOR);
+
         BoardPanel boardPanel = new BoardPanel(board);
         //Register a listener to capture when a piece is to be played.
         boardPanel.addMouseListener(new MouseAdapter() {

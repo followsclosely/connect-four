@@ -8,7 +8,7 @@ public class SwingLauncher {
     public static void main(String[] args) {
         new SwingSupport()
                 .setBoard(new MutableBoard())
-                .setArtificialIntelligence(new RyanPAI(SwingSupport.COMPUTER_COLOR))
+                .setArtificialIntelligence(new MonteCarloAI(SwingSupport.COMPUTER_COLOR))
                 .run();
     }
 }

@@ -6,7 +6,7 @@ public class ShellLauncher {
         new Simulation()
                 .number(200000)
                 .addArtificialIntelligence(new Dummy(1))
-                .addArtificialIntelligence(new RyanPAI(2))
+                .addArtificialIntelligence(new MonteCarloAI(2))
                 .run()
                 .printSummary();
     }

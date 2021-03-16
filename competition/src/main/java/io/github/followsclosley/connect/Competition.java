@@ -3,11 +3,10 @@ package io.github.followsclosley.connect;
 import io.github.followsclosley.connect.ai.ScoreStrategy;
 import io.github.followsclosley.connect.impl.ai.Dummy;
 import io.github.jaron.connect.JaronBot;
+import io.github.lane.LaneAI;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
-import org.apache.velocity.runtime.RuntimeConstants;
-import org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader;
 
 import java.io.StringWriter;
 import java.util.ArrayList;
@@ -24,7 +23,7 @@ public class Competition {
 
     public void run(){
 
-        int numberOfSimulations = 100000;
+        int numberOfSimulations = 100;
 
         int size = ais.size();
         Match[][] matches = new Match[ais.size()][ais.size()];
@@ -68,6 +67,8 @@ public class Competition {
                 .add(new Dummy(1))
                 .add(new JaronBot(2))
                 .add(new ScoreStrategy(3))
+                //TODO: Need to get rid of opponentColor!
+                .add(new LaneAI(4, 1, 5))
                 .run();
     }
 }

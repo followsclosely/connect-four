@@ -1,4 +1,6 @@
-import graders.*;
+package io.github.lane;
+
+import io.github.followsclosley.connect.ai.grader.*;
 import io.github.followsclosley.connect.ArtificialIntelligence;
 import io.github.followsclosley.connect.Board;
 import io.github.followsclosley.connect.Coordinate;
@@ -23,10 +25,9 @@ public class LaneAI implements ArtificialIntelligence {
         this.opponentColor = opponentColor;
         this.recursiveDepth = recursiveDepth;
 
-
         graders.add(new CenterColumnGrader());
         graders.add(new WinnerGrader());
-        graders.add(new LoseNextTurnGrader());
+        graders.add(new LooseNextTurnGrader());
         graders.add(new WinnerNextTurnGrader());
         graders.add(new OneMorePieceToWinGrader());
         graders.add(new InRowGrader());

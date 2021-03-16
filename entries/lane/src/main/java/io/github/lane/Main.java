@@ -1,3 +1,5 @@
+package io.github.lane;
+
 import io.github.followsclosley.connect.Simulation;
 
 public class Main {

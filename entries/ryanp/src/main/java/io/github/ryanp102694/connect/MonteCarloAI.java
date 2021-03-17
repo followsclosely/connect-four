@@ -7,15 +7,19 @@ import io.github.followsclosley.connect.impl.MutableBoard;
 import io.github.followsclosley.connect.impl.TurnUtils;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
- * A totally random impl of AI.
+ * A totally mediocre impl of AI.
  */
 public class MonteCarloAI implements ArtificialIntelligence {
 
-    private final int SIMULATIONS_PER_TURN = 100;
+    private final int SIMULATIONS_PER_TURN = 1000;
     private Random random = new Random();
 
     private int color;
@@ -43,7 +47,7 @@ public class MonteCarloAI implements ArtificialIntelligence {
         //get possible places to play
         List<Integer> playableSpots = getPlayableSpots(mutableBoard);
 
-        Map<Integer, Integer> winCounter = winTrackerMap();
+        ConcurrentHashMap<Integer, Integer> winCounter = winTrackerMap();
 
         int obviousChoice = getObviousChoice(playableSpots, mutableBoard);
 
@@ -51,12 +55,27 @@ public class MonteCarloAI implements ArtificialIntelligence {
             return obviousChoice;
         }
 
+        ExecutorService executorService = Executors.newFixedThreadPool(playableSpots.size());
+        List<Future<Void>> futures = new ArrayList<>();
+
         //if no obvious choice then run simulated games to find answer
         for(Integer playableSpot : playableSpots){
-            for(int i = 0; i < SIMULATIONS_PER_TURN; i++){
-                winCounter.put(playableSpot, winCounter.get(playableSpot) + simulateGame(playableSpot, new MutableBoard(mutableBoard)));
+            futures.add(executorService.submit(() -> {
+                for (int i = 0; i < SIMULATIONS_PER_TURN; i++) {
+                    winCounter.put(playableSpot, winCounter.get(playableSpot) + simulateGame(playableSpot, new MutableBoard(mutableBoard)));
+                }
+                return null;
+            }));
+        }
+
+        for(Future<Void> future : futures) {
+            try {
+                future.get();
+            } catch (Exception e) {
+                System.out.println("Something went wrong. This shouldn't happen.");
             }
         }
+
 
         int max = Integer.MIN_VALUE;
         int decision = -1;
@@ -67,7 +86,6 @@ public class MonteCarloAI implements ArtificialIntelligence {
             }
             max = Math.max(max, winCounter.get(play));
         }
-
         return decision;
     }
 
@@ -81,7 +99,7 @@ public class MonteCarloAI implements ArtificialIntelligence {
         }else{
             //randomly play out a game, starting with my opponent playing
             //this will return 1 if I win, -1 if I lose, and 0 if a draw
-            return simulateGameRecursive(otherColor, board);
+            return simulateGameRecursive(otherColor(color), board);
         }
     }
 
@@ -94,14 +112,14 @@ public class MonteCarloAI implements ArtificialIntelligence {
             if(TurnUtils.getConnections(board).hasWinningLine(board.getGoal())){
                 return turnColor == color ? 1 : -1;
             }else{
-                return simulateGameRecursive(otherColor, board);
+                return simulateGameRecursive(otherColor(turnColor), board);
             }
         }
     }
 
 
-    private Map<Integer, Integer> winTrackerMap(){
-        Map<Integer, Integer> winTrackerMap = new HashMap<>();
+    private ConcurrentHashMap<Integer, Integer> winTrackerMap(){
+        ConcurrentHashMap<Integer, Integer> winTrackerMap = new ConcurrentHashMap<>();
         winTrackerMap.put(0, 0);
         winTrackerMap.put(1, 0);
         winTrackerMap.put(2, 0);
@@ -130,6 +148,13 @@ public class MonteCarloAI implements ArtificialIntelligence {
     }
 
     private int getObviousChoice(List<Integer> playableSpots, MutableBoard board){
+
+        //always play in the middle first
+        if(board.getTurns().size() < 5){
+            return board.getWidth() / 2;
+        }
+
+        //if I can win play th
         for(Integer playableSpot : playableSpots){
             if(TurnUtils.getConnections(board, getCoordinateIfPlayed(playableSpot, board), color)
                     .hasWinningLine(board.getGoal())){
@@ -137,6 +162,7 @@ public class MonteCarloAI implements ArtificialIntelligence {
             }
         }
 
+        //if opponent can win play there
         for(Integer playableSpot : playableSpots){
             if(TurnUtils.getConnections(board, getCoordinateIfPlayed(playableSpot, board), otherColor)
                     .hasWinningLine(board.getGoal())){
@@ -159,5 +185,9 @@ public class MonteCarloAI implements ArtificialIntelligence {
         }
         //should never happen
         return null;
+    }
+
+    private int otherColor(int colorToSwitch){
+        return colorToSwitch == color ? otherColor : color;
     }
 }

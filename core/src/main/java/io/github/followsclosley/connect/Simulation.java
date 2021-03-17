@@ -45,8 +45,10 @@ public class Simulation {
         for (int i = 0; i < numberOfSimulations; i++) {
             Engine engine = new Engine(ais.toArray(new ArtificialIntelligence[ais.size()]));
             int winner = engine.startGame(i % ais.size());
+            System.out.print("\r" + i);
             counts.get(winner).getAndIncrement();
         }
+        System.out.println();
 
         return this;
     }

@@ -19,8 +19,9 @@ import java.util.stream.Stream;
  */
 public class MonteCarloAI implements ArtificialIntelligence {
 
-    private final int SIMULATIONS_PER_TURN = 1000;
+    private final int SIMULATIONS_PER_TURN = 500;
     private Random random = new Random();
+    private ExecutorService executorService = Executors.newFixedThreadPool(7);
 
     private int color;
     private int otherColor = -1;
@@ -55,7 +56,7 @@ public class MonteCarloAI implements ArtificialIntelligence {
             return obviousChoice;
         }
 
-        ExecutorService executorService = Executors.newFixedThreadPool(playableSpots.size());
+
         List<Future<Void>> futures = new ArrayList<>();
 
         //if no obvious choice then run simulated games to find answer
@@ -86,6 +87,7 @@ public class MonteCarloAI implements ArtificialIntelligence {
             }
             max = Math.max(max, winCounter.get(play));
         }
+
         return decision;
     }
 

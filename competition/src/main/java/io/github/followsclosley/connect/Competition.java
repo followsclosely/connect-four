@@ -68,7 +68,7 @@ public class Competition {
                 .add(new Dummy(1))
                 .add(new JaronBot(2))
                 .add(new ScoreStrategy(3))
-                .add(new LaneAI(4, 5))
+                .add(new LaneAI(4, 10))
                 .add(new MonteCarloAI(5))
                 .run();
     }

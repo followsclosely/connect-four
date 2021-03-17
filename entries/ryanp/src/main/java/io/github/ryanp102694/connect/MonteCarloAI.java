@@ -15,7 +15,7 @@ import java.util.stream.Stream;
  */
 public class MonteCarloAI implements ArtificialIntelligence {
 
-    private final int SIMULATIONS_PER_TURN = 100;
+    private final int SIMULATIONS_PER_TURN = 10000;
     private Random random = new Random();
 
     private int color;

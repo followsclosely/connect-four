@@ -14,19 +14,23 @@ import java.util.stream.Collectors;
 public class MiniMaxAlgorithm implements ArtificialIntelligence {
 
     private int color;
+    private int opponent;
     private int[] colors;
-    private int maxDepth = 3;
+
+    //Number of turns to look past the current one.
+    private int maxDepth = 0;
     private ScoreStrategy scoreStrategy;
 
-    public MiniMaxAlgorithm(int color) {
+    public MiniMaxAlgorithm(int color, int depth) {
         this.color = color;
+        this.maxDepth = depth;
         this.scoreStrategy = new ScoreStrategy(color);
     }
 
     @Override
     public void initialize(int opponent) {
-        colors = new int[]{opponent};
-        this.scoreStrategy.initialize(opponent);
+        this.scoreStrategy.initialize(this.opponent = opponent);
+        this.colors = new int[]{color,opponent};
     }
 
     @Override
@@ -36,8 +40,12 @@ public class MiniMaxAlgorithm implements ArtificialIntelligence {
 
     @Override
     public int yourTurn(Board b) {
-        MutableBoard board = (b instanceof MutableBoard) ? (MutableBoard) b : new MutableBoard(b);
-        MiniMaxAlgorithm.Node root = evaluate(board);
+        //MutableBoard board = (b instanceof MutableBoard) ? (MutableBoard) b : new MutableBoard(b);
+        MutableBoard board = new MutableBoard(b);
+
+        Node root = new Node();
+        root.evaluate(board);
+
         //Sort by score.
         List<MiniMaxAlgorithm.Node> sortedList = root.getChildren().stream()
                 .sorted(Comparator.comparing(MiniMaxAlgorithm.Node::getScore).reversed())
@@ -48,18 +56,11 @@ public class MiniMaxAlgorithm implements ArtificialIntelligence {
         return best.getColumn();
     }
 
-    public Node evaluate(MutableBoard board) {
-        Node root = new Node();
-        root.evaluate(board);
-        return root;
-    }
-
     public class Node {
         private String notes;
         private int depth;
         private int column;
         private int score;
-        private int minMaxScore;
         private IntBinaryOperator operator;
 
         private Node parent;
@@ -67,24 +68,29 @@ public class MiniMaxAlgorithm implements ArtificialIntelligence {
 
         public Node() {
             this.operator = Integer::max;
-            this.minMaxScore = Integer.MIN_VALUE;
+            this.score = Integer.MIN_VALUE;
             this.children = new ArrayList<>();
+            this.notes = "root";
         }
 
         public Node(Node parent, int column) {
 
-            if ((parent.getDepth() % 2 == 0)) {
+            this.depth = parent.getDepth() + 1;
+
+            if ((this.depth % 2 == 0)) {
                 this.operator = Integer::max;
-                this.minMaxScore = Integer.MIN_VALUE;
+                this.score = Integer.MIN_VALUE;
+                this.notes = "Player " + colors[(parent.getDepth() % 2)] + " max()" ;
             } else {
                 this.operator = Integer::min;
-                this.minMaxScore = Integer.MAX_VALUE;
+                this.score = Integer.MAX_VALUE;
+                this.notes = "Player " + colors[(parent.getDepth() % 2)] + " min()" ;
             }
 
-            this.depth = parent.getDepth() + 1;
             this.children = new ArrayList<>();
             this.parent = parent;
             this.column = column;
+
         }
 
         public void evaluate(MutableBoard board) {
@@ -95,7 +101,7 @@ public class MiniMaxAlgorithm implements ArtificialIntelligence {
                 if (board.canDropPiece(x)) {
                     int y = board.dropPiece(x, color);
                     Node node = new Node(this, x);
-                    node.score = scoreStrategy.scoreMove(board, board.getLastMove(), null);
+                    //node.score = scoreStrategy.scoreMove(board, board.getLastMove(), opponent);
 
                     //System.out.println( node.column + " -> " + node.score);
                     children.add(node);
@@ -103,7 +109,9 @@ public class MiniMaxAlgorithm implements ArtificialIntelligence {
                     gameWon = TurnUtils.getConnections(board).hasWinningLine(board.getGoal());
                     if (gameWon || depth >= maxDepth) {
                         //if(!board.getWinningConnections().isEmpty())
-                        node.rollUpScore(scoreStrategy.scoreMove(board, board.getLastMove(), null));
+                        //node.rollUpScore(scoreStrategy.scoreMove(board, board.getLastMove(), opponent));
+                        int score = scoreStrategy.scoreMove(board, board.getLastMove(), opponent);
+                        node.rollUpScore(score);
                         //}
                     } else {
                         node.evaluate(board);
@@ -114,12 +122,12 @@ public class MiniMaxAlgorithm implements ArtificialIntelligence {
         }
 
         public void rollUpScore(int score) {
-            int newScore = operator.applyAsInt(minMaxScore, score);
+            int newScore = operator.applyAsInt(this.score, score);
             //If the score changed, then roll it on up.
-            if (newScore != minMaxScore) {
-                minMaxScore = newScore;
+            if (newScore != this.score) {
+                this.score = newScore;
                 if (parent != null) {
-                    parent.rollUpScore(this.minMaxScore);
+                    parent.rollUpScore(newScore);
                 }
             }
         }
@@ -142,7 +150,7 @@ public class MiniMaxAlgorithm implements ArtificialIntelligence {
 
         @Override
         public String toString() {
-            return "Node{" + "depth=" + depth + ", column=" + column + ", score=" + score + "/" + minMaxScore + '}';
+            return "Node{" + "depth=" + depth + ", column=" + column + ", score=" + score + ", notes=(" + notes + ")}";
         }
     }
 }

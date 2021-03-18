@@ -79,4 +79,6 @@ public class Engine {
 
         return winner;
     }
+
+    public Board getBoard() { return board; }
 }

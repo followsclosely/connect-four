@@ -19,12 +19,15 @@ import java.util.stream.Stream;
  */
 public class MonteCarloAI implements ArtificialIntelligence {
 
-    private final int SIMULATIONS_PER_TURN = 500;
+    private final int SIMULATIONS_PER_TURN = 10000;
+    private boolean DEBUG = false;
     private Random random = new Random();
     private ExecutorService executorService = Executors.newFixedThreadPool(7);
+    private ConcurrentHashMap<Integer, Integer> winCounter = winTrackerMap();
 
     private int color;
     private int otherColor = -1;
+
 
     public MonteCarloAI(int color) {
         this.color = color;
@@ -48,7 +51,16 @@ public class MonteCarloAI implements ArtificialIntelligence {
         //get possible places to play
         List<Integer> playableSpots = getPlayableSpots(mutableBoard);
 
-        ConcurrentHashMap<Integer, Integer> winCounter = winTrackerMap();
+        //keep the simulations from the previous run that apply to the opponents last move
+        if(mutableBoard.getTurns().size() > 0){
+            int spotToKeep = mutableBoard.getTurns().get(mutableBoard.getTurns().size() - 1).getX();
+            if(DEBUG){
+                System.out.println(String.format("Preserving %s from play %s from previous simulations.",
+                        winCounter.get(spotToKeep), spotToKeep));
+            }
+            Stream.of(0, 1, 2, 3, 4, 5, 6).filter(i -> i != spotToKeep).forEach( i -> winCounter.put(i, 0));
+        }
+
 
         int obviousChoice = getObviousChoice(playableSpots, mutableBoard);
 
@@ -56,9 +68,8 @@ public class MonteCarloAI implements ArtificialIntelligence {
             return obviousChoice;
         }
 
-
         List<Future<Void>> futures = new ArrayList<>();
-
+        long start = System.currentTimeMillis();
         //if no obvious choice then run simulated games to find answer
         for(Integer playableSpot : playableSpots){
             futures.add(executorService.submit(() -> {
@@ -77,7 +88,10 @@ public class MonteCarloAI implements ArtificialIntelligence {
             }
         }
 
-
+        if(DEBUG){
+            System.out.println(String.format("Finished %s simulations in %s: %s", SIMULATIONS_PER_TURN,
+                    System.currentTimeMillis() - start, winCounter));
+        }
         int max = Integer.MIN_VALUE;
         int decision = -1;
 
@@ -88,6 +102,9 @@ public class MonteCarloAI implements ArtificialIntelligence {
             max = Math.max(max, winCounter.get(play));
         }
 
+        if(DEBUG){
+            System.out.println(decision);
+        }
         return decision;
     }
 
@@ -122,13 +139,7 @@ public class MonteCarloAI implements ArtificialIntelligence {
 
     private ConcurrentHashMap<Integer, Integer> winTrackerMap(){
         ConcurrentHashMap<Integer, Integer> winTrackerMap = new ConcurrentHashMap<>();
-        winTrackerMap.put(0, 0);
-        winTrackerMap.put(1, 0);
-        winTrackerMap.put(2, 0);
-        winTrackerMap.put(3, 0);
-        winTrackerMap.put(4, 0);
-        winTrackerMap.put(5, 0);
-        winTrackerMap.put(6, 0);
+        Stream.of(0, 1, 2, 3, 4, 5, 6).forEach( i -> winTrackerMap.put(i, 0));
         return winTrackerMap;
     }
 
@@ -151,12 +162,7 @@ public class MonteCarloAI implements ArtificialIntelligence {
 
     private int getObviousChoice(List<Integer> playableSpots, MutableBoard board){
 
-        //always play in the middle first
-        if(board.getTurns().size() < 5){
-            return board.getWidth() / 2;
-        }
-
-        //if I can win play th
+        //if I can win play there
         for(Integer playableSpot : playableSpots){
             if(TurnUtils.getConnections(board, getCoordinateIfPlayed(playableSpot, board), color)
                     .hasWinningLine(board.getGoal())){
@@ -170,6 +176,11 @@ public class MonteCarloAI implements ArtificialIntelligence {
                     .hasWinningLine(board.getGoal())){
                 return playableSpot;
             }
+        }
+
+        //play in the middle first
+        if(board.getTurns().size() < 5){
+            return board.getWidth() / 2;
         }
 
         return -1;

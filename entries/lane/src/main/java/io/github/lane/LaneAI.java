@@ -18,19 +18,25 @@ public class LaneAI implements ArtificialIntelligence {
     private int playerColor;
     private int opponentColor;
     private int recursiveDepth;
-    private List<Grader> graders = new ArrayList<>();
+    private List<Grader> firstMoveGraders = new ArrayList<>();
+    private List<Grader> recursiveMoveGraders = new ArrayList<>();
 
     public LaneAI(int playerColor, int recursiveDepth) {
         this.playerColor = playerColor;
         this.recursiveDepth = recursiveDepth;
 
-        graders.add(new CenterColumnGrader());
-        graders.add(new WinnerGrader());
-        graders.add(new LooseNextTurnGrader());
-        graders.add(new WinnerNextTurnGrader());
-        graders.add(new OneMorePieceToWinGrader());
-        graders.add(new InRowGrader());
-        graders.add(new WhatIfOpponentWentHereGrader());
+        firstMoveGraders.add(new CenterColumnGrader());
+        firstMoveGraders.add(new WinnerGrader());
+        firstMoveGraders.add(new LooseNextTurnGrader());
+        firstMoveGraders.add(new WinnerNextTurnGrader());
+        firstMoveGraders.add(new OneMorePieceToWinGrader());
+        firstMoveGraders.add(new InRowGrader());
+        firstMoveGraders.add(new WhatIfOpponentWentHereGrader());
+
+        recursiveMoveGraders.add(new CenterColumnGrader());
+        recursiveMoveGraders.add(new OneMorePieceToWinGrader());
+        recursiveMoveGraders.add(new InRowGrader());
+        recursiveMoveGraders.add(new WhatIfOpponentWentHereGrader());
     }
 
     @Override
@@ -63,7 +69,7 @@ public class LaneAI implements ArtificialIntelligence {
             MutableBoard recursiveBoard = new MutableBoard(board);
             if (recursiveBoard.canDropPiece(i)) {
                 recursiveBoard.dropPiece(i, getColor());
-                playerScores = recursiveScoring(recursiveBoard, getRecursiveDepth(), playerScores, getColor());
+                playerScores = recursiveScoring(recursiveBoard, getRecursiveDepth(), getRecursiveDepth(), playerScores, getColor());
                 aggregateScore[i] = playerScores[0] - playerScores[1];
                 Arrays.setAll(playerScores, p -> 0);
             }
@@ -74,7 +80,7 @@ public class LaneAI implements ArtificialIntelligence {
                 .getAsInt();
     }
 
-    public int[] recursiveScoring(MutableBoard b, int depth, int[] playerScores, int color) {
+    public int[] recursiveScoring(MutableBoard b, int depth, int maxDepth, int[] playerScores, int color) {
         if (depth <= 0 || isFull(b)) {
             return playerScores;
         }
@@ -82,49 +88,46 @@ public class LaneAI implements ArtificialIntelligence {
         int playerScoresIndex = color == getColor() ? 0 : 1;
         Turn thisTurn = new Turn(b.getLastMove());
 
-        playerScores[playerScoresIndex] += scoreMove(b, b.getLastMove(), color == getColor() ? getOpponentColor() : getColor());
-
-        if (thisTurn.hasWinningLine(b.getGoal())) {
-            playerScores[playerScoresIndex] = 100000;
-            return playerScores;
-        }
+        playerScores[playerScoresIndex] += scoreMove(b, b.getLastMove(), color == getColor() ? getOpponentColor() : getColor(), depth == maxDepth);
 
         int nextColor = color == getColor() ? getOpponentColor() : getColor();
-        int[] bestScoreAndIndex = getBestMove(b, nextColor);
+        int[] bestScoreAndIndex = getBestMove(b, nextColor, maxDepth == depth);
         b.dropPiece(bestScoreAndIndex[1], nextColor);
-        return recursiveScoring(b, depth - 1, playerScores, nextColor);
+        return recursiveScoring(b, depth - 1, maxDepth, playerScores, nextColor);
     }
 
-    public int scoreMove(MutableBoard board, Coordinate lastTurn, int color) {
+    public int scoreMove(MutableBoard board, Coordinate lastTurn, int color, boolean isTopMove) {
 
         int score = 0;
 
         Turn thisTurn = TurnUtils.getConnections(board);
-        for (Grader grader : graders) {
-            score += grader.score(board, thisTurn, color);
+        if (isTopMove) {
+            for (Grader grader : firstMoveGraders) {
+                score += grader.score(board, thisTurn, color);
+            }
+        } else {
+            for (Grader grader : recursiveMoveGraders) {
+                score += grader.score(board, thisTurn, color);
+            }
         }
 
         return score;
     }
 
-    public int[] getBestMove(MutableBoard b, int color) {
-        int[] moveScores = new int[b.getWidth()];
+    public int[] getBestMove(MutableBoard b, int color, boolean isTopMove) {
         int[] bestScoreAndIndex = new int[] {0, 0};
-        Arrays.setAll(moveScores, p -> 0);
 
         for (int i = 0; i < b.getWidth(); i++) {
             if (b.canDropPiece(i)) {
                 b.dropPiece(i, color);
-                moveScores[i] = scoreMove(b, b.getLastMove(), color == getColor() ? getOpponentColor() : getColor());
-                b.undo();
-            }
-        }
+                int moveScore = scoreMove(b, b.getLastMove(), color == getColor() ? getOpponentColor() : getColor(), isTopMove);
 
-        for (int move : moveScores) {
-            int counter = 0;
-            if (move > moveScores[counter]) {
-                bestScoreAndIndex[0] = move;
-                bestScoreAndIndex[1] = counter;
+                if (moveScore > bestScoreAndIndex[0]) {
+                    bestScoreAndIndex[0] = moveScore;
+                    bestScoreAndIndex[1] = i;
+                }
+
+                b.undo();
             }
         }
 

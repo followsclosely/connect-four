@@ -41,10 +41,8 @@ public class MiniMaxAlgorithm implements ArtificialIntelligence {
     @Override
     public int yourTurn(Board b) {
         //MutableBoard board = (b instanceof MutableBoard) ? (MutableBoard) b : new MutableBoard(b);
-        MutableBoard board = new MutableBoard(b);
 
-        Node root = new Node();
-        root.evaluate(board);
+        Node root = new Node().evaluate(new MutableBoard(b));
 
         //Sort by score.
         List<MiniMaxAlgorithm.Node> sortedList = root.getChildren().stream()
@@ -77,7 +75,7 @@ public class MiniMaxAlgorithm implements ArtificialIntelligence {
 
             this.depth = parent.getDepth() + 1;
 
-            if ((this.depth % 2 == 0)) {
+            if ((this.depth % 2 == 1)) {
                 this.operator = Integer::max;
                 this.score = Integer.MIN_VALUE;
                 this.notes = "Player " + colors[(parent.getDepth() % 2)] + " max()" ;
@@ -93,35 +91,47 @@ public class MiniMaxAlgorithm implements ArtificialIntelligence {
 
         }
 
-        public void evaluate(MutableBoard board) {
+        public Node evaluate(MutableBoard board) {
 
             boolean gameWon = false;
             int color = colors[depth % 2];
+
+            //Check for a win, is so then no need to recurse any further.
             for (int x = 0, width = board.getWidth(); x < width && !gameWon; x++) {
                 if (board.canDropPiece(x)) {
                     int y = board.dropPiece(x, color);
-                    Node node = new Node(this, x);
-                    //node.score = scoreStrategy.scoreMove(board, board.getLastMove(), opponent);
+                    if( gameWon = TurnUtils.getConnections(board).hasWinningLine(board.getGoal()) ){
+                        children.add(new Node(this, x).rollUpScore( depth % 2 ==0 ? 77777 : -77777));
+                    }
+                    board.undo();
+                }
+            }
 
-                    //System.out.println( node.column + " -> " + node.score);
+            if( gameWon ) return this;
+
+            for (int x = 0, width = board.getWidth(); x < width; x++) {
+                if (board.canDropPiece(x)) {
+                    int y = board.dropPiece(x, color);
+                    Node node = new Node(this, x);
+
+                    System.out.printf("%d : [%d,%d]%n", node.getDepth(), x, y);
+
                     children.add(node);
 
-                    gameWon = TurnUtils.getConnections(board).hasWinningLine(board.getGoal());
-                    if (gameWon || depth >= maxDepth) {
-                        //if(!board.getWinningConnections().isEmpty())
-                        //node.rollUpScore(scoreStrategy.scoreMove(board, board.getLastMove(), opponent));
+                    if (depth >= maxDepth) {
                         int score = scoreStrategy.scoreMove(board, board.getLastMove(), opponent);
                         node.rollUpScore(score);
-                        //}
                     } else {
                         node.evaluate(board);
                     }
                     board.undo();
                 }
             }
+
+            return this;
         }
 
-        public void rollUpScore(int score) {
+        public Node rollUpScore(int score) {
             int newScore = operator.applyAsInt(this.score, score);
             //If the score changed, then roll it on up.
             if (newScore != this.score) {
@@ -130,6 +140,7 @@ public class MiniMaxAlgorithm implements ArtificialIntelligence {
                     parent.rollUpScore(newScore);
                 }
             }
+            return this;
         }
 
         public int getDepth() {

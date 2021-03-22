@@ -1,5 +1,6 @@
 package io.github.followsclosley.connect;
 
+import io.github.followsclosley.connect.ai.MinMax;
 import io.github.followsclosley.connect.ai.MiniMaxAlgorithm;
 import io.github.followsclosley.connect.ai.ScoreStrategy;
 import io.github.followsclosley.connect.impl.MutableBoard;
@@ -13,21 +14,21 @@ public class SwingLauncher {
 
         MutableBoard board = new MutableBoard();
 
-        board.dropPiece(3,2);
-        board.dropPiece(3,1);
-        board.dropPiece(3,2);
-        board.dropPiece(3,1);
-        board.dropPiece(3,2);
-        board.dropPiece(2,1);
-        board.dropPiece(3,2);
-        board.dropPiece(2,1);
-        board.dropPiece(2,2);
-        board.dropPiece(5,1);
-        board.dropPiece(2,2);
-        board.dropPiece(5,1);
-        board.dropPiece(5,2);
-        board.dropPiece(2,1);
-        board.dropPiece(5,2);
+//        board.dropPiece(3,2);
+//        board.dropPiece(3,1);
+//        board.dropPiece(3,2);
+//        board.dropPiece(3,1);
+//        board.dropPiece(3,2);
+//        board.dropPiece(2,1);
+//        board.dropPiece(3,2);
+//        board.dropPiece(2,1);
+//        board.dropPiece(2,2);
+//        board.dropPiece(5,1);
+//        board.dropPiece(2,2);
+//        board.dropPiece(5,1);
+//        board.dropPiece(5,2);
+//        board.dropPiece(2,1);
+//        board.dropPiece(5,2);
 //        board.dropPiece(2,1);
 //        board.dropPiece(5,2);
 //        board.dropPiece(5,1);
@@ -50,7 +51,7 @@ public class SwingLauncher {
                 .setBoard(board)
                 //.setArtificialIntelligence(new Dummy(SwingSupport.COMPUTER_COLOR))
                 //.setArtificialIntelligence(new ScoreStrategy(SwingSupport.COMPUTER_COLOR))
-                .setArtificialIntelligence(new MiniMaxAlgorithm(SwingSupport.COMPUTER_COLOR, 1))
+                .setArtificialIntelligence(new MinMax(SwingSupport.COMPUTER_COLOR, 7))
                 .run();
     }
 }

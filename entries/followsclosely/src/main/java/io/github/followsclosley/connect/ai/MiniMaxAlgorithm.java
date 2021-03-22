@@ -114,7 +114,7 @@ public class MiniMaxAlgorithm implements ArtificialIntelligence {
                     int y = board.dropPiece(x, color);
                     Node node = new Node(this, x);
 
-                    System.out.printf("%d : [%d,%d]%n", node.getDepth(), x, y);
+                    //System.out.printf("%d : [%d,%d]%n", node.getDepth(), x, y);
 
                     children.add(node);
 

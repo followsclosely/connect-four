@@ -42,11 +42,18 @@ public class Simulation {
             ais.add(0, new Dummy(1));
         }
 
-        for (int i = 0; i < numberOfSimulations; i++) {
+        for (int i = 1; i <= numberOfSimulations; i++) {
             Engine engine = new Engine(ais.toArray(new ArtificialIntelligence[ais.size()]));
             int winner = engine.startGame(i % ais.size());
-            System.out.print("\r" + i);
             counts.get(winner).getAndIncrement();
+            System.out.print("\r" + counts.get(winner) + "/" + i);
+
+//            if( winner == 1) {
+//                for (Coordinate c : engine.getBoard().getTurns()){
+//                    System.out.println(String.format("board.dropPiece(%d,%d);", c.getX(), engine.getBoard().getPiece(c.getX(), c.getY())));
+//                }
+//                System.exit(0);
+//            }
         }
         System.out.println();
 

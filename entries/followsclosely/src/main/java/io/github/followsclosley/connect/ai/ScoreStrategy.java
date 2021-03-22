@@ -75,7 +75,7 @@ public class ScoreStrategy implements ArtificialIntelligence {
         return maxIndex;
     }
 
-    public int scoreMove(MutableBoard board, Coordinate lastTurn, int[] opponents) {
+    public int scoreMove(MutableBoard board, Coordinate lastTurn, int... opponents) {
 
         int score = 1;
 

@@ -73,16 +73,18 @@ public class MinMax implements ArtificialIntelligence {
 
                 if (depth >= maxDepth) {
                     scores[x] = boardGrader.grade(board, color, opponent);
-                    if( scores[x] > alpha){
-                        alpha = scores[x];
-                    }
-                    if( beta <= alpha){
-                        board.undo();
-                        break;
-                    }
                 } else {
                     scores[x] = min(board, depth + 1, alpha, beta)[1];
                 }
+
+                if( scores[x] > alpha){
+                    alpha = scores[x];
+                }
+                if( beta <= alpha){
+                    board.undo();
+                    break;
+                }
+
                 board.undo();
             }
         }
@@ -126,14 +128,16 @@ public class MinMax implements ArtificialIntelligence {
                     scores[x] = boardGrader.grade(board, color, opponent);
                 } else {
                     scores[x] = max(board, depth + 1, alpha, beta)[1];
-                    if( scores[x] < beta){
-                        alpha = scores[x];
-                    }
-                    if( beta <= alpha){
-                        board.undo();
-                        break;
-                    }
                 }
+
+                if( scores[x] < beta){
+                    alpha = scores[x];
+                }
+                if( beta <= alpha){
+                    board.undo();
+                    break;
+                }
+
                 board.undo();
             }
         }

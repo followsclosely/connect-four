@@ -64,6 +64,8 @@ public class SwingSupport {
         bot.initialize(PLAYER_COLOR);
 
         BoardPanel boardPanel = new BoardPanel(board);
+        boardPanel.loadPrettyImages();
+
         //Register a listener to capture when a piece is to be played.
         boardPanel.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
@@ -83,7 +85,7 @@ public class SwingSupport {
             }
         });
 
-        board.addBoardChangedListener(coordinate -> SwingUtilities.invokeLater(() -> boardPanel.repaint()));
+        board.addBoardChangedListener(coordinate -> SwingUtilities.invokeLater(boardPanel::repaint));
 
         JPanel statusPanel = new JPanel(new BorderLayout());
         JTextField status = new JTextField("");

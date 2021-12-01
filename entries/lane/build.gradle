@@ -5,9 +5,9 @@ repositories {
 }
 
 dependencies {
-    compile(project(':core'))
-    compile(project(':swing'))
-    compile(project(':entries:followsclosely'))
+    implementation(project(':core'))
+    implementation(project(':swing'))
+    implementation(project(':entries:followsclosely'))
 
-    testCompile 'junit:junit:4.12'
+    testImplementation 'junit:junit:4.12'
 }

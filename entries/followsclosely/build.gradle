@@ -5,10 +5,10 @@ repositories {
 }
 
 dependencies {
-    compile(project(':core'))
-    compile(project(':swing'))
+    implementation(project(':core'))
+    implementation(project(':swing'))
 
-    compile(project(':entries:ryanp'))
+    implementation(project(':entries:ryanp'))
 
-    testCompile 'junit:junit:4.12'
+    testImplementation 'junit:junit:4.12'
 }

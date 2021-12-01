@@ -10,11 +10,11 @@ repositories {
 }
 
 dependencies {
-    compile(project(':core'))
-    compile(project(':entries:followsclosely'))
-    compile(project(':entries:jaron'))
-    compile(project(':entries:lane'))
-    compile(project(':entries:ryanp'))
+    implementation(project(':core'))
+    implementation(project(':entries:followsclosely'))
+    implementation(project(':entries:jaron'))
+    implementation(project(':entries:lane'))
+    implementation(project(':entries:ryanp'))
 
     implementation 'org.apache.velocity:velocity:1.7'
 

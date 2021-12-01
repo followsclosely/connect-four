@@ -5,6 +5,7 @@ import io.github.followsclosley.connect.impl.ai.Dummy;
 import io.github.jaron.connect.JaronBot;
 import io.github.lane.LaneAI;
 import io.github.ryanp102694.connect.MonteCarloAI;
+
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
@@ -24,7 +25,7 @@ public class Competition {
 
     public void run(){
 
-        int numberOfSimulations = 1000;
+        int numberOfSimulations = 100;
 
         int size = ais.size();
         Match[][] matches = new Match[ais.size()][ais.size()];
@@ -58,7 +59,7 @@ public class Competition {
         StringWriter writer = new StringWriter();
         t.merge( context, writer );
 
-        System.out.println( writer.toString() );
+        System.out.println( writer );
     }
 
 

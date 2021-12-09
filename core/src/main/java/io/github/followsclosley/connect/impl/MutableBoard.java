@@ -17,9 +17,7 @@ public class MutableBoard extends AbstractBoard {
     }
 
     public MutableBoard(int width, int height, int goal) {
-        this.state = new int[this.width = width][this.height = height];
-        this.goal = goal;
-        this.turns = new ArrayList<>();
+        super(width, height, goal);
     }
 
     public MutableBoard(Board board) {
@@ -29,6 +27,9 @@ public class MutableBoard extends AbstractBoard {
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
                 this.state[x][y] = board.getPiece(x, y);
+                if( this.state[x][y] == 0){
+                    this.turnsLeft++;
+                }
             }
         }
     }

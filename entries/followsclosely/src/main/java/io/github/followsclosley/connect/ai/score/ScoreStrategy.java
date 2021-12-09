@@ -1,9 +1,9 @@
-package io.github.followsclosley.connect.ai;
+package io.github.followsclosley.connect.ai.score;
 
 import io.github.followsclosley.connect.ArtificialIntelligence;
 import io.github.followsclosley.connect.Board;
 import io.github.followsclosley.connect.Coordinate;
-import io.github.followsclosley.connect.ai.grader.*;
+import io.github.followsclosley.connect.ai.score.grader.*;
 import io.github.followsclosley.connect.impl.MutableBoard;
 import io.github.followsclosley.connect.impl.Turn;
 import io.github.followsclosley.connect.impl.TurnUtils;
@@ -17,9 +17,9 @@ import java.util.List;
  */
 public class ScoreStrategy implements ArtificialIntelligence {
 
-    private int color;
+    private final int color;
     private int[] opponents;
-    private List<Grader> graders = new ArrayList<>();
+    private final List<Grader> graders = new ArrayList<>();
 
     public ScoreStrategy(int color) {
         this.color = color;

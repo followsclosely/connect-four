@@ -1,13 +1,10 @@
 package io.github.followsclosley.connect.ai;
 
+import io.github.followsclosley.connect.ai.mm.MiniMaxWithAlphaBeta;
 import io.github.followsclosley.connect.impl.MutableBoard;
 import junit.framework.TestCase;
 
-import java.util.Comparator;
-import java.util.List;
-import java.util.stream.Collectors;
-
-public class MiniMaxAlgorithmTest extends TestCase {
+public class MiniMaxWithAlphaBetaTest extends TestCase {
 
     public void testEvaluate() {
 
@@ -26,7 +23,7 @@ public class MiniMaxAlgorithmTest extends TestCase {
                 "00100");
 
         System.out.println(board);
-        MiniMaxAlgorithm algorithm = new MiniMaxAlgorithm(1, 0);
+        MiniMaxWithAlphaBeta algorithm = new MiniMaxWithAlphaBeta(1, 7);
 
 //        MiniMaxAlgorithm.Node root = algorithm.evaluate(board);
 //

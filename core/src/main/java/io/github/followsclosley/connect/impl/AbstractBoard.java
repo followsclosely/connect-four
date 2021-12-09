@@ -3,10 +3,12 @@ package io.github.followsclosley.connect.impl;
 import io.github.followsclosley.connect.Board;
 import io.github.followsclosley.connect.Coordinate;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public abstract class AbstractBoard implements Board {
 
+    protected int turnsLeft;
     protected int[][] state;
     protected int goal, width, height;
     protected List<Coordinate> turns;
@@ -16,8 +18,10 @@ public abstract class AbstractBoard implements Board {
     }
 
     public AbstractBoard(int width, int height, int goal) {
+        this.turns = new ArrayList<>();
         this.state = new int[this.width = width][this.height = height];
         this.goal = goal;
+        this.turnsLeft = width * height;
     }
 
     @Override
@@ -45,9 +49,13 @@ public abstract class AbstractBoard implements Board {
         return turns;
     }
 
+    public int getTurnsLeft() {
+        return turnsLeft;
+    }
+
     public String toMatrixString() {
         Board board = this;
-        StringBuffer b = new StringBuffer();
+        StringBuilder b = new StringBuilder();
         for (int y = 0; y < board.getHeight(); y++) {
             for (int x = 0; x < board.getWidth(); x++) {
                 b.append(String.format("[%d,%d]  ", x, y));
@@ -59,7 +67,7 @@ public abstract class AbstractBoard implements Board {
 
     public String toString() {
         Board board = this;
-        StringBuffer b = new StringBuffer("----------------\nboard = ");
+        StringBuilder b = new StringBuilder("----------------\nboard = ");
         for (int x = 0; x < board.getWidth(); x++) {
             b.append(x).append(" ");
         }

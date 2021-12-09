@@ -1,9 +1,9 @@
 package io.github.lane;
 
-import io.github.followsclosley.connect.ai.grader.*;
 import io.github.followsclosley.connect.ArtificialIntelligence;
 import io.github.followsclosley.connect.Board;
 import io.github.followsclosley.connect.Coordinate;
+import io.github.followsclosley.connect.ai.score.grader.*;
 import io.github.followsclosley.connect.impl.MutableBoard;
 import io.github.followsclosley.connect.impl.Turn;
 import io.github.followsclosley.connect.impl.TurnUtils;

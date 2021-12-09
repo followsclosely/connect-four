@@ -1,14 +1,10 @@
-package io.github.followsclosley.connect.ai.grader;
+package io.github.followsclosley.connect.ai.score.grader;
 
 public class Notes {
 
-    private static ThreadLocal<Notes> threadLocalValue = new ThreadLocal<>() {
-        protected Notes initialValue() {
-            return new Notes();
-        }
-    };
+    private final static ThreadLocal<Notes> threadLocalValue = ThreadLocal.withInitial(() -> new Notes());
 
-    private StringBuilder builder = new StringBuilder();
+    private final StringBuilder builder = new StringBuilder();
 
     public static Notes getInstance(){
         return threadLocalValue.get();

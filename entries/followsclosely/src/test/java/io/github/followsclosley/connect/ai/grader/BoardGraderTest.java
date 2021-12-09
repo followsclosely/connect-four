@@ -1,5 +1,6 @@
 package io.github.followsclosley.connect.ai.grader;
 
+import io.github.followsclosley.connect.ai.score.grader.BoardGrader;
 import io.github.followsclosley.connect.impl.MutableBoard;
 import junit.framework.TestCase;
 import org.junit.Assert;

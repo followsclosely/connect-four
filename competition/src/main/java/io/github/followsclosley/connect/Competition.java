@@ -1,6 +1,6 @@
 package io.github.followsclosley.connect;
 
-import io.github.followsclosley.connect.ai.ScoreStrategy;
+import io.github.followsclosley.connect.ai.score.ScoreStrategy;
 import io.github.followsclosley.connect.impl.ai.Dummy;
 import io.github.jaron.connect.JaronBot;
 import io.github.lane.LaneAI;
@@ -16,7 +16,7 @@ import java.util.List;
 
 public class Competition {
 
-    private List<ArtificialIntelligence> ais = new ArrayList<>();
+    private final List<ArtificialIntelligence> ais = new ArrayList<>();
 
     public Competition add(ArtificialIntelligence ai){
         ais.add(ai);

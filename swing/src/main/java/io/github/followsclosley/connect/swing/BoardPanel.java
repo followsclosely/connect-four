@@ -9,8 +9,6 @@ import io.github.followsclosley.connect.impl.TurnUtils;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ComponentEvent;
-import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.List;
 
@@ -22,13 +20,9 @@ import java.util.List;
 public class BoardPanel extends JPanel {
 
     public static final int PIECE_SIZE = 75;
-
-    protected Dimension defaultDimension;
-
     private final Color[] COLORS = {Color.GRAY, Color.GRAY, Color.RED, Color.BLACK};
-
-    private Board board;
-    private Turn turn;
+    private final Board board;
+    protected Dimension defaultDimension;
 
     private Image[] images = null;
 
@@ -46,14 +40,10 @@ public class BoardPanel extends JPanel {
             images[0] = ImageIO.read(ClassLoader.getSystemResource("black.png")).getScaledInstance(PIECE_SIZE - 3, PIECE_SIZE - 3, Image.SCALE_SMOOTH);
             images[1] = ImageIO.read(ClassLoader.getSystemResource("blue.png")).getScaledInstance(PIECE_SIZE - 3, PIECE_SIZE - 3, Image.SCALE_SMOOTH);
             images[2] = ImageIO.read(ClassLoader.getSystemResource("red.png")).getScaledInstance(PIECE_SIZE - 3, PIECE_SIZE - 3, Image.SCALE_SMOOTH);
-        } catch (IOException ignore){
-            ignore.printStackTrace();
+        } catch (IOException oops) {
+            oops.printStackTrace();
             images = null;
         }
-    }
-
-    public void setTurn(Turn turn) {
-        this.turn = turn;
     }
 
     @Override
@@ -69,12 +59,12 @@ public class BoardPanel extends JPanel {
         for (int x = 0, width = board.getWidth(); x < width; x++) {
             for (int y = 0, height = board.getHeight(); y < height; y++) {
                 g.setColor(COLORS[board.getPiece(x, y) + 1]);
-                g.fillRoundRect(x * PIECE_SIZE, y * PIECE_SIZE, PIECE_SIZE-5, PIECE_SIZE-5, PIECE_SIZE-5, PIECE_SIZE-5);
+                g.fillRoundRect(x * PIECE_SIZE, y * PIECE_SIZE, PIECE_SIZE - 5, PIECE_SIZE - 5, PIECE_SIZE - 5, PIECE_SIZE - 5);
             }
         }
 
         //Draw board with images.
-        if( images != null) {
+        if (images != null) {
             for (int x = 0, width = board.getWidth(); x < width; x++) {
                 for (int y = 0, height = board.getHeight(); y < height; y++) {
                     int color = board.getPiece(x, y);
@@ -96,7 +86,7 @@ public class BoardPanel extends JPanel {
 
                         ((Graphics2D) g).setStroke(new BasicStroke(10));
                         g.setColor(Color.YELLOW);
-                        g.drawLine(start.getX() * PIECE_SIZE + (PIECE_SIZE/2), start.getY() * PIECE_SIZE + (PIECE_SIZE/2), end.getX() * PIECE_SIZE + (PIECE_SIZE/2), end.getY() * PIECE_SIZE + (PIECE_SIZE/2));
+                        g.drawLine(start.getX() * PIECE_SIZE + (PIECE_SIZE / 2), start.getY() * PIECE_SIZE + (PIECE_SIZE / 2), end.getX() * PIECE_SIZE + (PIECE_SIZE / 2), end.getY() * PIECE_SIZE + (PIECE_SIZE / 2));
                     }
                 }
         }

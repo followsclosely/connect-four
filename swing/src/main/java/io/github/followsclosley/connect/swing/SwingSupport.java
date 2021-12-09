@@ -2,8 +2,6 @@ package io.github.followsclosley.connect.swing;
 
 import io.github.followsclosley.connect.ArtificialIntelligence;
 import io.github.followsclosley.connect.impl.MutableBoard;
-import io.github.followsclosley.connect.impl.Turn;
-import io.github.followsclosley.connect.impl.TurnUtils;
 import io.github.followsclosley.connect.impl.ai.Dummy;
 
 import javax.swing.*;
@@ -15,8 +13,6 @@ import java.awt.event.MouseEvent;
 /**
  * This class uses a builder patter to launch a swing UI to
  * test your AI.
- *
- * @see
  */
 public class SwingSupport {
 
@@ -40,7 +36,7 @@ public class SwingSupport {
      *     <li>To configure other settings suck as the goal</li>
      * </ol>
      *
-     * @param board
+     * @param board The board to hold the state of the game
      * @return this to keep the builder going
      */
     public SwingSupport setBoard(MutableBoard board) {
@@ -57,6 +53,7 @@ public class SwingSupport {
      * Launches the JFrame that contains the BoardPanel to display the game.
      */
     public void run() {
+
         if (board == null) {
             board = new MutableBoard();
         }
@@ -64,7 +61,7 @@ public class SwingSupport {
         bot.initialize(PLAYER_COLOR);
 
         BoardPanel boardPanel = new BoardPanel(board);
-        boardPanel.loadPrettyImages();
+        //boardPanel.loadPrettyImages();
 
         //Register a listener to capture when a piece is to be played.
         boardPanel.addMouseListener(new MouseAdapter() {

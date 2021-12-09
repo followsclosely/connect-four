@@ -1,9 +1,9 @@
-package io.github.followsclosley.connect.ai;
+package io.github.followsclosley.connect.ai.score;
 
 import io.github.followsclosley.connect.ArtificialIntelligence;
 import io.github.followsclosley.connect.Board;
 import io.github.followsclosley.connect.Coordinate;
-import io.github.followsclosley.connect.ai.grader.*;
+import io.github.followsclosley.connect.ai.score.grader.*;
 import io.github.followsclosley.connect.impl.MutableBoard;
 import io.github.followsclosley.connect.impl.Turn;
 import io.github.followsclosley.connect.impl.TurnUtils;
@@ -17,9 +17,9 @@ import java.util.List;
  */
 public class ScoreStrategy implements ArtificialIntelligence {
 
-    private int color;
+    private final int color;
+    private final List<Grader> graders = new ArrayList<>();
     private int[] opponents;
-    private List<Grader> graders = new ArrayList<>();
 
     public ScoreStrategy(int color) {
         this.color = color;
@@ -52,17 +52,8 @@ public class ScoreStrategy implements ArtificialIntelligence {
         int maxScore = Integer.MIN_VALUE;
         int[] scores = new int[board.getWidth()];
 
-//        int[] opponents = this.opponents;
-//        if( opponents == null || opponents.length == 0) {
-//            Coordinate lastTurn = board.getTurns().isEmpty() ? null : board.getTurns().get(board.getTurns().size() - 1);
-//            if( lastTurn != null ){
-//                opponents = new int[]{board.getPiece(lastTurn.getX(), lastTurn.getY())};
-//            }
-//        }
-
         for (int x = 0, width = board.getWidth(); x < width; x++) {
-            if (board.canDropPiece(x)) {
-                board.dropPiece(x, getColor());
+            if (board.dropPiece(x, getColor()) >= 0) {
                 scores[x] = scoreMove(board, board.getLastMove(), opponents);
                 if (maxScore < scores[x]) {
                     maxScore = scores[x];
@@ -76,9 +67,7 @@ public class ScoreStrategy implements ArtificialIntelligence {
     }
 
     public int scoreMove(MutableBoard board, Coordinate lastTurn, int... opponents) {
-
         int score = 1;
-
         Turn thisTurn = TurnUtils.getConnections(board);
         for (Grader grader : graders) {
             score += grader.score(board, thisTurn, opponents);

@@ -1,7 +1,7 @@
-package io.github.followsclosley.connect.ai.grader;
+package io.github.followsclosley.connect.ai.score.grader;
 
 public abstract class AbstractGrader implements Grader {
-    protected int weight = 0;
+    protected int weight;
 
     public AbstractGrader(int weight) {
         this.weight = weight;

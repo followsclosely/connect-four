@@ -6,6 +6,7 @@ import io.github.followsclosley.connect.impl.Turn;
 import io.github.followsclosley.connect.impl.TurnUtils;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -13,14 +14,12 @@ import java.util.List;
  */
 public class Engine {
 
+    // A List of players.
+    private final List<ArtificialIntelligence> players = new ArrayList<>();
+    // The state of the game is held in the MutableBoard.
+    private final MutableBoard board = new MutableBoard(7, 6, 4);
     // The number of players. This is set in the constuctor.
     int playerCount;
-
-    // A List of players.
-    private List<ArtificialIntelligence> players = new ArrayList<>();
-
-    // The state of the game is held in the MutableBoard.
-    private MutableBoard board = new MutableBoard(7, 6, 4);
 
     /**
      * Constructs and new Engine with a default board.
@@ -28,19 +27,16 @@ public class Engine {
      * @param ais The players in the game. Can be 2-N.
      */
     public Engine(ArtificialIntelligence... ais) {
-        for (ArtificialIntelligence ai : ais) {
-            players.add(ai);
-        }
+        Collections.addAll(players, ais);
         playerCount = players.size();
     }
 
     /**
      * Runs a simulation of one game.
      */
-    public int startGame(int firstIndex) {
+    public int startGame() {
 
         int winner = -1;
-        //System.out.println(board.toMatrixString());
 
         //TODO: This is a hack that needs to be cleaned up...
         ArtificialIntelligence ai0 = players.get(0);
@@ -50,7 +46,7 @@ public class Engine {
 
         //The total number of turns before the board is full
         int total = board.getWidth() * board.getHeight();
-        for (int turn = firstIndex; turn < total; turn++) {
+        for (int turn = 0; turn < total; turn++) {
             ArtificialIntelligence player = players.get(turn % playerCount);
 
             //Pass an immutable board down as to not mess with this standard
@@ -76,5 +72,7 @@ public class Engine {
         return winner;
     }
 
-    public Board getBoard() { return board; }
+    public Board getBoard() {
+        return board;
+    }
 }

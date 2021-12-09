@@ -1,9 +1,9 @@
 package io.github.lane;
 
-import io.github.followsclosley.connect.ai.grader.*;
 import io.github.followsclosley.connect.ArtificialIntelligence;
 import io.github.followsclosley.connect.Board;
 import io.github.followsclosley.connect.Coordinate;
+import io.github.followsclosley.connect.ai.score.grader.*;
 import io.github.followsclosley.connect.impl.MutableBoard;
 import io.github.followsclosley.connect.impl.Turn;
 import io.github.followsclosley.connect.impl.TurnUtils;
@@ -57,7 +57,7 @@ public class LaneAI implements ArtificialIntelligence {
         int[] aggregateScore = new int[board.getWidth()];
         Arrays.setAll(aggregateScore, p -> 0);
 
-        int [] playerScores = new int[] {0, 0};
+        int[] playerScores = new int[]{0, 0};
 
         for (int i = 0; i < b.getWidth(); i++) {
             MutableBoard recursiveBoard = new MutableBoard(board);
@@ -109,7 +109,7 @@ public class LaneAI implements ArtificialIntelligence {
 
     public int[] getBestMove(MutableBoard b, int color) {
         int[] moveScores = new int[b.getWidth()];
-        int[] bestScoreAndIndex = new int[] {0, 0};
+        int[] bestScoreAndIndex = new int[]{0, 0};
         Arrays.setAll(moveScores, p -> 0);
 
         for (int i = 0; i < b.getWidth(); i++) {
@@ -132,6 +132,6 @@ public class LaneAI implements ArtificialIntelligence {
     }
 
     public boolean isFull(MutableBoard board) {
-       return board.getTurns().size() >= board.getWidth() * board.getHeight();
+        return board.getTurns().size() >= board.getWidth() * board.getHeight();
     }
 }

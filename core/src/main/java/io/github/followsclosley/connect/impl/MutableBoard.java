@@ -17,9 +17,7 @@ public class MutableBoard extends AbstractBoard {
     }
 
     public MutableBoard(int width, int height, int goal) {
-        this.state = new int[this.width = width][this.height = height];
-        this.goal = goal;
-        this.turns = new ArrayList<>();
+        super(width, height, goal);
     }
 
     public MutableBoard(Board board) {
@@ -29,8 +27,30 @@ public class MutableBoard extends AbstractBoard {
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
                 this.state[x][y] = board.getPiece(x, y);
+                if (this.state[x][y] == 0) {
+                    this.turnsLeft++;
+                }
             }
         }
+    }
+
+    public static MutableBoard initialize(String config) {
+        return initialize(new MutableBoard(), config);
+    }
+
+    public static MutableBoard initialize(MutableBoard board, String config) {
+        int index = config.length() - 1;
+        for (int y = board.getHeight() - 1; y >= 0 && index >= 0; y--) {
+            for (int x = board.getWidth() - 1; x >= 0 && index >= 0; x--, index--) {
+                char c = config.charAt(index);
+                if (c != '0' && c != ' ' && c != '-') {
+                    int color = Character.getNumericValue(c);
+                    board.dropPiece(x, color);
+                }
+            }
+        }
+
+        return board;
     }
 
     public Coordinate getLastMove() {
@@ -52,7 +72,6 @@ public class MutableBoard extends AbstractBoard {
                 state[x][y] = piece;
                 turns.add(this.lastMove = new Coordinate(x, y));
                 fireBoardChanged(new Coordinate(x, y));
-
                 return y;
             }
         }

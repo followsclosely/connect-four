@@ -46,7 +46,7 @@ public class BoardEvaluator {
                 //System.out.printf("piece == %d [actual= %d, potential= %d]\n", piece, actual, potential);
             }
 
-            score += calculate(actual, potential, 0, board.getGoal());
+            score += calculate(actual, 0, potential, 0, board.getGoal());
         }
 
         return score;
@@ -90,7 +90,7 @@ public class BoardEvaluator {
                 //System.out.printf("piece == %d [potentialLeft=%d, actual=%d, potentialRight=%d]\n", piece, potentialLeft, actual, potentialRight);
             }
 
-            score += calculate(actual, potentialLeft, potentialRight, board.getGoal());
+            score += calculate(actual, potentialLeft, 0, potentialRight, board.getGoal());
         }
 
         return score;
@@ -150,7 +150,7 @@ public class BoardEvaluator {
                         }
                     }
 
-                    score += calculate(actual, potentialLeft, potentialRight, board.getGoal());
+                    score += calculate(actual, potentialLeft, 0, potentialRight, board.getGoal());
                 }
             }
         }
@@ -211,7 +211,7 @@ public class BoardEvaluator {
                         }
                     }
 
-                    score += calculate(actual, potentialLeft, potentialRight, board.getGoal());
+                    score += calculate(actual, potentialLeft, 0, potentialRight, board.getGoal());
                     System.out.println("score = " + score);
                 }
             }
@@ -221,8 +221,18 @@ public class BoardEvaluator {
 
     }
 
-
-    private int calculate(int actual, int potentialLeft, int potentialRight, int goal){
+    /**
+     * Calculates a score give the following parameters
+     *
+     * @param actual The number of pieces adjacent to another piece of the same color
+     * @param potentialLeft The number of empty spaces to the left
+     * @param potential The number of empty spaces to in between pieces
+     * @param potentialRight The number of empty spaces to the right
+     * @param goal The number you need to win the game
+     *
+     * @return A score for this condition
+     */
+    private int calculate(int actual, int potentialLeft, int potential, int potentialRight, int goal){
         int score = 0;
 
         if (actual >= goal) {
@@ -236,8 +246,8 @@ public class BoardEvaluator {
             //Extra 100 points for a potential win on both sides in a row of 3.
             score += 100;
         }
-        if (actual > 0 && (potentialLeft + actual + potentialRight) >= goal) {
-            //Score a point for every line that has potential.
+        if (actual > 0 && (potentialLeft + actual + potential + potentialRight) >= goal) {
+            //Score points for every line that has potential.
             score += (actual * 2);
 
             //One point per piece and one point for the open end.

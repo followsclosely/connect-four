@@ -54,6 +54,7 @@ public class SwingSupport {
      * Launches the JFrame that contains the BoardPanel to display the game.
      */
     public void run() {
+
         if (board == null) {
             board = new MutableBoard();
         }
@@ -61,7 +62,7 @@ public class SwingSupport {
         bot.initialize(PLAYER_COLOR);
 
         BoardPanel boardPanel = new BoardPanel(board);
-        boardPanel.loadPrettyImages();
+        //boardPanel.loadPrettyImages();
 
         //Register a listener to capture when a piece is to be played.
         boardPanel.addMouseListener(new MouseAdapter() {

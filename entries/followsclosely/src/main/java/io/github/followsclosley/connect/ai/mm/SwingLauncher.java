@@ -9,7 +9,7 @@ public class SwingLauncher {
     public static void main(String[] args) {
 
         new SwingSupport()
-                .setArtificialIntelligence(new MiniMaxWithAlphaBeta(SwingSupport.COMPUTER_COLOR, 2))
+                .setArtificialIntelligence(new MiniMaxWithAlphaBeta(SwingSupport.COMPUTER_COLOR, 9))
                 .run();
     }
 }

@@ -8,11 +8,11 @@ public class Match {
     private ArtificialIntelligence[] ais;
     private Map<Integer, AtomicInteger> counts;
 
-    public Match(ArtificialIntelligence ai1, ArtificialIntelligence ai2){
+    public Match(ArtificialIntelligence ai1, ArtificialIntelligence ai2) {
         ais = new ArtificialIntelligence[]{ai1, ai2};
     }
 
-    public Match run(int numberOfGames){
+    public Match run(int numberOfGames) {
         this.numberOfGames = Float.valueOf(numberOfGames);
         this.counts = new Simulation()
                 .number(numberOfGames)
@@ -27,14 +27,20 @@ public class Match {
         return numberOfGames;
     }
 
-    public String getName(){
+    public String getName() {
         return ais[0].getClass().getName();
     }
+
     public Integer getWins() {
-        try { return getWins(ais[0].getColor()); } catch(Exception ignore){ ignore.printStackTrace(); }
+        try {
+            return getWins(ais[0].getColor());
+        } catch (Exception ignore) {
+            ignore.printStackTrace();
+        }
         return null;
     }
+
     public Integer getWins(int color) {
-        return (counts==null) ?  null : counts.get(color).intValue();
+        return (counts == null) ? null : counts.get(color).intValue();
     }
 }

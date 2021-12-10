@@ -27,7 +27,7 @@ public class MutableBoard extends AbstractBoard {
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
                 this.state[x][y] = board.getPiece(x, y);
-                if( this.state[x][y] == 0){
+                if (this.state[x][y] == 0) {
                     this.turnsLeft++;
                 }
             }
@@ -53,7 +53,6 @@ public class MutableBoard extends AbstractBoard {
                 state[x][y] = piece;
                 turns.add(this.lastMove = new Coordinate(x, y));
                 fireBoardChanged(new Coordinate(x, y));
-
                 return y;
             }
         }

@@ -1,10 +1,10 @@
 package io.github.followsclosley.connect.impl.ai;
 
 import io.github.followsclosley.connect.impl.MutableBoard;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class DummyTest {
 
@@ -32,8 +32,8 @@ public class DummyTest {
         //Fill the board.
         for (int i = 0; i < 100; i++) {
             int x = dummy.yourTurn(board);
-            assertTrue("Value can not be less than zero.", x >= 0);
-            assertTrue("Value can not be greater than ten.", x < 10);
+            assertTrue(x >= 0, "Value can not be less than zero.");
+            assertTrue(x < 10, "Value can not be greater than ten.");
         }
     }
 }

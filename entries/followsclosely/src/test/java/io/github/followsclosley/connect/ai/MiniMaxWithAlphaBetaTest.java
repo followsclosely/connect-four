@@ -2,9 +2,8 @@ package io.github.followsclosley.connect.ai;
 
 import io.github.followsclosley.connect.ai.mm.MiniMaxWithAlphaBeta;
 import io.github.followsclosley.connect.impl.MutableBoard;
-import junit.framework.TestCase;
 
-public class MiniMaxWithAlphaBetaTest extends TestCase {
+public class MiniMaxWithAlphaBetaTest {
 
     public void testEvaluate() {
 

@@ -1,6 +1,5 @@
 package io.github.followsclosley.connect.ai.score;
 
-import io.github.followsclosley.connect.ai.mm.MiniMaxWithAlphaBeta;
 import io.github.followsclosley.connect.impl.MutableBoard;
 import io.github.followsclosley.connect.swing.SwingSupport;
 

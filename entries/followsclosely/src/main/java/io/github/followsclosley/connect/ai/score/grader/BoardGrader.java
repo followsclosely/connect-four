@@ -6,21 +6,27 @@ import io.github.followsclosley.connect.Coordinate;
 public class BoardGrader {
 
     public static final int MAX_WINNING_SCORE = 777777;
+    private static final Coordinate[] DIRECTIONS_TO_SEARCH = {
+            new Coordinate(0, -1),
+            new Coordinate(1, -1),
+            new Coordinate(1, 0),
+            new Coordinate(1, 1)
+    };
 
-    public int grade(Board board, int player1, int player2){
+    public int grade(Board board, int player1, int player2) {
         int finalScore = 0;
 
         for (int x = 0, width = board.getWidth(); x < width; x++) {
             for (int y = 0, height = board.getHeight(); y < height; y++) {
-                int piece = board.getPiece(x,y);
+                int piece = board.getPiece(x, y);
 
-                if( piece == player1 ){
+                if (piece == player1) {
                     int score = scorePiece(board, piece, x, y);
                     //System.out.printf("[%d,%d] = %d\n", x, y, score);
                     finalScore += score;
                 }
 
-                if( piece == player2 ){
+                if (piece == player2) {
                     int score = scorePiece(board, piece, x, y);
                     //System.out.printf("[%d,%d] = %d\n", x, y, score);
                     finalScore -= score;
@@ -30,13 +36,6 @@ public class BoardGrader {
         }
         return finalScore;
     }
-
-    private static final Coordinate[] DIRECTIONS_TO_SEARCH = {
-            new Coordinate(0, -1),
-            new Coordinate(1, -1),
-            new Coordinate(1, 0),
-            new Coordinate(1, 1)
-    };
 
     public int scorePiece(Board b, int color, int px, int py) {
 
@@ -72,16 +71,15 @@ public class BoardGrader {
                 }
             }
 
-            if( streakCount >= b.getGoal()){
+            if (streakCount >= b.getGoal()) {
                 return MAX_WINNING_SCORE;
             }
 
-            if( (streakCount + emptyBackwardsCount + emptyForwardsCount) > b.getGoal() )
-            {
+            if ((streakCount + emptyBackwardsCount + emptyForwardsCount) > b.getGoal()) {
                 totalScore += Math.pow(3, streakCount) + emptyBackwardsCount + emptyForwardsCount;
             }
 
-            if( emptyBackwardsCount>0 && emptyForwardsCount > 0){
+            if (emptyBackwardsCount > 0 && emptyForwardsCount > 0) {
                 totalScore *= 3;
             }
         }

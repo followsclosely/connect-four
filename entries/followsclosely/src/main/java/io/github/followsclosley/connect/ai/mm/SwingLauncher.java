@@ -1,6 +1,5 @@
 package io.github.followsclosley.connect.ai.mm;
 
-import io.github.followsclosley.connect.impl.MutableBoard;
 import io.github.followsclosley.connect.swing.SwingSupport;
 
 /**
@@ -9,13 +8,8 @@ import io.github.followsclosley.connect.swing.SwingSupport;
 public class SwingLauncher {
     public static void main(String[] args) {
 
-        MutableBoard board = new MutableBoard();
-
         new SwingSupport()
-                .setBoard(board)
-                //.setArtificialIntelligence(new Dummy(SwingSupport.COMPUTER_COLOR))
-                //.setArtificialIntelligence(new ScoreStrategy(SwingSupport.COMPUTER_COLOR))
-                .setArtificialIntelligence(new MiniMaxWithAlphaBeta(7, 10))
+                .setArtificialIntelligence(new MiniMaxWithAlphaBeta(SwingSupport.COMPUTER_COLOR, 2))
                 .run();
     }
 }

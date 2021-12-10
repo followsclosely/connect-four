@@ -10,7 +10,7 @@ public class ConnectTestUtils {
         for (int y = board.getHeight() - 1; y >= 0 && index >= 0; y--) {
             for (int x = board.getWidth() - 1; x >= 0 && index >= 0; x--, index--) {
                 char c = config.charAt(index);
-                if (c != '0' && c != ' ') {
+                if (c != '0' && c != ' ' && c != '-') {
                     int color = Character.getNumericValue(c);
                     board.dropPiece(x, color);
                 }

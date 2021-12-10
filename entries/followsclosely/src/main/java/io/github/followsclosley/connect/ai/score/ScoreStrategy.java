@@ -18,8 +18,8 @@ import java.util.List;
 public class ScoreStrategy implements ArtificialIntelligence {
 
     private final int color;
-    private int[] opponents;
     private final List<Grader> graders = new ArrayList<>();
+    private int[] opponents;
 
     public ScoreStrategy(int color) {
         this.color = color;

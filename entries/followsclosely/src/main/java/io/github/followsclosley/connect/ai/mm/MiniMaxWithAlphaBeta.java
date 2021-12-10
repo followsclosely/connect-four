@@ -2,23 +2,23 @@ package io.github.followsclosley.connect.ai.mm;
 
 import io.github.followsclosley.connect.ArtificialIntelligence;
 import io.github.followsclosley.connect.Board;
-import io.github.followsclosley.connect.ai.score.grader.BoardGrader;
 import io.github.followsclosley.connect.impl.MutableBoard;
 import io.github.followsclosley.connect.impl.Turn;
 import io.github.followsclosley.connect.impl.TurnUtils;
 import io.github.followsclosley.connect.impl.ai.Dummy;
 
+import java.awt.image.ColorConvertOp;
+import java.util.Arrays;
+
 public class MiniMaxWithAlphaBeta implements ArtificialIntelligence {
 
-    private final ArtificialIntelligence parent;
+    private final BoardEvaluator evaluator = new BoardEvaluator();
 
     private final int you;
+    private final int depth;
     private int opponent;
 
-    private final int depth;
-
     public MiniMaxWithAlphaBeta(int color, int depth) {
-        this.parent = new Dummy(color);
         this.depth = depth;
         this.you = color;
     }
@@ -33,20 +33,23 @@ public class MiniMaxWithAlphaBeta implements ArtificialIntelligence {
         int bestMove = 4;
         int bestValue = Integer.MIN_VALUE;
 
+        int[] scores = new int[size];
         //Play each piece and locate the bestValue play.
         for (int x = 0; x < size; x++) {
-                if (board.canDropPiece(x)) {
-                    board.dropPiece(x, you);
+            if (board.canDropPiece(x)) {
+                board.dropPiece(x, you);
 
-                    int moveValue = min(board, depth - 1, Integer.MIN_VALUE, Integer.MAX_VALUE);
-                    if (moveValue > bestValue) {
-                        bestMove = x;
-                        bestValue = moveValue;
-                    }
-
-                    board.undo();
+                int moveValue = min(board, depth - 1, Integer.MIN_VALUE, Integer.MAX_VALUE);
+                if (moveValue > bestValue) {
+                    bestMove = x;
+                    bestValue = moveValue;
                 }
+                scores[x] = moveValue;
+                board.undo();
+            }
         }
+
+        //System.out.println(Arrays.toString(scores));
 
         return bestMove;
     }
@@ -67,26 +70,27 @@ public class MiniMaxWithAlphaBeta implements ArtificialIntelligence {
      * @see #min(MutableBoard, int, int, int)
      */
     public int max(MutableBoard b, int depth, int alpha, int beta) {
-        System.out.print("\rdepth = " + depth);
-        if (TurnUtils.getConnections(b).hasWinningLine(4) ) {
-            System.out.println("win!");
-            return 1000;
+
+        if (TurnUtils.getConnections(b).hasWinningLine(4)) {
+            //System.out.println("min("+currentX+":"+currentX2+"/" + senerios +"): score = " + evaluator.score(b, you) +" - "+ evaluator.score(b, opponent));
+            return Integer.MIN_VALUE;
         }
 
-        if (depth == 0 || b.getTurnsLeft() == 0) {
-            return 0;
+        if (depth == 0 || b.getTurnsLeft() == 0 ) {
+            //System.out.println("max("+currentX+":"+currentX2+"/" + senerios +"): score = " + evaluator.score(b, you) +" - "+ evaluator.score(b, opponent));
+            return evaluator.score(b, you) - evaluator.score(b, opponent);
         }
 
         int highestVal = Integer.MIN_VALUE;
         for (int x = 0, size = b.getWidth(); x < size; x++) {
             if (b.canDropPiece(x)) {
                 b.dropPiece(x, you);
-                    highestVal = Math.max(highestVal, min(b, depth - 1, alpha, beta));
-                    b.undo();
-                    if ((alpha = Math.max(alpha, highestVal)) >= beta) {
-                        return highestVal;
-                    }
+                highestVal = Math.max(highestVal, min(b, depth - 1, alpha, beta));
+                b.undo();
+                if ((alpha = Math.max(alpha, highestVal)) >= beta) {
+                    return highestVal;
                 }
+            }
         }
 
         return highestVal;
@@ -108,26 +112,27 @@ public class MiniMaxWithAlphaBeta implements ArtificialIntelligence {
      * @see #max(MutableBoard, int, int, int)
      */
     public int min(MutableBoard b, int depth, int alpha, int beta) {
-        System.out.print("\rdepth = " + depth);
-        if (TurnUtils.getConnections(b).hasWinningLine(4) ) {
-            System.out.println("win?");
-            return -1000;
+
+        if (TurnUtils.getConnections(b).hasWinningLine(4)) {
+            //System.out.println("min("+currentX+":"+currentX2+"/" + senerios +"): score = " + evaluator.score(b, you) +" - "+ evaluator.score(b, opponent));
+            return Integer.MAX_VALUE;
         }
 
-        if (depth == 0 || b.getTurnsLeft() == 0) {
-            return 0;
+        if (depth == 0 || b.getTurnsLeft() == 0 ) {
+            //System.out.println("min("+currentX+":"+currentX2+"/" + senerios +"): score = " + evaluator.score(b, you) +" - "+ evaluator.score(b, opponent));
+            return evaluator.score(b, you) - evaluator.score(b, opponent);
         }
 
         int lowestVal = Integer.MAX_VALUE;
         for (int x = 0, size = b.getWidth(); x < size; x++) {
             if (b.canDropPiece(x)) {
-                b.dropPiece(x, you);
-                    lowestVal = Math.min(lowestVal, max(b, depth - 1, alpha, beta));
-                    b.undo();
-                    if ((beta = Math.min(beta, lowestVal)) <= alpha) {
-                        return lowestVal;
-                    }
+                b.dropPiece(x, opponent);
+                lowestVal = Math.min(lowestVal, max(b, depth - 1, alpha, beta));
+                b.undo();
+                if ((beta = Math.min(beta, lowestVal)) <= alpha) {
+                    return lowestVal;
                 }
+            }
         }
 
         return lowestVal;
@@ -141,6 +146,5 @@ public class MiniMaxWithAlphaBeta implements ArtificialIntelligence {
     @Override
     public void initialize(int opponent) {
         this.opponent = opponent;
-        this.parent.initialize(opponent);
     }
 }

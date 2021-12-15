@@ -8,10 +8,11 @@ import io.github.ryanp102694.connect.MonteCarloAI;
 public class ShellLauncher {
     public static void main(String[] args) {
         new Simulation()
-                .number(100)
-                .addArtificialIntelligence(new MiniMaxWithAlphaBeta(1, 3))
+                .number(10)
+                .addArtificialIntelligence(new MiniMaxWithAlphaBeta(1, 9))
                 .addArtificialIntelligence(new MonteCarloAI(2))
                 .run()
                 .printSummary();
+        System.exit(0);
     }
 }

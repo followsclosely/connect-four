@@ -7,15 +7,22 @@ import io.github.followsclosley.connect.impl.Turn;
 import io.github.followsclosley.connect.impl.TurnUtils;
 import io.github.followsclosley.connect.impl.ai.Dummy;
 
-import java.awt.image.ColorConvertOp;
-import java.util.Arrays;
+import java.time.Duration;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class MiniMaxWithAlphaBeta implements ArtificialIntelligence {
 
     private final BoardEvaluator evaluator = new BoardEvaluator();
-
     private final int you;
     private final int depth;
+    private long timeout = 1;
+    private TimeUnit timeUnit = TimeUnit.SECONDS;
     private int opponent;
 
     public MiniMaxWithAlphaBeta(int color, int depth) {
@@ -26,32 +33,52 @@ public class MiniMaxWithAlphaBeta implements ArtificialIntelligence {
     @Override
     public int yourTurn(Board b) {
 
-        MutableBoard board = new MutableBoard(b);
-
         int size = b.getWidth();
 
-        int bestMove = 4;
-        int bestValue = Integer.MIN_VALUE;
+        //If you can win next turn then win.
+        int winningColumn = getWinningColumn(new MutableBoard(b));
+        if (winningColumn != -1) {
+            return winningColumn;
+        }
 
-        int[] scores = new int[size];
+        final ExecutorService executorService = Executors.newFixedThreadPool(size);
+        final AtomicInteger bestValueReference = new AtomicInteger(Integer.MIN_VALUE);
+        final AtomicInteger bestColumnReference = new AtomicInteger(-1);
+
         //Play each piece and locate the bestValue play.
         for (int x = 0; x < size; x++) {
+            MutableBoard board = new MutableBoard(b);
             if (board.canDropPiece(x)) {
-                board.dropPiece(x, you);
-
-                int moveValue = min(board, depth - 1, Integer.MIN_VALUE, Integer.MAX_VALUE);
-                if (moveValue > bestValue) {
-                    bestMove = x;
-                    bestValue = moveValue;
-                }
-                scores[x] = moveValue;
-                board.undo();
+                final int column = x;
+                executorService.execute(() -> {
+                    if (board.canDropPiece(column)) {
+                        board.dropPiece(column, you);
+                        int value = min(board, depth - 1, Integer.MIN_VALUE, Integer.MAX_VALUE);
+                        synchronized (bestValueReference) {
+                            if (value > bestValueReference.get()) {
+                                bestValueReference.set(value);
+                                bestColumnReference.set(column);
+                            }
+                        }
+                    }
+                });
             }
         }
 
-        //System.out.println(Arrays.toString(scores));
+        executorService.shutdown();
+        try {
+            if (!executorService.awaitTermination(timeout, timeUnit)) {
+                executorService.shutdownNow();
+                System.out.println("ERROR: Timeout has occurred, returning random move! ");
+            }
 
-        return bestMove;
+            return bestColumnReference.get();
+        } catch (InterruptedException e) {
+            executorService.shutdownNow();
+            System.out.println("ERROR: InterruptedException has occurred, returning random move! ");
+        }
+
+        return new Dummy(you).yourTurn(b);
     }
 
     /**
@@ -76,7 +103,7 @@ public class MiniMaxWithAlphaBeta implements ArtificialIntelligence {
             return Integer.MIN_VALUE;
         }
 
-        if (depth == 0 || b.getTurnsLeft() == 0 ) {
+        if (depth == 0 || b.getTurnsLeft() == 0) {
             //System.out.println("max("+currentX+":"+currentX2+"/" + senerios +"): score = " + evaluator.score(b, you) +" - "+ evaluator.score(b, opponent));
             return evaluator.score(b, you) - evaluator.score(b, opponent);
         }
@@ -118,7 +145,7 @@ public class MiniMaxWithAlphaBeta implements ArtificialIntelligence {
             return Integer.MAX_VALUE;
         }
 
-        if (depth == 0 || b.getTurnsLeft() == 0 ) {
+        if (depth == 0 || b.getTurnsLeft() == 0) {
             //System.out.println("min("+currentX+":"+currentX2+"/" + senerios +"): score = " + evaluator.score(b, you) +" - "+ evaluator.score(b, opponent));
             return evaluator.score(b, you) - evaluator.score(b, opponent);
         }
@@ -138,6 +165,20 @@ public class MiniMaxWithAlphaBeta implements ArtificialIntelligence {
         return lowestVal;
     }
 
+    private int getWinningColumn(MutableBoard board) {
+        for (int x = 0, size = board.getWidth(); x < size; x++) {
+            int y = board.dropPiece(x, you);
+            if (y >= 0) {
+                Turn turn = TurnUtils.getConnections(board);
+                if (turn.hasWinningLine(board.getGoal())) {
+                    return x;
+                }
+                board.undo();
+            }
+        }
+        return -1;
+    }
+
     @Override
     public int getColor() {
         return you;
@@ -146,5 +187,11 @@ public class MiniMaxWithAlphaBeta implements ArtificialIntelligence {
     @Override
     public void initialize(int opponent) {
         this.opponent = opponent;
+    }
+
+    public MiniMaxWithAlphaBeta setTimeout(long timeout, TimeUnit timeUnit) {
+        this.timeout = timeout;
+        this.timeUnit = timeUnit;
+        return this;
     }
 }

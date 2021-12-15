@@ -31,12 +31,12 @@ Gradle.
 The directory you copied already has a class
 named [YourCustomAI](https://github.com/followsclosely/connect-four/blob/master/entries/copy-me-to-get-started/src/main/java/YourCustomAI.java)
 that implements the
-[ArtificialIntelligence](https://github.com/followsclosely/connect-four/blob/master/core/src/main/java/net/wilson/games/connect/ArtificialIntelligence)
+[ArtificialIntelligence](https://github.com/followsclosely/connect-four/blob/master/core/src/main/java/io/github/followsclosley/connect/ArtificialIntelligence.java)
 interface. The
-[ArtificialIntelligence](https://github.com/followsclosely/connect-four/blob/master/core/src/main/java/net/wilson/games/connect/ArtificialIntelligence)
+[ArtificialIntelligence](https://github.com/followsclosely/connect-four/blob/master/core/src/main/java/io/github/followsclosley/connect/ArtificialIntelligence.java)
 interface is the only class that you need to author to implement your own AI.
 
-[ArtificialIntelligence.java](https://github.com/followsclosely/connect-four/blob/master/core/src/main/java/net/wilson/games/connect/ArtificialIntelligence.java)
+[ArtificialIntelligence.java](https://github.com/followsclosely/connect-four/blob/master/core/src/main/java/io/github/followsclosley/connect/ArtificialIntelligence.java)
 
 ```java
 public abstract class ArtificialIntelligence {
@@ -55,7 +55,7 @@ public abstract class ArtificialIntelligence {
 ### Testing Your AI (Command Line)
 
 You can test your AI using the following:
-[io.github.jaron.connect.ShellLauncher.java](https://github.com/followsclosely/connect-four/blob/master/entries/copy-me-to-get-started/src/main/java/io.github.jaron.connect.ShellLauncher.java)
+[ShellLauncher.java](https://github.com/followsclosely/connect-four/blob/master/entries/copy-me-to-get-started/src/main/java/ShellLauncher.java)
 
 ```java
 import io.github.followsclosley.connect.Simulation;
@@ -76,7 +76,7 @@ public class io.github.jaron.connect.ShellLauncher {
 ### Testing Your AI (Swing)
 
 You can test your AI using a graphical interface:
-[io.github.jaron.connect.SwingLauncher.java](https://github.com/followsclosely/connect-four/blob/master/entries/copy-me-to-get-started/src/main/java/io.github.jaron.connect.SwingLauncher.java)
+[SwingLauncher.java](https://github.com/followsclosely/connect-four/blob/master/entries/copy-me-to-get-started/src/main/java/SwingLauncher.java)
 
 ```java
 import io.github.followsclosley.connect.swing.SwingSupport;
@@ -92,14 +92,37 @@ public class io.github.jaron.connect.SwingLauncher {
 }
 ```
 
-## Current Implementations
+## Current AI implementations
 
-The win percentage of current AI implementations:
+### The win percentage:
 
-| | Class Name |  #0 |  #1 |  #2 |  #3 |  #4 | 
-| ---: | :--- |  :---: |  :---: |  :---: |  :---: |  :---: | 
-| #0 | io.github.followsclosley.connect.impl.ai.Dummy |  -  |  %1.7  |  %0.1  |  %0.3  |  %0.3  | 
-| #1 | io.github.jaron.connect.JaronBot |  %97.7  |  -  |  %9.5  |  %24.5  |  %4.0  | 
-| #2 | io.github.followsclosley.connect.ai.score.ScoreStrategy |  %99.9  |  %74.7  |  -  |  %0.0  |  %46.1  | 
-| #3 | io.github.lane.LaneAI |  %99.6  |  %59.899998  |  %0.0  |  -  |  %13.9  | 
-| #4 | io.github.ryanp102694.connect.MonteCarloAI |  %99.6  |  %93.6  |  %51.6  |  %70.1  |  -  | 
+| | Class Name |   #0   |  #1   |     #2     |  #3   |  #4   |  #5   | 
+| ---: | :--- |:------:|:-----:|:----------:|:-----:|:-----:|:-----:| 
+| #0 | io.github.followsclosley.connect.impl.ai.Dummy * |   -    | %1.0  |    %0.0    | %0.0  | %0.0  | %0.0  | 
+| #1 | io.github.jaron.connect.JaronBot * | %95.0  |   -   |   %11.0    | %31.0 | %5.0  | %1.0  | 
+| #2 | io.github.followsclosley.connect.ai.score.ScoreStrategy * | %100.0 | %75.0 |     -      | %0.0  | %46.0 | %0.0  | 
+| #3 | io.github.lane.LaneAI * | %100.0 | %55.0 |    %0.0    |   -   | %13.0 | %0.0  | 
+| #4 | io.github.ryanp102694.connect.MonteCarloAI * | %100.0 | %95.0 | %52.9 | %68.0 |   -   | %11.0 | 
+| #5 | io.github.followsclosley.connect.ai.mm.MiniMaxWithAlphaBeta * | %100.0 | %97.0 |   %100.0   | %81.0 | %70.0 |   -   | 
+
+### The win or tie percentage:
+
+| | Class Name |   #0   |  #1   |     #2     |   #3   |  #4   |     #5     | 
+| ---: | :--- |:------:|:-----:|:----------:|:------:|:-----:|:----------:| 
+| #0 | io.github.followsclosley.connect.impl.ai.Dummy |   -    | %1.0  |    %0.0    |  %0.0  | %0.0  |    %0.0    | 
+| #1 | io.github.jaron.connect.JaronBot | %97.0  |   -   |   %23.0    | %46.0  | %8.0  |    %1.0    | 
+| #2 | io.github.followsclosley.connect.ai.score.ScoreStrategy | %100.0 | %92.0 |     -      | %100.0 | %49.0 |    %0.0    | 
+| #3 | io.github.lane.LaneAI | %100.0 | %69.0 |   %100.0   |   -    | %28.0 |    %9.0    | 
+| #4 | io.github.ryanp102694.connect.MonteCarloAI | %100.0 | %95.0 | %52.9 | %84.0  |   -   | %27.0 | 
+| #5 | io.github.followsclosley.connect.ai.mm.MiniMaxWithAlphaBeta | %100.0 | %99.0 |   %100.0   | %100.0 | %92.0 |     -      | 
+
+### Performance (in millis)
+
+| | Class Name | Performance |
+| ---: | :--- | :---: |
+| 1 |  io.github.followsclosley.connect.impl.ai.Dummy | 28
+| 2 |  io.github.jaron.connect.JaronBot | 158
+| 3 |  io.github.followsclosley.connect.ai.score.ScoreStrategy | 1,005
+| 4 |  io.github.lane.LaneAI | 31,587
+| 5 |  io.github.ryanp102694.connect.MonteCarloAI | 141,150
+| 6 |  io.github.followsclosley.connect.ai.mm.MiniMaxWithAlphaBeta | 487,010

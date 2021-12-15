@@ -96,25 +96,25 @@ public class io.github.jaron.connect.SwingLauncher {
 
 ### The win percentage:
 
-| | Class Name |   #0   |  #1   |     #2     |  #3   |  #4   |  #5   | 
-| ---: | :--- |:------:|:-----:|:----------:|:-----:|:-----:|:-----:| 
-| #0 | io.github.followsclosley.connect.impl.ai.Dummy * |   -    | %1.0  |    %0.0    | %0.0  | %0.0  | %0.0  | 
-| #1 | io.github.jaron.connect.JaronBot * | %95.0  |   -   |   %11.0    | %31.0 | %5.0  | %1.0  | 
-| #2 | io.github.followsclosley.connect.ai.score.ScoreStrategy * | %100.0 | %75.0 |     -      | %0.0  | %46.0 | %0.0  | 
-| #3 | io.github.lane.LaneAI * | %100.0 | %55.0 |    %0.0    |   -   | %13.0 | %0.0  | 
-| #4 | io.github.ryanp102694.connect.MonteCarloAI * | %100.0 | %95.0 | %52.9 | %68.0 |   -   | %11.0 | 
-| #5 | io.github.followsclosley.connect.ai.mm.MiniMaxWithAlphaBeta * | %100.0 | %97.0 |   %100.0   | %81.0 | %70.0 |   -   | 
+| | Class Name                                           |   #0   |  #1   |   #2    |  #3   |  #4   |  #5   | 
+| ---: |:-----------------------------------------------------|:------:|:-----:|:-------:|:-----:|:-----:|:-----:| 
+| #0 | ...followsclosley.connect.impl.ai.Dummy              |   -    | %1.0  |  %0.0   | %0.0  | %0.0  | %0.0  | 
+| #1 | ...jaron.connect.JaronBot                            | %95.0  |   -   |  %11.0  | %31.0 | %5.0  | %1.0  | 
+| #2 | ...followsclosley.connect.ai.score.ScoreStrategy     | %100.0 | %75.0 |    -    | %0.0  | %46.0 | %0.0  | 
+| #3 | ...lane.LaneAI *                                     | %100.0 | %55.0 |  %0.0   |   -   | %13.0 | %0.0  | 
+| #4 | ...ryanp102694.connect.MonteCarloAI                  | %100.0 | %95.0 | %52.9   | %68.0 |   -   | %11.0 | 
+| #5 | ...followsclosley.connect.ai.mm.MiniMaxWithAlphaBeta | %100.0 | %97.0 | %100.0  | %81.0 | %70.0 |   -   | 
 
 ### The win or tie percentage:
 
-| | Class Name |   #0   |  #1   |     #2     |   #3   |  #4   |     #5     | 
-| ---: | :--- |:------:|:-----:|:----------:|:------:|:-----:|:----------:| 
-| #0 | io.github.followsclosley.connect.impl.ai.Dummy |   -    | %1.0  |    %0.0    |  %0.0  | %0.0  |    %0.0    | 
-| #1 | io.github.jaron.connect.JaronBot | %97.0  |   -   |   %23.0    | %46.0  | %8.0  |    %1.0    | 
-| #2 | io.github.followsclosley.connect.ai.score.ScoreStrategy | %100.0 | %92.0 |     -      | %100.0 | %49.0 |    %0.0    | 
-| #3 | io.github.lane.LaneAI | %100.0 | %69.0 |   %100.0   |   -    | %28.0 |    %9.0    | 
-| #4 | io.github.ryanp102694.connect.MonteCarloAI | %100.0 | %95.0 | %52.9 | %84.0  |   -   | %27.0 | 
-| #5 | io.github.followsclosley.connect.ai.mm.MiniMaxWithAlphaBeta | %100.0 | %99.0 |   %100.0   | %100.0 | %92.0 |     -      | 
+| | Class Name                                           |   #0   |  #1   |     #2     |   #3   |  #4   |     #5     | 
+| ---: |:-----------------------------------------------------|:------:|:-----:|:----------:|:------:|:-----:|:----------:| 
+| #0 | ...followsclosley.connect.impl.ai.Dummy              |   -    | %1.0  |    %0.0    |  %0.0  | %0.0  |    %0.0    | 
+| #1 | ...jaron.connect.JaronBot                            | %97.0  |   -   |   %23.0    | %46.0  | %8.0  |    %1.0    | 
+| #2 | ...followsclosley.connect.ai.score.ScoreStrategy     | %100.0 | %92.0 |     -      | %100.0 | %49.0 |    %0.0    | 
+| #3 | ...lane.LaneAI                                       | %100.0 | %69.0 |   %100.0   |   -    | %28.0 |    %9.0    | 
+| #4 | ...ryanp102694.connect.MonteCarloAI                  | %100.0 | %95.0 | %52.9 | %84.0  |   -   | %27.0 | 
+| #5 | ...followsclosley.connect.ai.mm.MiniMaxWithAlphaBeta | %100.0 | %99.0 |   %100.0   | %100.0 | %92.0 |     -      | 
 
 ### Performance (in millis)
 

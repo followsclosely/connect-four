@@ -35,5 +35,5 @@ ${h3} Performance (in millis)
 | | Class Name | Performance |
 | ---: | :--- | :---: |
 #foreach($ai in $ais)
-| $velocityCount |  $ai | $ai.getDuration()
+| $velocityCount |  $ai.getName() | $ai.getDuration()
 #end

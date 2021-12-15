@@ -17,7 +17,7 @@ import java.util.concurrent.TimeUnit;
 
 public class Competition {
 
-    int numberOfSimulations = 1;
+    int numberOfSimulations = 1000;
     private final List<ArtificialIntelligence> ais = new ArrayList<>();
 
     public static void main(String[] args) {

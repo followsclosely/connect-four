@@ -119,11 +119,11 @@ public static void main(String[]args){
 ### Performance (in millis)
 
 | | Class Name                                                  | Name                          | Performance |
-| ---: |:------------------------------------------------------------|:------------------------------| :---: |
-| 1 | io.github.followsclosley.connect.impl.ai.Dummy              | Dummy                         | 92 |
-| 2 | io.github.jaron.connect.JaronBot                            | JaronBot                      | 1051 |
-| 3 | io.github.followsclosley.connect.ai.score.ScoreStrategy     | ScoreStrategy                 | 6930 |
-| 4 | io.github.lane.LaneAI                                       | LaneAI                        | 181100 |
-| 5 | io.github.ryanp102694.connect.MonteCarloAI                  | MonteCarloAI                  | 993048 |
-| 6 | io.github.followsclosley.connect.ai.mm.MiniMaxWithAlphaBeta | MiniMaxWithAlphaBeta(depth=5) | 263890 |
+| ---: |:------------------------------------------------------------|:------------------------------|:-----------:|
+| 1 | io.github.followsclosley.connect.impl.ai.Dummy              | Dummy                         |     92      |
+| 2 | io.github.jaron.connect.JaronBot                            | JaronBot                      |    1,051    |
+| 3 | io.github.followsclosley.connect.ai.score.ScoreStrategy     | ScoreStrategy                 |    6,930    |
+| 4 | io.github.lane.LaneAI                                       | LaneAI                        |   181,100   |
+| 5 | io.github.ryanp102694.connect.MonteCarloAI                  | MonteCarloAI                  |   993,048   |
+| 6 | io.github.followsclosley.connect.ai.mm.MiniMaxWithAlphaBeta | MiniMaxWithAlphaBeta(depth=5) |   263,890   |
 

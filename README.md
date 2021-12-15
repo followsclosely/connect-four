@@ -96,34 +96,34 @@ public static void main(String[]args){
 
 ### The win percentage:
 
-| | Class Name                    |  #0 |  #1 |  #2 |  #3 |     #4     |  #5 | 
-| ---: |:------------------------------|  :---: |  :---: |  :---: |  :---: |:----------:|  :---: | 
-| #0 | Dummy                         |  -  |  %2.3  |  %0.1  |  %0.4  |    %0.5    |  %0.0  | 
-| #1 | JaronBot                      |  %96.9  |  -  |  %8.4  |  %26.6  |    %5.4    |  %2.6  | 
-| #2 | ScoreStrategy                 |  %99.8  |  %76.7  |  -  |  %0.0  |   %48.9    |  %0.0  | 
-| #3 | LaneAI                        |  %99.2  |  %61.0  |  %0.0  |  -  |   %12.8    |  %0.0  | 
-| #4 | MonteCarloAI                  |  %99.7  |  %94.4  |  %52.2  |  %66.9  |     -      |  %22.7  | 
-| #5 | MiniMaxWithAlphaBeta(depth=5) |  %99.8  |  %95.3  |  %59.7  |  %100.0  | %64.7 |  -  | 
+| | Class Name                    |  #0   |  #1   |  #2   |   #3   |  #4   |  #5   |
+| ---: |:------------------------------|:-----:|:-----:|:-----:|:------:|:-----:|:-----:|
+| #0 | Dummy                         | -     | %2.3  | %0.1  |  %0.4  | %0.5  | %0.0  |
+| #1 | JaronBot                      | %96.9 |  -    | %8.4  | %26.6  | %5.4  | %2.6  |
+| #2 | ScoreStrategy                 | %99.8 | %76.7 |  -    |  %0.0  | %48.9 | %0.0  |
+| #3 | LaneAI                        | %99.2 | %61.0 | %0.0  |  -     | %12.8 | %0.0  |
+| #4 | MonteCarloAI                  | %99.7 | %94.4 | %52.2 | %66.9  |  -    | %22.7 |
+| #5 | MiniMaxWithAlphaBeta(depth=5) | %99.8 | %95.3 | %59.7 | %100.0 | %64.7 |  -    |
 
 ### The win or tie percentage:
 
-| | Class Name |  #0 |  #1 |  #2 |  #3 |  #4 |  #5 | 
-| ---: | :--- |  :---: |  :---: |  :---: |  :---: |  :---: |  :---: | 
-| #0 | Dummy |  -  |  %2.4  |  %0.1  |  %0.4  |  %0.5  |  %0.0  | 
-| #1 | JaronBot |  %97.1  |  -  |  %23.0  |  %41.6  |  %5.7  |  %3.8  | 
-| #2 | ScoreStrategy |  %99.8  |  %88.8  |  -  |  %100.0  |  %49.6  |  %39.0  | 
-| #3 | LaneAI |  %99.2  |  %76.0  |  %100.0  |  -  |  %31.4  |  %0.0  | 
-| #4 | MonteCarloAI |  %99.7  |  %95.3  |  %53.5  |  %84.89  |  -  |  %36.7  | 
-| #5 | MiniMaxWithAlphaBeta(depth=5) |  %99.8  |  %96.7  |  %100.0  |  %100.0  |  %79.5  |  -  | 
+| | Class Name                    |  #0   |  #1   |   #2   |   #3   |  #4   |  #5   |
+| ---: |:------------------------------|:-----:|:-----:|:------:|:------:|:-----:|:-----:|
+| #0 | Dummy                         | -     | %2.4  |  %0.1  |  %0.4  | %0.5  | %0.0  |
+| #1 | JaronBot                      | %97.1 | -     | %23.0  | %41.6  | %5.7  | %3.8  |
+| #2 | ScoreStrategy                 | %99.8 | %88.8 |  -     | %100.0 | %49.6 | %39.0 |
+| #3 | LaneAI                        | %99.2 | %76.0 | %100.0 |  -     | %31.4 | %0.0  |
+| #4 | MonteCarloAI                  | %99.7 | %95.3 | %53.5  | %84.89 | -     | %36.7 |
+| #5 | MiniMaxWithAlphaBeta(depth=5) | %99.8 | %96.7 | %100.0 | %100.0 | %79.5 |  -    |
 
 ### Performance (in millis)
 
-| | Class Name | Name | Performance |
-| ---: | :--- | :--- | :---: |
-| 1 |  class io.github.followsclosley.connect.impl.ai.Dummy | Dummy | 92
-| 2 |  class io.github.jaron.connect.JaronBot | JaronBot | 1051
-| 3 |  class io.github.followsclosley.connect.ai.score.ScoreStrategy | ScoreStrategy | 6930
-| 4 |  class io.github.lane.LaneAI | LaneAI | 181100
-| 5 |  class io.github.ryanp102694.connect.MonteCarloAI | MonteCarloAI | 993048
-| 6 |  class io.github.followsclosley.connect.ai.mm.MiniMaxWithAlphaBeta | MiniMaxWithAlphaBeta(depth=5) | 263890
+| | Class Name                                                  | Name                          | Performance |
+| ---: |:------------------------------------------------------------|:------------------------------| :---: |
+| 1 | io.github.followsclosley.connect.impl.ai.Dummy              | Dummy                         | 92 |
+| 2 | io.github.jaron.connect.JaronBot                            | JaronBot                      | 1051 |
+| 3 | io.github.followsclosley.connect.ai.score.ScoreStrategy     | ScoreStrategy                 | 6930 |
+| 4 | io.github.lane.LaneAI                                       | LaneAI                        | 181100 |
+| 5 | io.github.ryanp102694.connect.MonteCarloAI                  | MonteCarloAI                  | 993048 |
+| 6 | io.github.followsclosley.connect.ai.mm.MiniMaxWithAlphaBeta | MiniMaxWithAlphaBeta(depth=5) | 263890 |
 

@@ -32,4 +32,8 @@ public interface ArtificialIntelligence {
      * @return The column (x) to drop the piece.
      */
     int yourTurn(Board board);
+
+    default String getName() {
+        return getClass().getSimpleName();
+    }
 }

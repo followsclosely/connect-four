@@ -40,7 +40,7 @@ interface is the only class that you need to author to implement your own AI.
 
 ```java
 public abstract class ArtificialIntelligence {
-    
+
     /**
      * This method is called by the Engine when it is "your" turn to play. 
      * It should return the column to drop the piece down.
@@ -61,16 +61,16 @@ You can test your AI using the following:
 import io.github.followsclosley.connect.Simulation;
 import io.github.followsclosley.connect.impl.ai.Dummy;
 
-public class io.github.jaron.connect.ShellLauncher {
-    public static void main(String[] args) {
+public class io.github.jaron.connect.ShellLauncher{
+public static void main(String[]args){
         new Simulation()
-                .number(200000)
-                .addArtificialIntelligence(new Dummy(1))
-                .addArtificialIntelligence(new YourCustomAI(2))
-                .run()
-                .printSummary();
-    }
-}
+        .number(200000)
+        .addArtificialIntelligence(new Dummy(1))
+        .addArtificialIntelligence(new YourCustomAI(2))
+        .run()
+        .printSummary();
+        }
+        }
 ```
 
 ### Testing Your AI (Swing)
@@ -82,47 +82,48 @@ You can test your AI using a graphical interface:
 import io.github.followsclosley.connect.swing.SwingSupport;
 import io.github.followsclosley.connect.impl.MutableBoard;
 
-public class io.github.jaron.connect.SwingLauncher {
-    public static void main(String[] args) {
+public class io.github.jaron.connect.SwingLauncher{
+public static void main(String[]args){
         new SwingSupport()
-                .setBoard(new MutableBoard())
-                .setArtificialIntelligence(new YourCustomAI(SwingSupport.COMPUTER_COLOR))
-                .run();
-    }
-}
+        .setBoard(new MutableBoard())
+        .setArtificialIntelligence(new YourCustomAI(SwingSupport.COMPUTER_COLOR))
+        .run();
+        }
+        }
 ```
 
 ## Current AI implementations
 
 ### The win percentage:
 
-| | Class Name           |   #0   |  #1   |   #2    |  #3   |  #4   |  #5   | 
-| ---: |:---------------------|:------:|:-----:|:-------:|:-----:|:-----:|:-----:| 
-| #0 | Dummy                |   -    | %1.0  |  %0.0   | %0.0  | %0.0  | %0.0  | 
-| #1 | JaronBot             | %95.0  |   -   |  %11.0  | %31.0 | %5.0  | %1.0  | 
-| #2 | ScoreStrategy        | %100.0 | %75.0 |    -    | %0.0  | %46.0 | %0.0  | 
-| #3 | LaneAI *             | %100.0 | %55.0 |  %0.0   |   -   | %13.0 | %0.0  | 
-| #4 | MonteCarloAI         | %100.0 | %95.0 | %52.9   | %68.0 |   -   | %11.0 | 
-| #5 | MiniMaxWithAlphaBeta | %100.0 | %97.0 | %100.0  | %81.0 | %70.0 |   -   | 
+| | Class Name                    |  #0 |  #1 |  #2 |  #3 |     #4     |  #5 | 
+| ---: |:------------------------------|  :---: |  :---: |  :---: |  :---: |:----------:|  :---: | 
+| #0 | Dummy                         |  -  |  %2.3  |  %0.1  |  %0.4  |    %0.5    |  %0.0  | 
+| #1 | JaronBot                      |  %96.9  |  -  |  %8.4  |  %26.6  |    %5.4    |  %2.6  | 
+| #2 | ScoreStrategy                 |  %99.8  |  %76.7  |  -  |  %0.0  |   %48.9    |  %0.0  | 
+| #3 | LaneAI                        |  %99.2  |  %61.0  |  %0.0  |  -  |   %12.8    |  %0.0  | 
+| #4 | MonteCarloAI                  |  %99.7  |  %94.4  |  %52.2  |  %66.9  |     -      |  %22.7  | 
+| #5 | MiniMaxWithAlphaBeta(depth=5) |  %99.8  |  %95.3  |  %59.7  |  %100.0  | %64.7 |  -  | 
 
 ### The win or tie percentage:
 
-| | Class Name                                          |   #0   |  #1   |     #2     |   #3   |  #4   |     #5     | 
-| ---: |:----------------------------------------------------|:------:|:-----:|:----------:|:------:|:-----:|:----------:| 
-| #0 | Dummy                                               |   -    | %1.0  |    %0.0    |  %0.0  | %0.0  |    %0.0    | 
-| #1 | JaronBot                                            | %97.0  |   -   |   %23.0    | %46.0  | %8.0  |    %1.0    | 
-| #2 | ScoreStrategy                                       | %100.0 | %92.0 |     -      | %100.0 | %49.0 |    %0.0    | 
-| #3 | LaneAI                                              | %100.0 | %69.0 |   %100.0   |   -    | %28.0 |    %9.0    | 
-| #4 | MonteCarloAI                                        | %100.0 | %95.0 | %52.9 | %84.0  |   -   | %27.0 | 
-| #5 | MiniMaxWithAlphaBeta                                | %100.0 | %99.0 |   %100.0   | %100.0 | %92.0 |     -      | 
+| | Class Name |  #0 |  #1 |  #2 |  #3 |  #4 |  #5 | 
+| ---: | :--- |  :---: |  :---: |  :---: |  :---: |  :---: |  :---: | 
+| #0 | Dummy |  -  |  %2.4  |  %0.1  |  %0.4  |  %0.5  |  %0.0  | 
+| #1 | JaronBot |  %97.1  |  -  |  %23.0  |  %41.6  |  %5.7  |  %3.8  | 
+| #2 | ScoreStrategy |  %99.8  |  %88.8  |  -  |  %100.0  |  %49.6  |  %39.0  | 
+| #3 | LaneAI |  %99.2  |  %76.0  |  %100.0  |  -  |  %31.4  |  %0.0  | 
+| #4 | MonteCarloAI |  %99.7  |  %95.3  |  %53.5  |  %84.89  |  -  |  %36.7  | 
+| #5 | MiniMaxWithAlphaBeta(depth=5) |  %99.8  |  %96.7  |  %100.0  |  %100.0  |  %79.5  |  -  | 
 
 ### Performance (in millis)
 
-| | Class Name | Performance |
-| ---: | :--- | :---: |
-| 1 |  io.github.followsclosley.connect.impl.ai.Dummy | 28
-| 2 |  io.github.jaron.connect.JaronBot | 158
-| 3 |  io.github.followsclosley.connect.ai.score.ScoreStrategy | 1,005
-| 4 |  io.github.lane.LaneAI | 31,587
-| 5 |  io.github.ryanp102694.connect.MonteCarloAI | 141,150
-| 6 |  io.github.followsclosley.connect.ai.mm.MiniMaxWithAlphaBeta | 487,010
+| | Class Name | Name | Performance |
+| ---: | :--- | :--- | :---: |
+| 1 |  class io.github.followsclosley.connect.impl.ai.Dummy | Dummy | 92
+| 2 |  class io.github.jaron.connect.JaronBot | JaronBot | 1051
+| 3 |  class io.github.followsclosley.connect.ai.score.ScoreStrategy | ScoreStrategy | 6930
+| 4 |  class io.github.lane.LaneAI | LaneAI | 181100
+| 5 |  class io.github.ryanp102694.connect.MonteCarloAI | MonteCarloAI | 993048
+| 6 |  class io.github.followsclosley.connect.ai.mm.MiniMaxWithAlphaBeta | MiniMaxWithAlphaBeta(depth=5) | 263890
+

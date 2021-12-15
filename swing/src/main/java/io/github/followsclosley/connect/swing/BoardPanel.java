@@ -21,9 +21,8 @@ public class BoardPanel extends JPanel {
 
     public static final int PIECE_SIZE = 75;
     private final Color[] COLORS = {Color.GRAY, Color.GRAY, Color.RED, Color.BLACK};
-    protected Dimension defaultDimension;
     private final Board board;
-    private Turn turn;
+    protected Dimension defaultDimension;
 
     private Image[] images = null;
 
@@ -41,14 +40,10 @@ public class BoardPanel extends JPanel {
             images[0] = ImageIO.read(ClassLoader.getSystemResource("black.png")).getScaledInstance(PIECE_SIZE - 3, PIECE_SIZE - 3, Image.SCALE_SMOOTH);
             images[1] = ImageIO.read(ClassLoader.getSystemResource("blue.png")).getScaledInstance(PIECE_SIZE - 3, PIECE_SIZE - 3, Image.SCALE_SMOOTH);
             images[2] = ImageIO.read(ClassLoader.getSystemResource("red.png")).getScaledInstance(PIECE_SIZE - 3, PIECE_SIZE - 3, Image.SCALE_SMOOTH);
-        } catch (IOException ignore) {
-            ignore.printStackTrace();
+        } catch (IOException oops) {
+            oops.printStackTrace();
             images = null;
         }
-    }
-
-    public void setTurn(Turn turn) {
-        this.turn = turn;
     }
 
     @Override

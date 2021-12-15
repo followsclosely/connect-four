@@ -4,8 +4,9 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class Match {
-    private float numberOfGames;
+
     private final ArtificialIntelligence[] ais;
+    private float numberOfGames;
     private Map<Integer, AtomicInteger> counts;
 
     public Match(ArtificialIntelligence ai1, ArtificialIntelligence ai2) {
@@ -44,7 +45,7 @@ public class Match {
         try {
             Integer wins = getWins(ais[0].getColor());
             Integer ties = getWins(-1);
-            return ((wins==null) ? 0 : wins) + ((ties==null) ? 0 : ties);
+            return ((wins == null) ? 0 : wins) + ((ties == null) ? 0 : ties);
         } catch (Exception ignore) {
             ignore.printStackTrace();
         }
@@ -53,6 +54,6 @@ public class Match {
 
     public Integer getWins(Integer color) {
         AtomicInteger atomicInteger = (counts == null) ? null : counts.get(color);
-        return (atomicInteger==null) ? 0 : atomicInteger.get();
+        return (atomicInteger == null) ? 0 : atomicInteger.get();
     }
 }

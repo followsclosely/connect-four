@@ -13,7 +13,6 @@ import java.awt.event.MouseEvent;
 /**
  * This class uses a builder patter to launch a swing UI to
  * test your AI.
- *
  */
 public class SwingSupport {
 

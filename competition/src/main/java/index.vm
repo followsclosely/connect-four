@@ -32,8 +32,8 @@ ${h3} The win or tie percentage:
 
 ${h3} Performance (in millis)
 
-| | Class Name | Performance |
-| ---: | :--- | :---: |
+| | Class Name | Name | Performance |
+| ---: | :--- | :--- | :---: |
 #foreach($ai in $ais)
-| $velocityCount |  $ai.getName() | $ai.getDuration()
+| $velocityCount |  $ai.getParent().getClass() | $ai.getName() | $ai.getDuration()
 #end

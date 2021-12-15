@@ -1,9 +1,9 @@
 package io.github.followsclosley.connect.ai.mm;
 
-import static io.github.followsclosley.connect.impl.MutableBoard.initialize;
 import io.github.followsclosley.connect.impl.MutableBoard;
 import org.junit.jupiter.api.Test;
 
+import static io.github.followsclosley.connect.impl.MutableBoard.initialize;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class BoardEvaluatorTest {

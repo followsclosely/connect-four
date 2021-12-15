@@ -17,8 +17,8 @@ import java.util.concurrent.TimeUnit;
 
 public class Competition {
 
-    int numberOfSimulations = 1000;
     private final List<ArtificialIntelligence> ais = new ArrayList<>();
+    int numberOfSimulations = 1000;
 
     public static void main(String[] args) {
         new Competition()
@@ -27,7 +27,7 @@ public class Competition {
                 .add(new ScoreStrategy(3))
                 .add(new LaneAI(4, 5))
                 .add(new MonteCarloAI(5))
-                .add(new MiniMaxWithAlphaBeta(6, 7)
+                .add(new MiniMaxWithAlphaBeta(6, 5)
                         .setTimeout(1, TimeUnit.SECONDS)
                 )
                 .run();
@@ -40,18 +40,18 @@ public class Competition {
 
     public void run() {
         int size = ais.size();
+        int total = size * size - size;
         Match[][] matches = new Match[ais.size()][ais.size()];
 
-        for (int x = 0; x < size; x++) {
+        for (int i = 0, x = 0; x < size; x++) {
             ArtificialIntelligence player1 = ais.get(x);
             for (int y = 0; y < size; y++) {
 
                 ArtificialIntelligence player2 = ais.get(y);
 
-
                 if (x != y) {
                     matches[x][y] = new Match(player1, player2);
-                    System.out.println(player1 + " vs. " + player2);
+                    System.out.println(++i + "/" + total + " : " + player1 + " vs. " + player2);
                     matches[x][y].run(numberOfSimulations);
                 }
             }

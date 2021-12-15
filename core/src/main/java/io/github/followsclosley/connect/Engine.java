@@ -14,14 +14,12 @@ import java.util.List;
  */
 public class Engine {
 
-    // The number of players. This is set in the constuctor.
-    int playerCount;
-
     // A List of players.
     private final List<ArtificialIntelligence> players = new ArrayList<>();
-
     // The state of the game is held in the MutableBoard.
     private final MutableBoard board = new MutableBoard(7, 6, 4);
+    // The number of players. This is set in the constuctor.
+    int playerCount;
 
     /**
      * Constructs and new Engine with a default board.

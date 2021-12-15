@@ -35,10 +35,14 @@ public class ArtificialIntelligenceDecorator implements ArtificialIntelligence {
 
     @Override
     public String toString() {
-        return parent.getClass().getSimpleName();
+        return getName();
     }
 
     public String getName() {
-        return parent.getClass().getName();
+        return parent.getName();
+    }
+
+    public ArtificialIntelligence getParent() {
+        return parent;
     }
 }

@@ -1,8 +1,7 @@
 package io.github.jaron.connect;
 
 import io.github.followsclosley.connect.Simulation;
-import io.github.followsclosley.connect.ai.ScoreStrategy;
-import io.github.followsclosley.connect.impl.ai.Dummy;
+import io.github.followsclosley.connect.ai.score.ScoreStrategy;
 
 public class ShellLauncher {
     public static void main(String[] args) {

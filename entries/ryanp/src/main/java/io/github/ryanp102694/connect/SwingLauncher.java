@@ -2,7 +2,6 @@ package io.github.ryanp102694.connect;
 
 import io.github.followsclosley.connect.impl.MutableBoard;
 import io.github.followsclosley.connect.swing.SwingSupport;
-import io.github.ryanp102694.connect.MonteCarloAI;
 
 /**
  * Class to launch a Swing interface to test your AI.

@@ -1,4 +1,4 @@
-package io.github.followsclosley.connect.ai.grader;
+package io.github.followsclosley.connect.ai.score.grader;
 
 import io.github.followsclosley.connect.impl.MutableBoard;
 import io.github.followsclosley.connect.impl.Turn;

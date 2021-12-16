@@ -2,16 +2,13 @@ package io.github.followsclosley.connect;
 
 import io.github.followsclosley.connect.impl.ai.Dummy;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class Simulation {
 
-    private int numberOfSimulations = 20000;
-    private Map<Integer, AtomicInteger> counts = new HashMap<Integer, AtomicInteger>() {
+    private final Map<Integer, AtomicInteger> counts = new HashMap<>() {
         @Override
         public AtomicInteger get(Object key) {
             AtomicInteger value = super.get(key);
@@ -21,10 +18,15 @@ public class Simulation {
             return value;
         }
     };
-    private List<ArtificialIntelligence> ais = new ArrayList<>();
+    ArtificialIntelligence ai1, ai2;
+    private int numberOfSimulations = 20000;
 
     public Simulation addArtificialIntelligence(ArtificialIntelligence ai) {
-        ais.add(ai);
+        if (this.ai1 == null) {
+            this.ai1 = ai;
+        } else {
+            this.ai2 = ai;
+        }
         return this;
     }
 
@@ -35,18 +37,19 @@ public class Simulation {
 
     public Simulation run() {
 
-        if (ais.size() == 0) {
+        if (ai1 == null) {
             System.out.println("ERROR: ai not provided, call addArtificialIntelligence()");
             return this;
-        } else if (ais.size() == 1) {
-            ais.add(0, new Dummy(1));
+        }
+        if (ai2 == null) {
+            ai2 = new Dummy(ai1.getColor() + 1);
         }
 
         for (int i = 1; i <= numberOfSimulations; i++) {
-            Engine engine = new Engine(ais.toArray(new ArtificialIntelligence[ais.size()]));
-            int winner = engine.startGame(i % ais.size());
+            Engine engine = (i % 2 == 0) ? new Engine(ai1, ai2) : new Engine(ai2, ai1);
+            int winner = engine.startGame();
             counts.get(winner).getAndIncrement();
-            System.out.print("\r" + counts.get(winner) + "/" + i);
+            System.out.print("\r" + i + "/" + numberOfSimulations);
 
 //            if( winner == 1) {
 //                for (Coordinate c : engine.getBoard().getTurns()){
@@ -60,17 +63,13 @@ public class Simulation {
         return this;
     }
 
-    public Simulation printSummary() {
-
+    public void printSummary() {
         for (Map.Entry<Integer, AtomicInteger> entry : counts.entrySet()) {
-            StringBuffer b = new StringBuffer();
-            b.append("Player/Color\t").append(entry.getKey()).append(": ");
-            b.append((float) (Math.round(entry.getValue().floatValue() / numberOfSimulations * 10000)) / 100).append("%\t");
-            b.append(entry.getValue());
+            String b = "Player/Color\t" + entry.getKey() + ": " +
+                    ((float) (Math.round(entry.getValue().floatValue() / numberOfSimulations * 10000)) / 100) + "%\t" +
+                    entry.getValue();
             System.out.println(b);
         }
-
-        return this;
     }
 
     public Map<Integer, AtomicInteger> getCounts() {

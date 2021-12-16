@@ -1,4 +1,10 @@
 #set ($size = $matches.size() - 1)
+#set ($h2 = '##' )
+#set ($h3 = '###' )
+
+${h2} Current AI implementations
+
+${h3} The win percentage:
 
 | | Class Name | #foreach($x in [0..$size]) #$x | #end
 
@@ -9,4 +15,25 @@
 #set ($percentage = (($matches.get($y).get($x).getWins() / $matches.get($y).get($x).getNumberOfGames()) * 100) )
 #if ($matches.get($y).get($x).getWins()) %$percentage #else - #end | #end
 
+#end
+
+${h3} The win or tie percentage:
+
+| | Class Name | #foreach($x in [0..$size]) #$x | #end
+
+| ---: | :--- | #foreach($x in [0..$size]) :---: | #end
+
+#foreach($y in [0..$size])
+| #$y | $matches.get($y).get(0).getName() | #foreach($x in [0..$size])
+#set ($percentage = (($matches.get($y).get($x).getWinsOrTies() / $matches.get($y).get($x).getNumberOfGames()) * 100) )
+#if ($matches.get($y).get($x).getWinsOrTies()) %$percentage #else - #end | #end
+
+#end
+
+${h3} Performance (in millis)
+
+| | Class Name | Name | Performance |
+| ---: | :--- | :--- | :---: |
+#foreach($ai in $ais)
+| $velocityCount |  $ai.getParent().getClass().getName() | $ai.getName() | $ai.getDuration() |
 #end

@@ -1,4 +1,4 @@
-package io.github.lane;
+package io.github.followsclosley.connect.ai.score;
 
 import io.github.followsclosley.connect.impl.MutableBoard;
 import io.github.followsclosley.connect.swing.SwingSupport;
@@ -8,9 +8,10 @@ import io.github.followsclosley.connect.swing.SwingSupport;
  */
 public class SwingLauncher {
     public static void main(String[] args) {
+
         new SwingSupport()
                 .setBoard(new MutableBoard())
-                .setArtificialIntelligence(new LaneAI(SwingSupport.COMPUTER_COLOR, 5))
+                .setArtificialIntelligence(new ScoreStrategy(SwingSupport.COMPUTER_COLOR))
                 .run();
     }
 }

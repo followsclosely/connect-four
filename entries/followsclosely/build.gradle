@@ -1,14 +1,19 @@
 apply plugin: 'java'
 
 repositories {
-    jcenter()
+    mavenCentral()
+}
+
+test {
+    useJUnitPlatform()
 }
 
 dependencies {
     implementation(project(':core'))
     implementation(project(':swing'))
-
     implementation(project(':entries:ryanp'))
 
-    testImplementation 'junit:junit:4.12'
+    testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+
+
 }

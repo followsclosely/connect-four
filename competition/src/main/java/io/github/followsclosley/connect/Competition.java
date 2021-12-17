@@ -1,27 +1,24 @@
 package io.github.followsclosley.connect;
 
+import com.codahale.metrics.MetricRegistry;
+import com.codahale.metrics.Timer;
+import io.github.followsclosley.competition.AbstractCompetition;
+import io.github.followsclosley.competition.AbstractMatch;
 import io.github.followsclosley.connect.ai.mm.MiniMaxWithAlphaBeta;
 import io.github.followsclosley.connect.ai.score.ScoreStrategy;
+import io.github.followsclosley.connect.impl.ai.ArtificialIntelligenceDecorator;
 import io.github.followsclosley.connect.impl.ai.Dummy;
 import io.github.jaron.connect.JaronBot;
 import io.github.lane.LaneAI;
 import io.github.ryanp102694.connect.MonteCarloAI;
-import org.apache.velocity.Template;
-import org.apache.velocity.VelocityContext;
-import org.apache.velocity.app.VelocityEngine;
 
-import java.io.StringWriter;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-public class Competition {
-
-    private final List<ArtificialIntelligence> ais = new ArrayList<>();
-    int numberOfSimulations = 1000;
+public class Competition extends AbstractCompetition<ArtificialIntelligence> {
 
     public static void main(String[] args) {
         new Competition()
+                .simulations(1000)
                 .add(new Dummy(1))
                 .add(new JaronBot(2))
                 .add(new ScoreStrategy(3))
@@ -30,49 +27,35 @@ public class Competition {
                 .add(new MiniMaxWithAlphaBeta(6, 5)
                         .setTimeout(1, TimeUnit.SECONDS)
                 )
-                .run();
+                .run()
+                .printSummary()
+                .printMetrics();
     }
 
-    public Competition add(ArtificialIntelligence ai) {
-        ais.add(new ArtificialIntelligenceDecorator(ai));
-        return this;
+    @Override
+    public AbstractCompetition<ArtificialIntelligence> add(ArtificialIntelligence ai) {
+        return super.add(new ArtificialIntelligenceTimer(ai));
     }
 
-    public void run() {
-        int size = ais.size();
-        int total = size * size - size;
-        Match[][] matches = new Match[ais.size()][ais.size()];
+    @Override
+    public AbstractMatch run(ArtificialIntelligence ai1, ArtificialIntelligence ai2, int numberOfSimulations) {
+        return new Match(ai1, ai2).run(numberOfSimulations);
+    }
 
-        for (int i = 0, x = 0; x < size; x++) {
-            ArtificialIntelligence player1 = ais.get(x);
-            for (int y = 0; y < size; y++) {
+    public class ArtificialIntelligenceTimer extends ArtificialIntelligenceDecorator {
 
-                ArtificialIntelligence player2 = ais.get(y);
+        private final Timer timer;
 
-                if (x != y) {
-                    matches[x][y] = new Match(player1, player2);
-                    System.out.println(++i + "/" + total + " : " + player1 + " vs. " + player2);
-                    matches[x][y].run(numberOfSimulations);
-                }
-            }
+        public ArtificialIntelligenceTimer(ArtificialIntelligence parent) {
+            super(parent);
+            this.timer = registry.timer(MetricRegistry.name(Competition.class, parent.getName()));
         }
 
-        printWithVelocity(matches);
-    }
-
-    private void printWithVelocity(Match[][] matches) {
-        VelocityEngine velocityEngine = new VelocityEngine();
-        velocityEngine.init();
-
-        VelocityContext context = new VelocityContext();
-        context.put("matches", matches);
-        context.put("ais", ais);
-
-        Template t = velocityEngine.getTemplate("./competition/src/main/java/index.vm");
-
-        StringWriter writer = new StringWriter();
-        t.merge(context, writer);
-
-        System.out.println(writer);
+        @Override
+        public int yourTurn(Board board) {
+            try (final Timer.Context c = timer.time()) {
+                return parent.yourTurn(board);
+            }
+        }
     }
 }

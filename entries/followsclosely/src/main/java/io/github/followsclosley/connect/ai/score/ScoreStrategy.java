@@ -53,7 +53,7 @@ public class ScoreStrategy implements ArtificialIntelligence {
         int[] scores = new int[board.getWidth()];
 
         for (int x = 0, width = board.getWidth(); x < width; x++) {
-            if (board.dropPiece(x, getColor()) >= 0 ) {
+            if (board.dropPiece(x, getColor()) >= 0) {
                 scores[x] = scoreMove(board, board.getLastMove(), opponents);
                 if (maxScore < scores[x]) {
                     maxScore = scores[x];

@@ -16,7 +16,7 @@ public abstract class AbstractCompetition<AI> {
 
     protected final MetricRegistry registry = new MetricRegistry();
     private final List<AI> ais = new ArrayList<>();
-    private int numberOfSimulations;
+    private int numberOfSimulations = 1000;
     private AbstractMatch[][] matches;
 
     public AbstractCompetition<AI> add(AI ai) {

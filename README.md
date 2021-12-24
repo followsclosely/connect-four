@@ -127,3 +127,101 @@ public static void main(String[]args){
 | 5 | io.github.ryanp102694.connect.MonteCarloAI                  | MonteCarloAI                  |   993,048   |
 | 6 | io.github.followsclosley.connect.ai.mm.MiniMaxWithAlphaBeta | MiniMaxWithAlphaBeta(depth=5) |   263,890   |
 
+```
+io.github.followsclosley.connect.Competition.Dummy
+count = 57195
+mean rate = 27.80 calls/second
+1-minute rate = 0.03 calls/second
+5-minute rate = 7.28 calls/second
+15-minute rate = 288.12 calls/second
+min = 0.00 milliseconds
+max = 0.11 milliseconds
+mean = 0.00 milliseconds
+stddev = 0.01 milliseconds
+median = 0.00 milliseconds
+75% <= 0.00 milliseconds
+95% <= 0.00 milliseconds
+98% <= 0.01 milliseconds
+99% <= 0.02 milliseconds
+99.9% <= 0.10 milliseconds
+io.github.followsclosley.connect.Competition.JaronBot
+count = 110507
+mean rate = 53.70 calls/second
+1-minute rate = 0.16 calls/second
+5-minute rate = 11.95 calls/second
+15-minute rate = 174.40 calls/second
+min = 0.00 milliseconds
+max = 1.60 milliseconds
+mean = 0.02 milliseconds
+stddev = 0.07 milliseconds
+median = 0.01 milliseconds
+75% <= 0.01 milliseconds
+95% <= 0.03 milliseconds
+98% <= 0.04 milliseconds
+99% <= 0.06 milliseconds
+99.9% <= 1.60 milliseconds
+io.github.followsclosley.connect.Competition.LaneAI
+count = 125562
+mean rate = 61.02 calls/second
+1-minute rate = 0.87 calls/second
+5-minute rate = 15.11 calls/second
+15-minute rate = 45.04 calls/second
+min = 1.37 milliseconds
+max = 23.83 milliseconds
+mean = 2.08 milliseconds
+stddev = 0.98 milliseconds
+median = 1.90 milliseconds
+75% <= 2.27 milliseconds
+95% <= 2.95 milliseconds
+98% <= 3.89 milliseconds
+99% <= 4.49 milliseconds
+99.9% <= 23.83 milliseconds
+io.github.followsclosley.connect.Competition.MiniMaxWithAlphaBeta(depth=5)
+count = 115300
+mean rate = 56.04 calls/second
+1-minute rate = 55.16 calls/second
+5-minute rate = 76.60 calls/second
+15-minute rate = 60.10 calls/second
+min = 0.00 milliseconds
+max = 463.70 milliseconds
+mean = 5.28 milliseconds
+stddev = 16.64 milliseconds
+median = 3.04 milliseconds
+75% <= 4.76 milliseconds
+95% <= 13.45 milliseconds
+98% <= 28.30 milliseconds
+99% <= 50.72 milliseconds
+99.9% <= 287.18 milliseconds
+io.github.followsclosley.connect.Competition.MonteCarloAI
+count = 121152
+mean rate = 58.88 calls/second
+1-minute rate = 52.79 calls/second
+5-minute rate = 40.89 calls/second
+15-minute rate = 44.90 calls/second
+min = 0.00 milliseconds
+max = 150.66 milliseconds
+mean = 10.91 milliseconds
+stddev = 12.47 milliseconds
+median = 9.23 milliseconds
+75% <= 17.45 milliseconds
+95% <= 27.94 milliseconds
+98% <= 38.51 milliseconds
+99% <= 56.57 milliseconds
+99.9% <= 150.66 milliseconds
+io.github.followsclosley.connect.Competition.ScoreStrategy
+count = 140828
+mean rate = 68.44 calls/second
+1-minute rate = 0.59 calls/second
+5-minute rate = 19.24 calls/second
+15-minute rate = 168.22 calls/second
+min = 0.00 milliseconds
+max = 1.81 milliseconds
+mean = 0.06 milliseconds
+stddev = 0.10 milliseconds
+median = 0.06 milliseconds
+75% <= 0.07 milliseconds
+95% <= 0.10 milliseconds
+98% <= 0.13 milliseconds
+99% <= 0.19 milliseconds
+99.9% <= 1.47 milliseconds
+```

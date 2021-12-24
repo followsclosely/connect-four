@@ -1,9 +1,11 @@
 package io.github.followsclosley.connect;
 
+import io.github.followsclosley.competition.AbstractMatch;
+
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class Match {
+public class Match implements AbstractMatch {
 
     private final ArtificialIntelligence[] ais;
     private float numberOfGames;
@@ -24,30 +26,34 @@ public class Match {
         return this;
     }
 
-    public float getNumberOfGames() {
+    @Override
+    public Number getNumberOfGames() {
         return numberOfGames;
     }
 
+    @Override
     public String getName() {
-        return ais[0].toString();
+        return ais[0].getName();
     }
 
+    @Override
     public Integer getWins() {
         try {
             return getWins(ais[0].getColor());
-        } catch (Exception ignore) {
-            ignore.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return null;
     }
 
+    @Override
     public Integer getWinsOrTies() {
         try {
             Integer wins = getWins(ais[0].getColor());
             Integer ties = getWins(-1);
             return ((wins == null) ? 0 : wins) + ((ties == null) ? 0 : ties);
-        } catch (Exception ignore) {
-            ignore.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return null;
     }

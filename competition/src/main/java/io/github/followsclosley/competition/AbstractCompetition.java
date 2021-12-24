@@ -2,12 +2,10 @@ package io.github.followsclosley.competition;
 
 import com.codahale.metrics.ConsoleReporter;
 import com.codahale.metrics.MetricRegistry;
-import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
 
-import java.io.PrintStream;
-import java.io.StringWriter;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -55,19 +53,31 @@ public abstract class AbstractCompetition<AI> {
     public abstract AbstractMatch run(AI ai1, AI ai2, int numberOfSimulations);
 
     public AbstractCompetition<AI> printSummary() {
-        VelocityEngine velocityEngine = new VelocityEngine();
-        velocityEngine.init();
+        return printSummary("templates/index.vm");
+    }
 
-        VelocityContext context = new VelocityContext();
-        context.put("matches", matches);
-        context.put("ais", ais);
+    public AbstractCompetition<AI> printSummary(String template) {
+        try (InputStream input = this.getClass().getClassLoader().getResourceAsStream(template)) {
+            if (input != null) try (Reader reader = new InputStreamReader(input)) {
+                VelocityEngine ve = new VelocityEngine();
+                ve.init();
 
-        Template t = velocityEngine.getTemplate("./competition/src/main/java/index.vm");
+                VelocityContext context = new VelocityContext();
+                context.put("matches", matches);
+                context.put("ais", ais);
 
-        StringWriter writer = new StringWriter();
-        t.merge(context, writer);
+                StringWriter writer = new StringWriter();
+                if (!ve.evaluate(context, writer, template, reader)) {
+                    System.out.println("Failed to convert the template.");
+                }
 
-        System.out.println(writer);
+                System.out.println(writer);
+            } else {
+                System.out.println("Could not load template: '" + template + "'.");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         return this;
     }

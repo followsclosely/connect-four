@@ -18,7 +18,7 @@ public class Competition extends AbstractCompetition<ArtificialIntelligence> {
 
     public static void main(String[] args) {
         new Competition()
-                .simulations(1000)
+                .simulations(1)
                 .add(new Dummy(1))
                 .add(new JaronBot(2))
                 .add(new ScoreStrategy(3))

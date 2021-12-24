@@ -22,10 +22,9 @@ import java.util.stream.Stream;
 public class MonteCarloAI implements ArtificialIntelligence {
 
     private final int SIMULATIONS_PER_TURN = 500;
-    private Random random = new Random();
-    private ExecutorService executorService = Executors.newFixedThreadPool(7);
+    private final Random random = new Random();
 
-    private int color;
+    private final int color;
     private int otherColor = -1;
 
     public MonteCarloAI(int color) {
@@ -44,6 +43,10 @@ public class MonteCarloAI implements ArtificialIntelligence {
 
     @Override
     public int yourTurn(Board board) {
+
+        // mlw: I moved this service into method scope so that the service could be
+        // closed after each use allowing the java process to be closed.
+        ExecutorService executorService = Executors.newFixedThreadPool(7);
 
         MutableBoard mutableBoard = new MutableBoard(board);
 
@@ -89,6 +92,8 @@ public class MonteCarloAI implements ArtificialIntelligence {
             }
             max = Math.max(max, winCounter.get(play));
         }
+
+        executorService.shutdown();
 
         return decision;
     }

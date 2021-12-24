@@ -30,4 +30,8 @@ public class ArtificialIntelligenceDecorator implements ArtificialIntelligence {
     public String getName() {
         return this.parent.getName();
     }
+
+    public ArtificialIntelligence getParent() {
+        return parent;
+    }
 }

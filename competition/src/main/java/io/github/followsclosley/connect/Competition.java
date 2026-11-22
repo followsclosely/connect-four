@@ -7,6 +7,7 @@ import io.github.followsclosley.competition.AbstractMatch;
 import io.github.followsclosley.connect.ai.mm.MiniMaxWithAlphaBeta;
 import io.github.followsclosley.connect.ai.score.ScoreStrategy;
 import io.github.followsclosley.connect.impl.ai.ArtificialIntelligenceDecorator;
+import io.github.fable.FableAI;
 import io.github.followsclosley.connect.impl.ai.Dummy;
 import io.github.jaron.connect.JaronBot;
 import io.github.lane.LaneAI;
@@ -18,7 +19,7 @@ public class Competition extends AbstractCompetition<ArtificialIntelligence> {
 
     public static void main(String[] args) {
         new Competition()
-                .simulations(1)
+                .simulations(100)
                 .add(new Dummy(1))
                 .add(new JaronBot(2))
                 .add(new ScoreStrategy(3))
@@ -27,6 +28,7 @@ public class Competition extends AbstractCompetition<ArtificialIntelligence> {
                 .add(new MiniMaxWithAlphaBeta(6, 5)
                         .setTimeout(1, TimeUnit.SECONDS)
                 )
+                .add(new FableAI(7))
                 .run()
                 .printSummary()
                 .printMetrics();
@@ -56,6 +58,13 @@ public class Competition extends AbstractCompetition<ArtificialIntelligence> {
             try (final Timer.Context c = timer.time()) {
                 return parent.yourTurn(board);
             }
+        }
+
+        /**
+         * Total time spent in yourTurn (count x mean), in milliseconds.
+         */
+        public long getDuration() {
+            return (long) (timer.getCount() * timer.getSnapshot().getMean() / 1_000_000);
         }
     }
 }

@@ -96,132 +96,153 @@ public static void main(String[]args){
 
 ### The win percentage:
 
-| | Class Name                    |  #0   |  #1   |  #2   |   #3   |  #4   |  #5   |
-| ---: |:------------------------------|:-----:|:-----:|:-----:|:------:|:-----:|:-----:|
-| #0 | Dummy                         | -     | %2.3  | %0.1  |  %0.4  | %0.5  | %0.0  |
-| #1 | JaronBot                      | %96.9 |  -    | %8.4  | %26.6  | %5.4  | %2.6  |
-| #2 | ScoreStrategy                 | %99.8 | %76.7 |  -    |  %0.0  | %48.9 | %0.0  |
-| #3 | LaneAI                        | %99.2 | %61.0 | %0.0  |  -     | %12.8 | %0.0  |
-| #4 | MonteCarloAI                  | %99.7 | %94.4 | %52.2 | %66.9  |  -    | %22.7 |
-| #5 | MiniMaxWithAlphaBeta(depth=5) | %99.8 | %95.3 | %59.7 | %100.0 | %64.7 |  -    |
+| | Class Name                    |  #0    |  #1    |   #2   |   #3   |  #4   |  #5   |  #6   |
+| ---: |:------------------------------|:------:|:------:|:------:|:------:|:-----:|:-----:|:-----:|
+| #0 | Dummy                         | -      | %1.0   | %0.0   | %0.0   | %0.0  | %0.0  | %0.0  |
+| #1 | JaronBot                      | %97.0  | -      | %12.0  | %23.0  | %0.0  | %1.0  | %0.0  |
+| #2 | ScoreStrategy                 | %100.0 | %77.0  | -      | %0.0   | %43.0 | %0.0  | %0.0  |
+| #3 | LaneAI                        | %99.0  | %57.0  | %0.0   | -      | %15.0 | %0.0  | %0.0  |
+| #4 | MonteCarloAI                  | %100.0 | %93.0  | %57.0  | %66.0  | -     | %26.0 | %5.0  |
+| #5 | MiniMaxWithAlphaBeta(depth=5) | %100.0 | %93.0  | %50.0  | %100.0 | %70.0 | -     | %28.0 |
+| #6 | FableAI(depth=7)              | %100.0 | %100.0 | %100.0 | %50.0  | %75.0 | %65.0 | -     |
 
 ### The win or tie percentage:
 
-| | Class Name                    |  #0   |  #1   |   #2   |   #3   |  #4   |  #5   |
-| ---: |:------------------------------|:-----:|:-----:|:------:|:------:|:-----:|:-----:|
-| #0 | Dummy                         | -     | %2.4  |  %0.1  |  %0.4  | %0.5  | %0.0  |
-| #1 | JaronBot                      | %97.1 | -     | %23.0  | %41.6  | %5.7  | %3.8  |
-| #2 | ScoreStrategy                 | %99.8 | %88.8 |  -     | %100.0 | %49.6 | %39.0 |
-| #3 | LaneAI                        | %99.2 | %76.0 | %100.0 |  -     | %31.4 | %0.0  |
-| #4 | MonteCarloAI                  | %99.7 | %95.3 | %53.5  | %84.89 | -     | %36.7 |
-| #5 | MiniMaxWithAlphaBeta(depth=5) | %99.8 | %96.7 | %100.0 | %100.0 | %79.5 |  -    |
+| | Class Name                      |  #0    |  #1   |   #2   |   #3   |  #4   |  #5   |  #6   |
+| ---: |:--------------------------------|:------:|:-----:|:------:|:------:|:-----:|:-----:|:-----:|
+| #0 | Dummy *                         | -      | %1.0  | %0.0   | %0.0   | %0.0  | %0.0  | %0.0  |
+| #1 | JaronBot *                      | %97.0  | -     | %27.0  | %37.0  | %1.0  | %1.0  | %1.0  |
+| #2 | ScoreStrategy *                 | %100.0 | %90.0 | -      | %100.0 | %46.0 | %50.0 | %0.0  |
+| #3 | LaneAI *                        | %99.0  | %69.0 | %100.0 | -      | %36.0 | %0.0  | %50.0 |
+| #4 | MonteCarloAI *                  | %100.0 | %94.0 | %58.0  | %84.0  | -     | %37.0 | %17.0 |
+| #5 | MiniMaxWithAlphaBeta(depth=5) * | %100.0 | %96.0 | %100.0 | %100.0 | %79.0 | -     | %37.0 |
+| #6 | FableAI(depth=7) *              | %100.0 | %100.0 | %100.0 | %100.0 | %90.0 | %73.0 | -    |
 
 ### Performance (in millis)
 
-| | Class Name                                                  | Name                          | Performance |
-| ---: |:------------------------------------------------------------|:------------------------------|:-----------:|
-| 1 | io.github.followsclosley.connect.impl.ai.Dummy              | Dummy                         |     92      |
-| 2 | io.github.jaron.connect.JaronBot                            | JaronBot                      |    1,051    |
-| 3 | io.github.followsclosley.connect.ai.score.ScoreStrategy     | ScoreStrategy                 |    6,930    |
-| 4 | io.github.lane.LaneAI                                       | LaneAI                        |   181,100   |
-| 5 | io.github.ryanp102694.connect.MonteCarloAI                  | MonteCarloAI                  |   993,048   |
-| 6 | io.github.followsclosley.connect.ai.mm.MiniMaxWithAlphaBeta | MiniMaxWithAlphaBeta(depth=5) |   263,890   |
+| | Class Name                                                   | Name                          | Performance |
+| ---: |:-------------------------------------------------------------|:------------------------------|:-----------:|
+| 1 | io.github.followsclosley.connect.impl.ai.Dummy               | Dummy                         |      9      |
+| 2 | io.github.jaron.connect.JaronBot                             | JaronBot                      |     133     |
+| 3 | io.github.followsclosley.connect.ai.score.ScoreStrategy      | ScoreStrategy                 |     786     |
+| 4 | io.github.lane.LaneAI                                        | LaneAI                        |   20,408    |
+| 5 | io.github.ryanp102694.connect.MonteCarloAI                   | MonteCarloAI                  |   49,865    |
+| 6 | io.github.followsclosley.connect.ai.mm.MiniMaxWithAlphaBeta  | MiniMaxWithAlphaBeta(depth=5) |   15,456    |
+| 7 | io.github.fable.FableAI                                      | FableAI(depth=7)              |   54,537    |
 
 ```
 io.github.followsclosley.connect.Competition.Dummy
-count = 57195
-mean rate = 27.80 calls/second
-1-minute rate = 0.03 calls/second
-5-minute rate = 7.28 calls/second
-15-minute rate = 288.12 calls/second
-min = 0.00 milliseconds
-max = 0.11 milliseconds
-mean = 0.00 milliseconds
-stddev = 0.01 milliseconds
-median = 0.00 milliseconds
-75% <= 0.00 milliseconds
-95% <= 0.00 milliseconds
-98% <= 0.01 milliseconds
-99% <= 0.02 milliseconds
-99.9% <= 0.10 milliseconds
+             count = 6720
+         mean rate = 46.50 calls/second
+     1-minute rate = 77.67 calls/second
+     5-minute rate = 379.23 calls/second
+    15-minute rate = 503.04 calls/second
+               min = 0.00 milliseconds
+               max = 0.02 milliseconds
+              mean = 0.00 milliseconds
+            stddev = 0.00 milliseconds
+            median = 0.00 milliseconds
+              75% <= 0.00 milliseconds
+              95% <= 0.00 milliseconds
+              98% <= 0.00 milliseconds
+              99% <= 0.00 milliseconds
+            99.9% <= 0.01 milliseconds
+io.github.followsclosley.connect.Competition.FableAI(depth=7)
+             count = 16161
+         mean rate = 111.86 calls/second
+     1-minute rate = 132.95 calls/second
+     5-minute rate = 61.00 calls/second
+    15-minute rate = 40.48 calls/second
+               min = 0.00 milliseconds
+               max = 25.25 milliseconds
+              mean = 3.37 milliseconds
+            stddev = 4.17 milliseconds
+            median = 2.25 milliseconds
+              75% <= 5.08 milliseconds
+              95% <= 14.29 milliseconds
+              98% <= 15.80 milliseconds
+              99% <= 17.41 milliseconds
+            99.9% <= 24.32 milliseconds
 io.github.followsclosley.connect.Competition.JaronBot
-count = 110507
-mean rate = 53.70 calls/second
-1-minute rate = 0.16 calls/second
-5-minute rate = 11.95 calls/second
-15-minute rate = 174.40 calls/second
-min = 0.00 milliseconds
-max = 1.60 milliseconds
-mean = 0.02 milliseconds
-stddev = 0.07 milliseconds
-median = 0.01 milliseconds
-75% <= 0.01 milliseconds
-95% <= 0.03 milliseconds
-98% <= 0.04 milliseconds
-99% <= 0.06 milliseconds
-99.9% <= 1.60 milliseconds
+             count = 13020
+         mean rate = 90.10 calls/second
+     1-minute rate = 58.70 calls/second
+     5-minute rate = 117.85 calls/second
+    15-minute rate = 131.84 calls/second
+               min = 0.00 milliseconds
+               max = 0.66 milliseconds
+              mean = 0.01 milliseconds
+            stddev = 0.02 milliseconds
+            median = 0.01 milliseconds
+              75% <= 0.01 milliseconds
+              95% <= 0.01 milliseconds
+              98% <= 0.02 milliseconds
+              99% <= 0.02 milliseconds
+            99.9% <= 0.66 milliseconds
 io.github.followsclosley.connect.Competition.LaneAI
-count = 125562
-mean rate = 61.02 calls/second
-1-minute rate = 0.87 calls/second
-5-minute rate = 15.11 calls/second
-15-minute rate = 45.04 calls/second
-min = 1.37 milliseconds
-max = 23.83 milliseconds
-mean = 2.08 milliseconds
-stddev = 0.98 milliseconds
-median = 1.90 milliseconds
-75% <= 2.27 milliseconds
-95% <= 2.95 milliseconds
-98% <= 3.89 milliseconds
-99% <= 4.49 milliseconds
-99.9% <= 23.83 milliseconds
+             count = 15556
+         mean rate = 107.65 calls/second
+     1-minute rate = 78.19 calls/second
+     5-minute rate = 106.37 calls/second
+    15-minute rate = 108.25 calls/second
+               min = 0.01 milliseconds
+               max = 4.12 milliseconds
+              mean = 1.31 milliseconds
+            stddev = 0.74 milliseconds
+            median = 1.48 milliseconds
+              75% <= 1.99 milliseconds
+              95% <= 2.23 milliseconds
+              98% <= 2.34 milliseconds
+              99% <= 2.38 milliseconds
+            99.9% <= 3.10 milliseconds
 io.github.followsclosley.connect.Competition.MiniMaxWithAlphaBeta(depth=5)
-count = 115300
-mean rate = 56.04 calls/second
-1-minute rate = 55.16 calls/second
-5-minute rate = 76.60 calls/second
-15-minute rate = 60.10 calls/second
-min = 0.00 milliseconds
-max = 463.70 milliseconds
-mean = 5.28 milliseconds
-stddev = 16.64 milliseconds
-median = 3.04 milliseconds
-75% <= 4.76 milliseconds
-95% <= 13.45 milliseconds
-98% <= 28.30 milliseconds
-99% <= 50.72 milliseconds
-99.9% <= 287.18 milliseconds
+             count = 14548
+         mean rate = 100.69 calls/second
+     1-minute rate = 97.98 calls/second
+     5-minute rate = 113.25 calls/second
+    15-minute rate = 118.69 calls/second
+               min = 0.00 milliseconds
+               max = 4.49 milliseconds
+              mean = 1.06 milliseconds
+            stddev = 0.53 milliseconds
+            median = 1.06 milliseconds
+              75% <= 1.36 milliseconds
+              95% <= 1.87 milliseconds
+              98% <= 2.34 milliseconds
+              99% <= 2.78 milliseconds
+            99.9% <= 3.33 milliseconds
 io.github.followsclosley.connect.Competition.MonteCarloAI
-count = 121152
-mean rate = 58.88 calls/second
-1-minute rate = 52.79 calls/second
-5-minute rate = 40.89 calls/second
-15-minute rate = 44.90 calls/second
-min = 0.00 milliseconds
-max = 150.66 milliseconds
-mean = 10.91 milliseconds
-stddev = 12.47 milliseconds
-median = 9.23 milliseconds
-75% <= 17.45 milliseconds
-95% <= 27.94 milliseconds
-98% <= 38.51 milliseconds
-99% <= 56.57 milliseconds
-99.9% <= 150.66 milliseconds
+             count = 14743
+         mean rate = 102.03 calls/second
+     1-minute rate = 93.23 calls/second
+     5-minute rate = 106.22 calls/second
+    15-minute rate = 107.52 calls/second
+               min = 0.00 milliseconds
+               max = 12.64 milliseconds
+              mean = 3.38 milliseconds
+            stddev = 3.07 milliseconds
+            median = 3.02 milliseconds
+              75% <= 5.86 milliseconds
+              95% <= 8.71 milliseconds
+              98% <= 9.69 milliseconds
+              99% <= 10.39 milliseconds
+            99.9% <= 12.51 milliseconds
 io.github.followsclosley.connect.Competition.ScoreStrategy
-count = 140828
-mean rate = 68.44 calls/second
-1-minute rate = 0.59 calls/second
-5-minute rate = 19.24 calls/second
-15-minute rate = 168.22 calls/second
-min = 0.00 milliseconds
-max = 1.81 milliseconds
-mean = 0.06 milliseconds
-stddev = 0.10 milliseconds
-median = 0.06 milliseconds
-75% <= 0.07 milliseconds
-95% <= 0.10 milliseconds
-98% <= 0.13 milliseconds
-99% <= 0.19 milliseconds
-99.9% <= 1.47 milliseconds
+             count = 17843
+         mean rate = 123.48 calls/second
+     1-minute rate = 85.57 calls/second
+     5-minute rate = 122.76 calls/second
+    15-minute rate = 126.03 calls/second
+               min = 0.00 milliseconds
+               max = 0.86 milliseconds
+              mean = 0.04 milliseconds
+            stddev = 0.03 milliseconds
+            median = 0.04 milliseconds
+              75% <= 0.06 milliseconds
+              95% <= 0.07 milliseconds
+              98% <= 0.08 milliseconds
+              99% <= 0.09 milliseconds
+            99.9% <= 0.69 milliseconds
+
+
 ```
